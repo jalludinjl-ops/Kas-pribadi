@@ -23,7 +23,8 @@
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;-webkit-text-size-adjust:100%}
 button{font:inherit;color:inherit}
 input{font:inherit;color:inherit}
-.app{max-width:1180px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) 28px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:18px;min-height:100dvh}
+.app{max-width:1180px;margin:0 auto;padding:calc(16px + env(safe-area-inset-top)) 28px calc(16px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:16px;height:100vh;height:100dvh;overflow:hidden}
+header.top{flex:none}
 header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px}
 .brand{font-size:13px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
 h1{margin:0;font-size:30px;font-weight:700;letter-spacing:.02em}
@@ -61,6 +62,7 @@ td input.saldo{font-weight:700}
 td input.neg{color:var(--neg)}
 td input.err{outline:2px solid var(--neg)!important;outline-offset:-2px}
 td input.ket{color:var(--soft)}
+td input.preview{color:#8A9AB8;font-weight:600}
 .pen{position:absolute;left:8px;top:50%;transform:translateY(-50%);pointer-events:none}
 .datecell{display:flex;flex-direction:column;justify-content:center;min-height:54px}
 .datecell .day{font-size:12px;color:var(--muted);padding:0 12px;margin-bottom:-14px;margin-top:6px;pointer-events:none;position:relative;z-index:1}
@@ -68,12 +70,17 @@ td input.ket{color:var(--soft)}
 .datecell.has-day input{padding-top:12px}
 
 /* Transaksi */
-#page-transaksi{display:flex;flex-direction:column;gap:18px;flex:1;min-height:0}
-#trx-wrap{max-height:calc(100dvh - 300px);min-height:320px}
-#trx-table{min-width:980px}
+#page-transaksi{display:flex;flex-direction:column;gap:16px;flex:1 1 auto;min-height:0}
+#page-transaksi .saldo-card{flex:none}
+#page-transaksi > .card{flex:1 1 auto;min-height:0}
+#trx-wrap{flex:1 1 auto;min-height:0}
+#trx-table{min-width:1040px}
 tr.grp td{border-top:2px solid #7F93B8 !important}
 tr.draft td{background:#fff}
-.status-btn{display:flex;align-items:center;width:100%;min-height:54px;padding:0 12px;border:none;background:transparent;cursor:pointer;text-align:left}
+.status{display:flex;align-items:center;gap:6px;min-height:54px;padding:0 10px}
+.st{min-height:38px;padding:0 10px;border-radius:999px;border:1px solid #C9D3E5;background:rgba(255,255,255,.6);color:#8A96AD;font-size:13px;font-weight:600;cursor:pointer}
+.st.p.on{background:#FBE7E5;border-color:#F3B8B1;color:#B42318}
+.st.d.on{background:#E3F3EA;border-color:#A9D9BE;color:#146C43}
 .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:600}
 .pill.p{background:#FBE7E5;color:#B42318}
 .pill.d{background:#E3F3EA;color:#146C43}
@@ -89,13 +96,15 @@ tr.draft td{background:#fff}
 .suggest b{font-weight:700}
 
 /* Finance */
-#page-finance{flex:1;display:flex;flex-wrap:wrap;gap:20px;align-items:stretch}
+#page-finance{flex:1 1 auto;min-height:0;display:flex;gap:20px;align-items:stretch}
+#page-finance > .card{min-height:0}
+.fin-scroll{flex:1 1 0;min-height:0}
 .fin-col{flex:1 1 300px}
 .nab-col{flex:1.45 1 420px}
 .col-head{min-height:72px;padding:12px 14px;display:flex;align-items:center;border-bottom:1px solid var(--line)}
 .nab-col .col-head{background:#E0D4FF;border-color:#C2AEF5}
 .nab-col h2{margin:0;font-size:18px;font-weight:700;letter-spacing:.08em;color:#2E1F66;padding-left:2px}
-#nab-wrap{flex:1 1 0;min-height:380px}
+#nab-wrap{flex:1 1 0;min-height:0}
 #nab-table{min-width:400px}
 #nab-table th{font-size:11px;padding:0 10px}
 #nab-table td input{padding:0 10px}
@@ -104,7 +113,7 @@ tr.draft td{background:#fff}
 .datebtn .t{display:flex;flex-direction:column;line-height:1.2}
 .datebtn .t small{font-size:12px;color:var(--muted)}
 .datebtn .t span{font-size:16px;font-weight:700}
-.fin-table thead th{position:static;background:#E4EBF6;color:var(--soft);height:42px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.fin-table thead th{background:#E4EBF6;color:var(--soft);height:42px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
 .fin-table td input{height:46px}
 .fin-table td.name{padding:0 14px;height:46px;font-size:16px}
 .fin-table td.name input{padding:0}
@@ -135,11 +144,16 @@ tr.draft td{background:#fff}
 .empty{padding:24px;text-align:center;color:var(--muted)}
 
 @media (max-width:700px){
-  .app{padding-left:14px;padding-right:14px}
+  .app{padding-left:14px;padding-right:14px;gap:12px}
   h1{font-size:26px}
-  .saldo-card .val{font-size:30px}
-  #trx-wrap{max-height:calc(100dvh - 330px)}
-  #nab-wrap{flex:none;max-height:60dvh}
+  .saldo-card{padding:14px 20px}
+  .saldo-card .val{font-size:28px}
+  /* iPhone: halaman FINANCE boleh di-scroll, tiap tabel tetap punya judul yang menempel */
+  .app.fin-mode{height:auto;min-height:100dvh;overflow:visible}
+  #page-finance{flex-direction:column}
+  #page-finance > .card{flex:none}
+  #nab-wrap{flex:none;height:60dvh}
+  .fin-scroll{flex:none;max-height:none}
 }
 </style>
 </head>
@@ -167,12 +181,12 @@ tr.draft td{background:#fff}
       <div class="dot" aria-hidden="true" style="right:40px;top:30px;width:140px;height:140px;background:#8EE3B5;opacity:.35"></div>
       <div class="dot" aria-hidden="true" style="right:-30px;top:-40px;width:120px;height:120px;background:#FDBA8C;opacity:.4"></div>
       <div class="lbl">TOTAL SALDO KAS</div>
-      <div class="val" id="total-saldo">Rp0</div>
+      <div class="val" id="total-saldo">0</div>
     </section>
     <section class="card" aria-label="Tabel transaksi">
       <div class="scroll" id="trx-wrap">
         <table id="trx-table">
-          <colgroup><col style="width:130px"><col style="width:210px"><col style="width:132px"><col style="width:132px"><col style="width:150px"><col><col style="width:110px"></colgroup>
+          <colgroup><col style="width:130px"><col style="width:210px"><col style="width:132px"><col style="width:132px"><col style="width:150px"><col><col style="width:172px"></colgroup>
           <thead><tr>
             <th scope="col">HARI / TANGGAL</th><th scope="col">NAMA</th><th scope="col" class="r c-debit">DEBIT</th><th scope="col" class="r c-kredit">KREDIT</th><th scope="col" class="r">SALDO</th><th scope="col">KETERANGAN</th><th scope="col">STATUS</th>
           </tr></thead>
@@ -210,6 +224,7 @@ tr.draft td{background:#fff}
   </div>
 </div>
 
+<script src="config.js"></script>
 <script>
 'use strict';
 /* =========================================================
@@ -250,8 +265,8 @@ const Store = {
 };
 
 /* ---------- Sinkron ke Google Apps Script ---------- */
-/* Tempel URL Web App (berakhiran /exec) di antara tanda kutip: */
-const API_URL = 'https://script.google.com/macros/s/AKfycbx…kodepanjangmu…/exec';
+/* URL Web App diambil dari file config.js (tidak perlu edit file ini) */
+const API_URL = (window.KAS_API_URL && !/TEMPEL/.test(window.KAS_API_URL)) ? window.KAS_API_URL : '';
 const KEY_KEY = 'kasPribadi.key', OUT_KEY = 'kasPribadi.outbox';
 const Sync = {
   outbox: (()=>{ try{ return JSON.parse(localStorage.getItem(OUT_KEY)||'[]'); }catch(e){ return []; } })(),
@@ -303,6 +318,7 @@ const Sync = {
     S.transaksi = d.transaksi || []; S.nabung = d.nabung || []; S.finance = d.finance || {};
     if (d.namaList && d.namaList.length) S.namaList = d.namaList;
     persist(); refreshView();
+    if (!this.pulledOnce){ this.pulledOnce = true; scrollBottom(currentPage()==='transaksi' ? 'trx-wrap' : 'nab-wrap'); }
   }
 };
 function updateSyncBadge(){
@@ -405,6 +421,7 @@ function addNama(n){
 function currentPage(){ return location.hash === '#finance' ? 'finance' : 'transaksi'; }
 function showPage(){
   const p = currentPage();
+  document.querySelector('.app').classList.toggle('fin-mode', p==='finance');
   document.getElementById('page-transaksi').classList.toggle('hidden', p!=='transaksi');
   document.getElementById('page-finance').classList.toggle('hidden', p!=='finance');
   document.getElementById('btn-riwayat').classList.toggle('hidden', p!=='finance');
@@ -426,14 +443,14 @@ const trxBody = document.getElementById('trx-body');
 function renderTrx(){
   const rows = computeTrx();
   const last = rows.length ? rows[rows.length-1].saldo : 0;
-  document.getElementById('total-saldo').textContent = (last<0?'-Rp':'Rp') + fmtNum(Math.abs(last));
+  document.getElementById('total-saldo').textContent = fmtNum(last);
   let html = '', prevDate = null, gi = -1, prevSaldo = last;
   rows.forEach(r=>{
     const first = r.tanggal !== prevDate;
     if (first){ gi++; prevDate = r.tanggal; }
     html += trxRowHTML(r, first, ROW_COLORS[gi % ROW_COLORS.length], false);
   });
-  const d = Object.assign({}, trxDraft, { saldo: trxDraft.saldoManual!=null ? trxDraft.saldoManual : null });
+  const d = Object.assign({}, trxDraft, { saldo: trxDraft.saldoManual!=null ? trxDraft.saldoManual : last + (trxDraft.debit||0) - (trxDraft.kredit||0) });
   html += trxRowHTML(d, true, ['#FFFFFF','#D9E0EC'], true);
   trxBody.innerHTML = html;
 }
@@ -442,15 +459,14 @@ function trxRowHTML(r, first, col, isDraft){
   const tdS = `style="background:${bg};border-color:${bd}"`;
   const manual = r.saldoManual!=null;
   const saldoTxt = r.saldo==null ? '' : fmtNum(r.saldo);
-  const st = r.status==='Pending' ? '<span class="pill p">Pending</span>' : r.status==='Done' ? '<span class="pill d">Done</span>' : '';
   return `<tr class="${first&&!isDraft?'grp':''}${isDraft?' draft grp':''}" data-id="${r.id}">
 <td ${tdS}><div class="datecell ${first?'has-day':''}">${first?`<span class="day">${dayName(r.tanggal)}</span>`:''}<input data-f="tanggal" value="${first?fmtDate(r.tanggal):''}" data-full="${fmtDate(r.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div></td>
 <td ${tdS}><input data-f="nama" value="${esc(r.nama)}" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"></td>
 <td ${tdS}><input data-f="debit" class="num debit" inputmode="decimal" value="${fmtNum(r.debit)}" aria-label="Debit" autocomplete="off" enterkeyhint="next"></td>
 <td ${tdS}><input data-f="kredit" class="num kredit" inputmode="decimal" value="${fmtNum(r.kredit)}" aria-label="Kredit" autocomplete="off" enterkeyhint="next"></td>
-<td ${tdS}>${manual?PEN:''}<input data-f="saldo" class="num saldo ${r.saldo<0?'neg':''}" inputmode="decimal" value="${saldoTxt}" aria-label="Saldo" autocomplete="off" enterkeyhint="next"></td>
+<td ${tdS}>${manual?PEN:''}<input data-f="saldo" class="num saldo ${r.saldo<0?'neg':''} ${isDraft&&!manual?'preview':''}" inputmode="decimal" value="${saldoTxt}" aria-label="Saldo" autocomplete="off" enterkeyhint="next"></td>
 <td ${tdS}><input data-f="keterangan" class="ket" value="${esc(r.keterangan)}" aria-label="Keterangan" autocomplete="off" enterkeyhint="${isDraft?'done':'next'}"></td>
-<td ${tdS}><button type="button" class="status-btn" data-f="status" aria-label="Status: ${r.status||'kosong'}">${st}</button></td>
+<td ${tdS}><div class="status"><button type="button" class="st p ${r.status==='Pending'?'on':''}" data-s="Pending" aria-pressed="${r.status==='Pending'}">Pending</button><button type="button" class="st d ${r.status==='Done'?'on':''}" data-s="Done" aria-pressed="${r.status==='Done'}">Done</button></div></td>
 </tr>`;
 }
 function getTrx(id){ return id==='new' ? trxDraft : S.transaksi.find(r=>r.id===id); }
@@ -583,6 +599,19 @@ trxBody.addEventListener('keydown', e=>{
   if (id==='new' && f==='keterangan') scrollBottom('trx-wrap');
 });
 
+function livePreview(body, rowsLast){
+  return function(e){
+    const el = e.target; const f = el.dataset.f;
+    if (f!=='debit' && f!=='kredit') return;
+    const tr = el.closest('tr'); if (!tr || tr.dataset.id!=='new') return;
+    const sal = tr.querySelector('[data-f="saldo"]'); if (!sal || !sal.classList.contains('preview')) return;
+    const val = k => { const x = tr.querySelector(`[data-f="${k}"]`); const n = evalExpr(x ? x.value : ''); return Number.isNaN(n) || n==null ? 0 : n; };
+    const s = rowsLast() + val('debit') - val('kredit');
+    sal.value = fmtNum(s); sal.classList.toggle('neg', s<0);
+  };
+}
+trxBody.addEventListener('input', livePreview(trxBody, ()=>{ const r=computeTrx(); return r.length ? r[r.length-1].saldo : 0; }));
+
 /* ----- Autocomplete Nama ----- */
 let sugg = null; // {input, ul, items, idx}
 trxBody.addEventListener('input', e=>{
@@ -616,27 +645,22 @@ function pickSuggestOnEnter(el){
   return false;
 }
 
-/* ----- Status ----- */
-let openMenu = null;
-trxBody.addEventListener('click', e=>{
-  const b = e.target.closest('.status-btn'); if(!b) return;
-  e.stopPropagation();
-  if (openMenu && openMenu.parentElement === b.parentElement){ closeMenu(); return; }
-  closeMenu();
+/* ----- Status: ketuk Pending / Done; ketuk lagi untuk mengosongkan ----- */
+trxBody.addEventListener('pointerdown', e=>{
+  const b = e.target.closest('.st'); if(!b) return;
+  e.preventDefault();
   const id = b.closest('tr').dataset.id;
-  const m = document.createElement('div'); m.className='menu'; m.setAttribute('role','menu'); m.setAttribute('aria-label','Pilih status');
-  if (id==='new' || isNearBottom(b)) m.classList.add('up');
-  m.innerHTML = '<button type="button" role="menuitem" data-s="Pending"><span class="pill p">Pending</span></button><button type="button" role="menuitem" data-s="Done"><span class="pill d">Done</span></button><button type="button" role="menuitem" class="clear" data-s="">Kosongkan</button>';
-  b.parentElement.appendChild(m); openMenu = m;
-  m.addEventListener('click', ev=>{
-    const o = ev.target.closest('button'); if(!o) return;
-    ev.stopPropagation();
-    const r = getTrx(id); if (r){ r.status = o.dataset.s; if (id!=='new'){ persist(); Sync.push('saveTransaksi', { row: trxOut(r) }, 'trx:'+id); } }
-    closeMenu(); renderTrx();
-  });
+  const a = document.activeElement;
+  if (a && a.tagName==='INPUT' && trxBody.contains(a)) a.blur();
+  const r = getTrx(id); if (!r) return;
+  r.status = (r.status === b.dataset.s) ? '' : b.dataset.s;
+  if (id!=='new'){ persist(); Sync.push('saveTransaksi', { row: trxOut(r) }, 'trx:'+id); }
+  renderTrx();
 });
-function closeMenu(){ if (openMenu){ openMenu.remove(); openMenu=null; } }
-document.addEventListener('click', e=>{ if (openMenu && !openMenu.contains(e.target)) closeMenu(); });
+trxBody.addEventListener('keydown', e=>{
+  const b = e.target.closest && e.target.closest('.st'); if(!b || (e.key!=='Enter' && e.key!==' ')) return;
+  e.preventDefault(); b.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));
+});
 
 /* =========================================================
    HALAMAN FINANCE — NABUNG
@@ -647,7 +671,8 @@ function renderNab(){
   const rows = computeNab();
   let html = '';
   rows.forEach((r,i)=>{ html += nabRowHTML(r, i%2 ? '#F4F7FC' : '#FFFFFF', false); });
-  html += nabRowHTML(Object.assign({}, nabDraft, { saldo: nabDraft.saldoManual }), '#FFFFFF', true);
+  const nLast = rows.length ? rows[rows.length-1].saldo : 0;
+  html += nabRowHTML(Object.assign({}, nabDraft, { saldo: nabDraft.saldoManual!=null ? nabDraft.saldoManual : nLast + (nabDraft.debit||0) - (nabDraft.kredit||0) }), '#FFFFFF', true);
   nabBody.innerHTML = html;
 }
 function nabRowHTML(r, bg, isDraft){
@@ -657,7 +682,7 @@ function nabRowHTML(r, bg, isDraft){
 <td ${tdS}><div class="datecell has-day"><span class="day">${dayName(r.tanggal)}</span><input data-f="tanggal" value="${fmtDate(r.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div></td>
 <td ${tdS}><input data-f="debit" class="num debit" inputmode="decimal" value="${fmtNum(r.debit)}" aria-label="Debit" autocomplete="off" enterkeyhint="next"></td>
 <td ${tdS}><input data-f="kredit" class="num kredit" inputmode="decimal" value="${fmtNum(r.kredit)}" aria-label="Kredit" autocomplete="off" enterkeyhint="${isDraft?'done':'next'}"></td>
-<td ${tdS}>${manual?PEN:''}<input data-f="saldo" class="num saldo ${r.saldo<0?'neg':''}" inputmode="decimal" value="${fmtNum(r.saldo)}" aria-label="Saldo" autocomplete="off" enterkeyhint="done"></td>
+<td ${tdS}>${manual?PEN:''}<input data-f="saldo" class="num saldo ${r.saldo<0?'neg':''} ${isDraft&&!manual?'preview':''}" inputmode="decimal" value="${fmtNum(r.saldo)}" aria-label="Saldo" autocomplete="off" enterkeyhint="done"></td>
 </tr>`;
 }
 function getNab(id){ return id==='new' ? nabDraft : S.nabung.find(r=>r.id===id); }
@@ -703,6 +728,7 @@ function commitNabDraft(){
 }
 function focusNab(id,f){ const tr = nabBody.querySelector(`tr[data-id="${CSS.escape(id)}"]`); if(!tr) return; const el = tr.querySelector(`[data-f="${f}"]`); if(el){ el.focus(); try{ el.select(); }catch(e){} } }
 let nabSkip = null;
+nabBody.addEventListener('input', livePreview(nabBody, ()=>{ const r=computeNab(); return r.length ? r[r.length-1].saldo : 0; }));
 nabBody.addEventListener('focusin', e=>{ const el=e.target; if(el.tagName!=='INPUT') return; el.dataset.orig = el.value; setTimeout(()=>{ try{ el.select(); }catch(_){} },0); });
 nabBody.addEventListener('focusout', e=>{
   const el=e.target; if(el.tagName!=='INPUT') return;
@@ -752,7 +778,11 @@ function finIsEmpty(f){
     f.extraBefore.every(x=>!x.nama && x.nominal==null) && f.extraAfter.every(x=>!x.nama && x.nominal==null);
 }
 const PANEL_TINT = { left:['#C5DCFF','#A3C2EE'], right:['#BCEBCF','#93D0AC'] };
-function renderPanels(){ renderPanel('left'); renderPanel('right'); }
+function renderPanels(){
+  const keep = {}; ['left','right'].forEach(sd=>{ const w=document.querySelector('#panel-'+sd+' .fin-scroll'); keep[sd]= w ? w.scrollTop : 0; });
+  renderPanel('left'); renderPanel('right');
+  ['left','right'].forEach(sd=>{ const w=document.querySelector('#panel-'+sd+' .fin-scroll'); if (w) w.scrollTop = keep[sd]; });
+}
 function renderPanel(side){
   const date = S.view[side]; const f = getFin(date); const c = finCalc(f); const [tint,tb] = PANEL_TINT[side];
   const valIn = (key,val,cls='') => `<td><input data-k="${key}" class="num ${cls}" inputmode="decimal" value="${fmtNum(val)}" aria-label="Nominal" autocomplete="off" enterkeyhint="next" style="padding:0 14px"></td>`;
@@ -772,9 +802,9 @@ function renderPanel(side){
 <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3D4F73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
 <input type="date" data-side="${side}" value="${date}" aria-label="Pilih tanggal">
 </label></div>
-<table class="fin-table"><colgroup><col><col style="width:48%"></colgroup>
+<div class="scroll fin-scroll"><table class="fin-table"><colgroup><col><col style="width:48%"></colgroup>
 <thead><tr><th scope="col">SUMBER UANG</th><th scope="col" class="r">NOMINAL</th></tr></thead>
-<tbody data-side="${side}">${rows}</tbody></table>`;
+<tbody data-side="${side}">${rows}</tbody></table></div>`;
 }
 function commitFin(side, input){
   const date = S.view[side]; const k = input.dataset.k; const v = input.value;
