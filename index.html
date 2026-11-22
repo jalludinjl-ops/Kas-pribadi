@@ -385,7 +385,12 @@ const Sync = {
     if (!this.pulledOnce){ this.pulledOnce = true; scrollToSel(); scrollEnd('nab-scroll'); }
   }
 };
-function updateSyncBadge(){ const el=document.getElementById('sync-badge'); if(el) el.classList.toggle('hidden', !API_URL || !Sync.outbox.length); }
+function updateSyncBadge(){
+  const el=document.getElementById('sync-badge'); if(!el) return;
+  const off = navigator.onLine===false, n = Sync.outbox.length;
+  el.textContent = off ? (n ? '• offline · '+n+' belum terkirim' : '• offline') : '• menyimpan…';
+  el.classList.toggle('hidden', !API_URL || (!off && !n));
+}
 let pendingRefresh = false;
 function refreshView(){
   const a = document.activeElement;
@@ -394,7 +399,7 @@ function refreshView(){
 }
 document.addEventListener('focusout', ()=>{ if (pendingRefresh) setTimeout(()=>{ const a=document.activeElement; if(!(a && a.tagName==='INPUT')) refreshView(); },60); });
 document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible') Sync.pull(); });
-window.addEventListener('online', ()=>Sync.flush());
+window.addEventListener('online', ()=>Sync.pull());
 function trxOut(r){ return { id:r.id, tanggal:r.tanggal, nama:r.nama, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, keterangan:r.keterangan, status:r.status, urut:r.urut }; }
 function nabOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, urut:r.urut }; }
 
@@ -907,8 +912,12 @@ function commitFin(side, el){
     const n = evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; }
     if (kind==='src') f.sumber[key]=n; else if (kind==='tab') f.tabungan=n; else if (kind==='xbv') f.extraBefore[+key].nominal=n; else if (kind==='xav') f.extraAfter[+key].nominal=n;
   }
-  if (finIsEmpty(f)){ delete S.finance[date]; Sync.push('deleteFinance', { tanggal: date }, 'fin:'+date); }
-  else { S.finance[date] = f; Sync.push('saveFinance', { tanggal: date, data: f }, 'fin:'+date); }
+  if (finIsEmpty(f)) delete S.finance[date]; else S.finance[date] = f;
+  // kirim hanya kotak yang berubah, supaya isian dari perangkat lain di tanggal yang sama tidak tertimpa
+  const val = (kind==='xbn' || kind==='xan') ? (kind==='xbn'?f.extraBefore:f.extraAfter)[+key].nama
+            : kind==='src' ? f.sumber[key] : kind==='tab' ? f.tabungan
+            : (kind==='xbv'?f.extraBefore:f.extraAfter)[+key].nominal;
+  Sync.push('saveFinanceCells', { tanggal: date, cells: { [k]: val==null ? null : val } }, 'fin:'+date+':'+k);
   persist(); return true;
 }
 const finPage = document.getElementById('page-finance');
@@ -948,6 +957,13 @@ riw.addEventListener('click', e=>{
   S.view[b.dataset.s]=b.dataset.d; persist(); renderPanels(); riw.classList.add('hidden');
 });
 document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !riw.classList.contains('hidden')) riw.classList.add('hidden'); });
+
+/* ---------- Offline ---------- */
+function updateNet(){ updateSyncBadge(); }
+window.addEventListener('online', updateNet); window.addEventListener('offline', updateNet);
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')){
+  window.addEventListener('load', ()=>{ navigator.serviceWorker.register('sw.js').catch(()=>{}); });
+}
 
 /* ---------- Mulai ---------- */
 showPage();
