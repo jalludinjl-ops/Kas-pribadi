@@ -145,6 +145,11 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .lrow .in.xn::placeholder{font-size:12px}
 .lrow.total{background:var(--band);font-weight:700;font-size:13.5px;min-height:35px;padding-right:12px}
 .lrow.tab .nm,.lrow.tab .in{color:var(--coral)}
+.bal{background:var(--white);border-radius:18px;padding:10px 14px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.bal .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.bal .v{font-size:18px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
+.bal .dif{text-align:right;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-size:14px;font-weight:700;white-space:nowrap}
+.dif.neg{color:var(--coral)} .dif.pos{color:#3E8E5E}
 .saldo-pill{background:var(--ink);color:#fff;border-radius:18px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center}
 .saldo-pill .label{color:#BDBAB4;font-size:10px}
 .saldo-pill .v{font-size:18px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
@@ -221,6 +226,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .lrow .in.xn::placeholder{font-size:10.5px}
   .lrow.total{font-size:11.5px;padding-right:8px}
   .datepill{font-size:11px;padding:6px 10px;min-height:32px}
+  .bal{padding:8px 10px;border-radius:14px}.bal .v{font-size:14px}.bal .label{font-size:9px}.bal .dif{font-size:11.5px;margin-top:4px;padding-top:4px}
   .saldo-pill{padding:9px 10px;border-radius:14px}.saldo-pill .v{font-size:14px}
 }
 </style>
@@ -893,12 +899,16 @@ function finCalc(f){
 }
 function finIsEmpty(f){ return SUMBER.every(k=>f.sumber[k]==null) && f.tabungan==null && f.extraBefore.every(x=>!x.nama&&x.nominal==null) && f.extraAfter.every(x=>!x.nama&&x.nominal==null); }
 function finFmt(k,v){ const t=fmtRp(v); return (k==='tab' && v>0) ? '− '+t : t; }
+/* saldo catatan (halaman Transaksi) sampai akhir tanggal tsb */
+function saldoCatatan(date){ let v = 0; for (const r of computeTrx()){ if (r.tanggal > date) break; v = r.saldo; } return v; }
 function renderPanels(){ renderPanel('left'); renderPanel('right'); }
 function renderPanel(side){
   const date = S.view[side]; const f = getFin(date); const c = finCalc(f);
+  const cat = saldoCatatan(date), dif = c.saldo - cat;
   const vin = (k,v,cls,extra)=>`<input class="in num ${cls||''}" data-k="${k}" inputmode="decimal" autocomplete="off" value="${finFmt(k,v)}" aria-label="Nominal" enterkeyhint="next" ${extra||''}>`;
   const xrow = (pre,i,x,ph)=>`<div class="lrow"><input class="in xn" data-k="${pre}n:${i}" value="${esc(x.nama)}" placeholder="${ph}" aria-label="Nama" autocomplete="off" autocapitalize="words" enterkeyhint="next">${vin(pre+'v:'+i, x.nominal)}</div>`;
   document.getElementById('panel-'+side).innerHTML = `<label class="datepill ${side==='left'?'coral':''}">${CAL}<small>${day3(date)}</small>${fmtDate(date)}<input type="date" data-side="${side}" value="${date}" aria-label="Pilih tanggal"></label>
+<div class="bal"><div class="top"><span class="label">Saldo</span><span class="v">${fmtRp(cat)}</span></div>${S.finance[date] ? `<div class="dif ${dif<0?'neg':dif>0?'pos':''}">${dif>0?'+':dif<0?'−':''}${fmtRp(Math.abs(dif))}</div>` : ''}</div>
 <div class="lcard">${SUMBER.map(k=>`<div class="lrow"><span class="nm">${k}</span>${vin('src:'+k, f.sumber[k])}</div>`).join('')}${f.extraBefore.map((x,i)=>xrow('xb',i,x,'+ Lainnya')).join('')}</div>
 <div class="lcard"><div class="lrow total"><span>Total</span><span>${fmtRp(c.total)}</span></div><div class="lrow tab"><span class="nm">Uang Tabungan</span>${vin('tab', f.tabungan, '', 'data-minus="1"')}</div>${f.extraAfter.map((x,i)=>xrow('xa',i,x,'+ Potongan')).join('')}</div>
 <div class="saldo-pill"><span class="label">Saldo</span><span class="v">${fmtRp(c.saldo)}</span></div>`;
