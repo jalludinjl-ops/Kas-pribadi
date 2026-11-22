@@ -17,30 +17,29 @@
 :root{
   --bg:#EFEEEB; --card:#FAFAF8; --white:#FFFFFF; --ink:#141414; --mut:#8C8A86; --faint:#C2BFB9;
   --line:#E4E2DE; --band:#F3F2EF; --coral:#E8664F;
-  --cols: minmax(0,1fr) 128px 118px 134px 132px 28px; --gap:12px;
+  --tcols: 64px minmax(0,1.15fr) 104px 98px 112px minmax(0,1fr) 158px 18px; --tgap:8px;
+  --rowfs:14px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',Inter,system-ui,-apple-system,sans-serif;-webkit-text-size-adjust:100%;font-variant-numeric:tabular-nums}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-.app{max-width:980px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
-.app.fin-mode{max-width:1124px}
+.app{max-width:940px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
+.app.fin-mode{max-width:1020px}
 .label{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .card{background:var(--card);border-radius:22px}
 
-/* header */
 header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:none}
-.title{font-size:26px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px}
+.title{font-size:24px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:baseline;gap:10px}
 .sync{font-size:12px;font-weight:600;color:var(--coral);letter-spacing:0}
 .top-right{display:flex;align-items:center;gap:8px}
 .tabs{display:flex;gap:2px;background:var(--card);border-radius:999px;padding:4px}
-.tabs a{text-decoration:none;color:var(--mut);font-size:13.5px;font-weight:600;padding:9px 18px;border-radius:999px;min-height:40px;display:flex;align-items:center}
+.tabs a{text-decoration:none;color:var(--mut);font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;min-height:38px;display:flex;align-items:center}
 .tabs a[aria-current="page"]{background:var(--ink);color:#fff}
-.pill-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:none;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:600;min-height:44px}
+.pill-btn{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:none;border-radius:999px;padding:9px 14px;font-size:13px;font-weight:600;min-height:44px}
 
-/* inputs */
-.in{display:block;width:100%;border:none;background:transparent;outline:none;border-radius:10px;padding:6px 8px;font-size:16px;min-width:0}
+.in{display:block;width:100%;text-overflow:ellipsis;border:none;background:transparent;outline:none;border-radius:9px;padding:6px 6px;font-size:16px;min-width:0}
 .in:focus{background:var(--white);box-shadow:inset 0 0 0 1.5px var(--ink)}
 .in.num{text-align:right;font-weight:600}
 .in.kre{color:var(--coral)}
@@ -49,122 +48,106 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .in.preview{color:var(--faint)}
 .in.err{box-shadow:inset 0 0 0 2px var(--coral)!important}
 .in::placeholder{color:var(--faint);font-weight:400}
+.rel{position:relative}
 
 /* ---------- TRANSAKSI ---------- */
-#page-transaksi{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:14px}
-.toprow{display:flex;gap:14px;flex:none}
-.hero{flex:1;padding:16px 20px;display:flex;gap:16px;align-items:flex-end;min-width:0}
-.hero .main{flex:1;min-width:0}
+#page-transaksi{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:12px}
+.toprow{display:flex;gap:12px;flex:none}
+.hero{flex:1;min-width:0;padding:16px 20px;display:flex;flex-direction:column;justify-content:center}
 .hero .big{font-size:36px;font-weight:700;letter-spacing:-.045em;line-height:1;margin-top:8px;white-space:nowrap}
-.hero .cap{font-size:12.5px;color:var(--mut);margin-top:8px}
-.hero .cap b{font-weight:600}
-.bars{display:flex;gap:5px;width:150px;padding-left:14px;border-left:1px solid var(--line)}
-.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px}
-.bar .t{width:10px;height:70px;border-radius:99px;background:var(--band);display:flex;align-items:flex-end;overflow:hidden}
-.bar .f{width:10px;border-radius:99px;background:#D9D6D0}
-.bar.sel .f{background:var(--coral)}
-.bar span{font-size:9px;font-weight:600;color:var(--mut)}
-.week{flex:1.2;padding:14px 18px;min-width:0}
+.week{flex:1.25;min-width:0;padding:12px 16px}
 .week-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .week-h .nav{display:flex;align-items:center;gap:4px}
-.icon-btn{position:relative;width:32px;height:32px;border-radius:50%;background:var(--band);border:none;display:flex;align-items:center;justify-content:center;color:var(--ink);padding:0}
-.icon-btn input[type=date]{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:none;-webkit-appearance:none;appearance:none}
+.icon-btn{position:relative;width:32px;height:32px;border-radius:50%;background:var(--band);border:none;display:flex;align-items:center;justify-content:center;color:var(--ink);padding:0;font-size:15px}
+.icon-btn input[type=date],.mi input[type=date],.datepill input[type=date]{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:none;-webkit-appearance:none;appearance:none}
 .days{display:flex;justify-content:space-between}
-.day{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:none;padding:0}
+.day{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:none;padding:0}
 .day small{font-size:10px;font-weight:600;color:var(--mut)}
-.day span{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;background:var(--band);color:var(--mut)}
+.day span{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:600;background:var(--band);color:var(--mut)}
 .day.has span{background:var(--ink);color:#fff}
 .day.sel span{background:var(--coral);color:#fff}
-.day.today span{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--faint)}
+.day.today span{box-shadow:0 0 0 2px var(--card),0 0 0 3.5px var(--faint)}
 
-.list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:6px 0 10px}
-.cols{display:grid;grid-template-columns:var(--cols);column-gap:var(--gap);align-items:center}
-.list-head{padding:12px 20px 8px;flex:none}
-.list-head > div{font-size:10px}
+.list{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.tgrid{display:grid;grid-template-columns:var(--tcols);grid-template-areas:"d n de kr sa k st mo";column-gap:var(--tgap);align-items:center}
+.c-d{grid-area:d}.c-n{grid-area:n}.c-de{grid-area:de}.c-kr{grid-area:kr}.c-sa{grid-area:sa}.c-k{grid-area:k;padding-left:6px}.c-st{grid-area:st}.c-mo{grid-area:mo}
+.thead{padding:12px 14px 9px;border-bottom:1px solid var(--line);flex:none}
+.thead > div{font-size:9.5px}
 .r{text-align:right}
-.scroll{overflow:auto;-webkit-overflow-scrolling:touch;position:relative}
-#trx-scroll{flex:1 1 auto;min-height:0;padding:0 12px}
-.grp-h{position:sticky;top:0;z-index:3;background:var(--card);box-shadow:0 6px 8px -6px rgba(20,20,20,.08);display:flex;align-items:baseline;justify-content:space-between;padding:12px 8px 6px;font-size:15px;font-weight:700}
-.grp-h small{font-size:12px;font-weight:500;color:var(--mut)}
-.grp-h.sel::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--coral);margin-right:8px;align-self:center}
-.grp-h .t{margin-right:auto}
-.grp-empty{padding:4px 8px 14px;font-size:13px;color:var(--mut)}
-.trow{padding:6px 0;border-top:1px dashed var(--line)}
-.grp-h + .trow{border-top:none}
-.trow .nm{font-size:15px;font-weight:600;padding:4px 8px}
-.trow .kt{font-size:12.5px;color:var(--mut);padding:2px 8px}
+.hint{flex:none;text-align:center;font-size:11.5px;color:var(--mut);padding:5px 0;border-bottom:1px solid var(--line);background:var(--card)}
+.scroll{overflow:auto;-webkit-overflow-scrolling:touch;position:relative;overscroll-behavior:contain}
+#trx-scroll{flex:1 1 auto;min-height:0}
+.trow{padding:5px 14px;font-size:var(--rowfs)}
+.trow .in{font-size:var(--rowfs)}
+.trow + .trow{border-top:1px dashed rgba(20,20,20,.08)}
+.trow.first{border-top:2px solid var(--white)!important}
+.trow.first:first-child{border-top:none!important}
+.dcell{line-height:1.15;padding-left:2px}
+.dcell small{display:block;font-size:11px;color:var(--mut)}
+.dcell b{font-size:14px}
+.trow .nm{font-weight:600}
+.trow .kt{color:var(--mut)}
 .saldo-cell{position:relative}
-.pen{position:absolute;left:2px;top:50%;transform:translateY(-50%);pointer-events:none}
-.status{display:flex;justify-content:flex-end;gap:2px}
-.st{border:none;background:transparent;color:var(--faint);font-size:12px;font-weight:600;border-radius:999px;padding:0 9px;min-height:30px}
-.st.p.on{background:var(--coral);color:#fff}
-.st.d.on{background:var(--ink);color:#fff}
+.pen{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none}
+.status{display:flex;gap:3px;justify-content:flex-start}
+.st{border:none;background:transparent;color:var(--faint);font-size:12px;font-weight:600;border-radius:999px;padding:0 9px;min-height:28px;box-shadow:inset 0 0 0 1px #DAD7D1}
+.st.p.on{background:var(--coral);color:#fff;box-shadow:none}
+.st.d.on{background:var(--ink);color:#fff;box-shadow:none}
 .st .sm{display:none}
-.more{width:28px;height:30px;border:none;background:transparent;color:var(--faint);font-size:18px;line-height:1;border-radius:8px;padding:0;position:relative}
-.menu{position:absolute;right:0;top:calc(100% + 4px);z-index:30;min-width:170px;background:var(--white);border-radius:14px;box-shadow:0 12px 30px rgba(20,20,20,.14);padding:6px;display:flex;flex-direction:column;text-align:left}
+.more{width:18px;height:28px;border:none;background:transparent;color:var(--faint);font-size:16px;line-height:1;padding:0;position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 4px);z-index:30;min-width:180px;background:var(--white);border-radius:14px;box-shadow:0 12px 30px rgba(20,20,20,.14);padding:6px;display:flex;flex-direction:column;text-align:left}
 .menu.up{top:auto;bottom:calc(100% + 4px)}
-.menu .mi{position:relative;display:flex;align-items:center;min-height:42px;padding:0 12px;border:none;background:transparent;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink);text-align:left}
+.menu .mi{position:relative;display:flex;align-items:center;min-height:42px;padding:0 12px;border:none;background:transparent;border-radius:10px;font-size:14px;font-weight:500;color:var(--ink);text-align:left;white-space:nowrap}
 .menu .mi:hover{background:var(--band)}
 .menu .mi.del{color:var(--coral)}
-.menu .mi input[type=date]{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:none;-webkit-appearance:none;appearance:none}
+.trow.draft{background:var(--white);border-top:2px solid var(--ink)!important;border-bottom:1px solid var(--line)}
+.draft .dcell .in{font-weight:700;font-size:14px;padding:2px 2px;width:56px}
+.spacer{pointer-events:none}
 
-.draft{margin:8px 10px 0;padding:8px 10px 8px 10px;background:var(--white);border-radius:18px;box-shadow:0 6px 18px rgba(20,20,20,.06);flex:none}
-.draft .d-name{display:flex;align-items:flex-start;gap:6px}
-.datechip{display:flex;align-items:center;gap:2px;background:var(--band);border-radius:999px;padding:0 4px 0 10px;flex:none;margin-top:2px}
-.datechip small{font-size:12px;color:var(--mut)}
-.datechip .in{width:64px;font-weight:700;font-size:16px;padding:6px 6px}
-.plus{width:36px;height:36px;border-radius:50%;border:none;background:var(--ink);color:#fff;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;justify-self:end}
-
-.suggest{position:absolute;left:0;bottom:calc(100% + 4px);z-index:40;width:280px;margin:0;padding:6px;list-style:none;background:var(--white);border-radius:14px;box-shadow:0 12px 30px rgba(20,20,20,.14);max-height:240px;overflow:auto}
-.suggest.down{bottom:auto;top:calc(100% + 4px)}
+.suggest{position:absolute;left:0;top:calc(100% + 4px);z-index:40;width:270px;margin:0;padding:6px;list-style:none;background:var(--white);border-radius:14px;box-shadow:0 12px 30px rgba(20,20,20,.14);max-height:240px;overflow:auto}
+.suggest.up{top:auto;bottom:calc(100% + 4px)}
 .suggest li{display:flex;align-items:center;min-height:42px;padding:0 12px;border-radius:10px;font-size:15px;cursor:pointer}
 .suggest li.on{background:var(--band)}
 .suggest b{font-weight:700}
-.rel{position:relative}
 
 /* ---------- FINANCE ---------- */
-#page-finance{flex:1 1 auto;min-height:0;display:flex;gap:14px;align-items:flex-start;overflow:auto}
-.nab{flex:1.25;min-width:0;padding:16px 16px 14px;display:flex;flex-direction:column;max-height:100%}
-.nab .big{font-size:32px;font-weight:700;letter-spacing:-.04em;margin:6px 0 4px;padding:0 4px}
-.nab .cap{font-size:12.5px;color:var(--mut);margin-bottom:10px;padding:0 4px}
+#page-finance{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;gap:12px;align-items:flex-start}
+.nab{flex:1.45;min-width:0;overflow:hidden;align-self:flex-start}
+.nab-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:16px 16px 10px}
+.nab .big{font-size:26px;font-weight:700;letter-spacing:-.04em;margin-top:4px;line-height:1}
+.nab .cap{font-size:12px;color:var(--mut);white-space:nowrap}
 .nab .cap b{color:var(--ink);font-weight:600}
-.ncols{display:grid;grid-template-columns:70px 1fr 1fr 1fr;column-gap:4px;align-items:center}
-.nab-head{padding:0 4px 6px}
+.ngrid{display:grid;grid-template-columns:72px 1fr 1fr 1.1fr;column-gap:6px;align-items:center}
+.nab-head{padding:0 14px 6px}
 .nab-head > div{font-size:9.5px}
-#nab-scroll{min-height:0;flex:1 1 auto}
-.nrow{border-top:1px dashed var(--line);padding:3px 0}
-.nrow:first-child{border-top:none}
-.ndate{display:flex;align-items:center}
-.ndate small{font-size:12px;color:var(--mut);padding-left:4px;flex:none}
-.ndate .in{font-weight:700;padding:6px 4px;width:100%}
-.nab .in{font-size:13.5px;padding-left:4px;padding-right:4px}
-.nab-draft{margin-top:8px;background:var(--white);border-radius:999px;padding:4px 4px 4px 8px;flex:none}
-.nab-draft .plus{width:32px;height:32px;font-size:18px}
-.nab-draft .ncols{grid-template-columns:70px 1fr 1fr 1fr 32px}
-
-.panel{flex:1;min-width:0;padding:16px}
-.panel-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.datepill{position:relative;display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:700;min-height:40px}
+#nab-scroll{max-height:calc(5 * 37px + 2px);border-top:1px solid var(--line)}
+.nrow{padding:0 14px;height:37px;border-bottom:1px solid var(--line)}
+.nrow:last-child{border-bottom:none}
+.ndate{display:flex;align-items:baseline;gap:4px;white-space:nowrap}
+.ndate small{font-size:11.5px;color:var(--mut)}
+.ndate .in{font-weight:700;padding:4px 2px;width:56px}
+.nab .in{font-size:13.5px}
+.nab-draft{margin:8px;background:var(--white);border-radius:999px;padding:3px 4px 3px 8px}
+.nab-draft .ngrid{grid-template-columns:64px 1fr 1fr 1.1fr 30px}
+.nab .in.num{padding-left:2px;padding-right:2px}
+.plus{width:30px;height:30px;border-radius:50%;border:none;background:var(--ink);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;justify-self:end}
+.fin-pair{display:contents}
+.fcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.datepill{position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:700;min-height:36px}
 .datepill.coral{background:var(--coral)}
-.datepill small{font-weight:500;opacity:.75;font-size:12.5px}
-.datepill input[type=date]{position:absolute;inset:0;opacity:0;width:100%;height:100%;border:none;-webkit-appearance:none;appearance:none}
-.chev{color:var(--faint)}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.tile{background:var(--white);border-radius:14px;padding:8px 6px 4px;min-width:0}
-.tile .lb{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);padding:0 4px}
-.tile .in{padding:3px 4px;font-size:13px;font-weight:700;text-align:left;letter-spacing:-.01em}
-.tile.x{background:transparent;border:1px dashed #D6D3CD}
-.tile.x.filled{background:var(--white);border-color:transparent}
-.tile .in.lbin{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);padding:0 4px;height:14px;border-radius:4px}
-.tile .in.lbin::placeholder{color:var(--faint);letter-spacing:.02em;text-transform:none;font-size:12px}
-.sumrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:15px;font-weight:700;padding:0 4px}
-.tabrow{display:flex;justify-content:space-between;align-items:center;margin-top:2px;color:var(--coral);font-size:14px;padding-left:4px}
-.tabrow .in{width:56%;color:var(--coral);font-size:15px}
-.cuts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.cuts .tile{padding:6px 6px 2px}
-.saldo-box{margin-top:12px;background:var(--ink);color:#fff;border-radius:18px;padding:12px 16px}
-.saldo-box .label{color:#BDBAB4}
-.saldo-box .v{font-size:26px;font-weight:700;letter-spacing:-.03em;margin-top:2px;white-space:nowrap}
+.datepill small{font-weight:500;opacity:.75;font-size:12px}
+.lcard{background:var(--card);border-radius:18px;overflow:hidden}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:33px;padding:0 8px 0 12px;border-top:1px solid var(--line)}
+.lrow:first-child{border-top:none}
+.lrow .nm{font-size:12.5px;color:var(--mut);white-space:nowrap}
+.lrow .in.num{width:62%;font-size:13px;padding:4px 4px}
+.lrow .in.xn{width:50%;font-size:12.5px;color:var(--mut);padding:4px 0}
+.lrow .in.xn::placeholder{font-size:12px}
+.lrow.total{background:var(--band);font-weight:700;font-size:13.5px;min-height:35px;padding-right:12px}
+.lrow.tab .nm,.lrow.tab .in{color:var(--coral)}
+.saldo-pill{background:var(--ink);color:#fff;border-radius:18px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center}
+.saldo-pill .label{color:#BDBAB4;font-size:10px}
+.saldo-pill .v{font-size:18px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
 
 /* Riwayat */
 .overlay{position:fixed;inset:0;z-index:50;background:rgba(20,20,20,.25);display:flex;align-items:center;justify-content:center;padding:20px}
@@ -180,57 +163,66 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .hist .acts button{min-height:40px;padding:0 14px;border:none;border-radius:999px;background:var(--band);font-size:13px;font-weight:600}
 .empty{padding:24px;text-align:center;color:var(--mut)}
 
+/* ---------- iPad berdiri & layar menengah ---------- */
+@media (max-width:1000px){
+  :root{ --tcols: 52px minmax(0,1.3fr) 100px 92px 118px minmax(0,.9fr) 58px 16px; --tgap:5px; }
+  .trow .in.num{font-size:13.5px;padding-left:2px;padding-right:2px}
+  .app{max-width:720px}
+  .app.fin-mode{max-width:680px}
+  .st{width:26px;height:26px;min-height:26px;padding:0;border-radius:50%;font-size:11px;font-weight:700}
+  .st .lg{display:none}.st .sm{display:inline}
+  #page-finance{flex-direction:column;align-items:stretch}
+  .nab{flex:none;align-self:stretch}
+  .fin-pair{display:flex;gap:12px;align-items:flex-start}
+}
 /* ---------- HP ---------- */
 @media (max-width:700px){
-  :root{ --cols: minmax(0,1fr) 64px 64px 72px 22px 12px; --gap:2px; }
-  .app{padding-left:12px;padding-right:12px;gap:10px}
-  .title{font-size:22px}
-  .tabs a{font-size:12px;padding:7px 12px;min-height:34px}
-  .pill-btn{padding:8px 12px;font-size:12px;min-height:36px}
-  .toprow{flex-direction:column;gap:10px}
-  .hero{padding:12px 16px}
-  .hero .big{font-size:28px}
-  .bars{width:118px;gap:3px;padding-left:10px}
-  .bar .t{height:52px;width:8px}.bar .f{width:8px}
-  .week{padding:10px 12px}
-  .day span{width:34px;height:34px;font-size:12.5px}
-  .list-head{padding:10px 10px 6px}
-  .list-head > div{font-size:8px;letter-spacing:.06em}
-  #trx-scroll{padding:0 4px}
-  .grp-h{font-size:13px;padding:10px 6px 4px}
-  .in{padding:5px 3px}
-  .in.num{font-size:10px;letter-spacing:-.03em;padding-left:1px;padding-right:1px}
-  .trow .nm{font-size:12.5px;padding:3px 4px}
-  .trow .kt{font-size:10.5px;padding:1px 4px}
-  .st{padding:0;width:20px;min-height:20px;font-size:9px}
-  .st .lg{display:none}.st .sm{display:inline}
+  :root{ --tcols: 34px minmax(0,1fr) 66px 60px 78px 22px 12px; --tgap:2px; --rowfs:10.5px; }
+  .trow .in.num{font-size:10.5px;padding-left:1px;padding-right:1px}
+  .hint{font-size:10.5px;padding:3px 0}
+  .tgrid{grid-template-areas:"d n de kr sa st mo" "d k de kr sa st mo"}
+  .app{padding-left:10px;padding-right:10px;gap:8px;padding-top:calc(12px + env(safe-area-inset-top))}
+  .title{font-size:20px}
+  .tabs a{font-size:12px;padding:6px 12px;min-height:34px}
+  .pill-btn{padding:7px 11px;font-size:12px;min-height:36px}
+  .toprow{flex-direction:column;gap:8px}
+  .hero{padding:10px 14px;flex-direction:row;align-items:center;justify-content:space-between}
+  .hero .big{font-size:24px;margin-top:0}
+  .week{padding:8px 10px}
+  .week-h{margin-bottom:4px}
+  .icon-btn{width:28px;height:28px}
+  .day small{font-size:9px}
+  .day span{width:32px;height:32px;font-size:12px}
+  .thead{padding:8px 6px 6px}
+  .thead > div{font-size:8px;letter-spacing:.06em}
+  .thead .c-k{display:none}
+  .trow{padding:3px 6px}
+  .in{padding:3px 2px}
+  .trow .kt{font-size:10px;padding-top:0}
+  .in.num{letter-spacing:-.03em}
+  .dcell small{font-size:9px}.dcell b{font-size:11px}
+  .draft .dcell .in{font-size:11px;width:36px}
+  .st{width:20px;height:20px;min-height:20px;font-size:9px}
   .status{flex-direction:column;align-items:center;gap:2px}
-  .st:not(.on){box-shadow:inset 0 0 0 1px var(--line)}
-  .more{width:14px;font-size:14px}
+  .more{width:12px;font-size:13px}
   .pen{display:none}
-  .draft{margin:6px 4px 0;padding:6px}
-  .draft .d-name{flex-direction:column;gap:2px}
-  .datechip{padding-left:8px}.datechip small{font-size:10px}.datechip .in{width:46px;font-size:12px}
-  .plus{width:22px;height:22px;font-size:15px}
   .app.fin-mode{height:auto;min-height:100dvh;overflow:visible}
-  #page-finance{flex-direction:column;align-items:stretch;overflow:visible}
-  .fin-pair{display:flex;gap:8px}
-  .nab{max-height:none}
-  #nab-scroll{max-height:38dvh}
-  .nab .big{font-size:26px}
+  #page-finance{overflow:visible}
+  .fin-pair{gap:8px}
+  .nab .big{font-size:22px}
   .nab .in{font-size:12px}
-  .ncols{grid-template-columns:64px 1fr 1fr 1fr}
-  .nab-draft .ncols{grid-template-columns:64px 1fr 1fr 1fr 28px}
-  .panel{padding:10px 8px}
-  .datepill{font-size:12px;padding:6px 10px;min-height:34px;gap:5px}
-  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
-  .tile{padding:6px 4px 2px;border-radius:11px}
-  .tile .in{font-size:11.5px}
-  .tile .lb{font-size:8px}
-  .sumrow{font-size:12px}.tabrow{font-size:11px}.tabrow span{white-space:nowrap}.tile .in.lbin::placeholder{font-size:10px}.tabrow .in{font-size:12px;width:60%}
-  .saldo-box{padding:10px 12px;border-radius:14px}.saldo-box .v{font-size:17px}
+  .ngrid{grid-template-columns:66px 1fr 1fr 1fr}
+  .nab-draft .ngrid{grid-template-columns:60px 1fr 1fr 1fr 28px}
+  .nrow{padding:0 10px}.nab-head{padding:0 10px 6px}
+  .lrow{padding:0 4px 0 8px;min-height:30px}
+  .lrow .nm{font-size:11px}
+  .lrow .in.num{font-size:11px;width:66%}
+  .lrow .in.xn{font-size:11px;width:52%}
+  .lrow .in.xn::placeholder{font-size:10.5px}
+  .lrow.total{font-size:11.5px;padding-right:8px}
+  .datepill{font-size:11px;padding:6px 10px;min-height:32px}
+  .saldo-pill{padding:9px 10px;border-radius:14px}.saldo-pill .v{font-size:14px}
 }
-@media (min-width:701px){ .fin-pair{display:contents} }
 </style>
 </head>
 <body>
@@ -251,12 +243,8 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   <main id="page-transaksi">
     <div class="toprow">
       <section class="card hero" aria-label="Total saldo kas">
-        <div class="main">
-          <div class="label">Total saldo kas</div>
-          <div class="big" id="total-saldo">Rp0</div>
-          <div class="cap" id="hero-cap"></div>
-        </div>
-        <div class="bars" id="bars" aria-hidden="true"></div>
+        <div class="label">Total saldo kas</div>
+        <div class="big" id="total-saldo">Rp0</div>
       </section>
       <section class="card week" aria-label="Pilih tanggal">
         <div class="week-h">
@@ -265,7 +253,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
             <button type="button" class="icon-btn" id="wk-prev" aria-label="Minggu sebelumnya">‹</button>
             <button type="button" class="icon-btn" id="wk-next" aria-label="Minggu berikutnya">›</button>
             <label class="icon-btn" aria-label="Pilih tanggal dari kalender">
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
               <input type="date" id="cal-input" aria-label="Pilih tanggal">
             </label>
           </div>
@@ -274,26 +262,27 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
       </section>
     </div>
     <section class="card list" aria-label="Daftar transaksi">
-      <div class="cols list-head">
-        <div class="label">Nama · Keterangan</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div><div class="label r">Status</div><div></div>
+      <div class="tgrid thead">
+        <div class="label c-d">Tgl</div><div class="label c-n">Nama</div><div class="label r c-de">Debit</div><div class="label r c-kr">Kredit</div><div class="label r c-sa">Saldo</div><div class="label c-k">Ket.</div><div class="label c-st">Status</div><div class="c-mo"></div>
       </div>
+      <div class="hint hidden" id="trx-hint">↓ tarik ke bawah untuk melihat tanggal sebelumnya</div>
       <div class="scroll" id="trx-scroll"></div>
-      <div class="draft" id="trx-draft"></div>
     </section>
   </main>
 
   <main id="page-finance" class="hidden">
     <section class="card nab" aria-label="Nabung">
-      <div class="label" style="padding:0 4px">Nabung</div>
-      <div class="big" id="nab-total">Rp0</div>
-      <div class="cap" id="nab-cap"></div>
-      <div class="ncols nab-head"><div class="label">Tgl</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div></div>
+      <div class="nab-top">
+        <div><div class="label">Nabung</div><div class="big" id="nab-total">Rp0</div></div>
+        <div class="cap" id="nab-cap"></div>
+      </div>
+      <div class="ngrid nab-head"><div class="label">Tgl</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div></div>
       <div class="scroll" id="nab-scroll"></div>
       <div class="nab-draft" id="nab-draft"></div>
     </section>
     <div class="fin-pair">
-      <section class="card panel" id="panel-left" aria-label="Rekap tanggal kiri"></section>
-      <section class="card panel" id="panel-right" aria-label="Rekap tanggal kanan"></section>
+      <section class="fcol" id="panel-left" aria-label="Rekap tanggal kiri"></section>
+      <section class="fcol" id="panel-right" aria-label="Rekap tanggal kanan"></section>
     </div>
   </main>
 </div>
@@ -312,7 +301,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 <script>
 'use strict';
 /* =========================================================
-   KAS PRIBADI — frontend (tema referensi, Ide 2)
+   KAS PRIBADI — frontend
    Backend: Google Apps Script (Code_V1.gs). URL di config.js
    ========================================================= */
 const NAMA_AWAL = ['Omset','Pengeluaran Toko','Pengeluaran Pribadi','Nabung','Smartfren','Pengeluaran Keluarga'];
@@ -321,8 +310,10 @@ const HARI = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
 const HARI3 = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
 const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const BLN3 = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const DAY_COLORS = ['#F4ECDF','#ECE9E3','#FBE6DF','#E9EAE0','#F2E3DA'];
+const SHOW_DAYS_TRX = 4;
 const PEN = '<svg class="pen" role="img" aria-label="Saldo diisi manual" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C8A86" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
-const CAL = '<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
+const CAL = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
 
 /* ---------- Store lokal ---------- */
 const KEY = 'kasPribadi.v1';
@@ -469,25 +460,21 @@ function liveFormat(el){
 document.addEventListener('input', e=>{ const el=e.target; if (el.classList && el.classList.contains('num')) liveFormat(el); }, true);
 function numIn(f, val, cls, extra){ return `<input class="in num ${cls||''}" data-f="${f}" inputmode="decimal" autocomplete="off" value="${fmtRp(val)}" ${extra||''}>`; }
 
+
+
 /* ---------- State ---------- */
 const S = Store.load();
 function persist(){ Store.save(S); }
 let selDate = todayISO();
 let trxDraft = blankTrx();
-let nabDraft = blankNab(null);
-function blankTrx(){ return { id:'new', nama:'', debit:null, kredit:null, saldoManual:null, keterangan:'', status:'' }; }
-function blankNab(tgl){ return { id:'new', tanggal: tgl || nextNabDate(), debit:null, kredit:null, saldoManual:null }; }
-function nextNabDate(){ const s=sortedNab(); return s.length ? addDays(s[s.length-1].tanggal,1) : todayISO(); }
+let nabDraft = blankNab();
+function blankTrx(){ return { id:'new', tanggal: selDate, nama:'', debit:null, kredit:null, saldoManual:null, keterangan:'', status:'' }; }
+function blankNab(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null }; }
 function sortedTrx(){ return S.transaksi.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function sortedNab(){ return S.nabung.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function computeTrx(){
-  let prev = 0, lastNama = '';
-  return sortedTrx().map(r=>{
-    const saldo = r.saldoManual!=null ? r.saldoManual : prev + (r.debit||0) - (r.kredit||0);
-    prev = saldo;
-    const kategori = r.nama ? r.nama : lastNama; if (r.nama) lastNama = r.nama;
-    return Object.assign({}, r, { saldo, kategori });
-  });
+  let prev = 0;
+  return sortedTrx().map(r=>{ const saldo = r.saldoManual!=null ? r.saldoManual : prev + (r.debit||0) - (r.kredit||0); prev = saldo; return Object.assign({}, r, { saldo }); });
 }
 function computeNab(){
   let prev = 0;
@@ -495,6 +482,18 @@ function computeNab(){
 }
 function addNama(n){ n=(n||'').trim(); if(!n) return n; const hit=S.namaList.find(x=>x.toLowerCase()===n.toLowerCase()); if(hit) return hit; S.namaList.push(n); return n; }
 function flagErr(el){ el.classList.add('err'); setTimeout(()=>el.classList.remove('err'),1400); }
+function blurActive(){ const a=document.activeElement; if (a && a.tagName==='INPUT' && a.type!=='date') a.blur(); }
+/* Aksi ketuk yang tetap jalan walau sedang mengetik (input disimpan dulu) */
+let pdHandled = false;
+function act(getArg, fn){
+  return e=>{
+    if (e.type==='pointerdown'){ if (e.button>0) return; const arg0 = getArg(e); if (arg0===undefined) return; e.preventDefault(); pdHandled = true; setTimeout(()=>pdHandled=false, 500); blurActive(); setTimeout(()=>fn(arg0), 0); return; }
+    if (pdHandled) return;
+    const arg = getArg(e); if (arg===undefined) return;
+    blurActive(); setTimeout(()=>fn(arg), 0);
+  };
+}
+function on(el, fn){ ['pointerdown','click'].forEach(t=>el.addEventListener(t, fn)); }
 
 /* ---------- Routing ---------- */
 function currentPage(){ return location.hash === '#finance' ? 'finance' : 'transaksi'; }
@@ -505,8 +504,7 @@ function showPage(){
   document.getElementById('page-finance').classList.toggle('hidden', p!=='finance');
   document.getElementById('btn-riwayat').classList.toggle('hidden', p!=='finance');
   document.getElementById('page-title').textContent = p==='finance' ? 'Finance' : 'Kas Pribadi';
-  document.getElementById('tab-transaksi').toggleAttribute('aria-current', false);
-  document.getElementById('tab-finance').toggleAttribute('aria-current', false);
+  ['transaksi','finance'].forEach(x=>document.getElementById('tab-'+x).removeAttribute('aria-current'));
   document.getElementById('tab-'+p).setAttribute('aria-current','page');
   renderCurrent();
   if (p==='transaksi') scrollToSel(); else scrollEnd('nab-scroll');
@@ -520,73 +518,89 @@ function scrollEnd(id){ const el=document.getElementById(id); if (el) requestAni
    ========================================================= */
 const trxCard = document.querySelector('#page-transaksi .list');
 const trxScroll = document.getElementById('trx-scroll');
-const trxDraftEl = document.getElementById('trx-draft');
+const trxHint = document.getElementById('trx-hint');
+let anchorDate = null;   // tanggal yang diletakkan di atas daftar
 
-function endSaldoMap(rows){ const m = {}; rows.forEach(r=>{ m[r.tanggal] = r.saldo; }); return m; }
-function saldoAtEnd(dates, map, iso){ let v = null; for (const d of dates){ if (d <= iso) v = map[d]; else break; } return v; }
 function weekStart(iso){ const t=toDate(iso); const dow=(t.getDay()+6)%7; t.setDate(t.getDate()-dow); return isoOf(t); }
+function dataDates(){ return [...new Set(S.transaksi.map(r=>r.tanggal))].sort(); }
+function defaultAnchor(){ const d = dataDates(); return d.length ? d[Math.max(0, d.length - SHOW_DAYS_TRX)] : null; }
 
+function statusHTML(s){
+  return `<div class="status c-st"><button type="button" class="st p ${s==='Pending'?'on':''}" data-s="Pending" aria-pressed="${s==='Pending'}" aria-label="Pending"><span class="lg">Pending</span><span class="sm">P</span></button><button type="button" class="st d ${s==='Done'?'on':''}" data-s="Done" aria-pressed="${s==='Done'}" aria-label="Done"><span class="lg">Done</span><span class="sm">D</span></button></div>`;
+}
+function trxRowHTML(r, first, color){
+  const manual = r.saldoManual!=null;
+  return `<div class="trow tgrid ${first?'first':''}" data-id="${r.id}" ${first?`data-g="${r.tanggal}"`:''} style="background:${color}">
+<div class="c-d dcell">${first?`<small>${day3(r.tanggal)}</small><b>${fmtShort(r.tanggal)}</b>`:''}</div>
+<div class="c-n"><input class="in nm" data-f="nama" value="${esc(r.nama)}" placeholder="—" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"></div>
+<div class="c-de">${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
+<div class="c-kr">${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
+<div class="c-sa saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
+<div class="c-k"><input class="in kt" data-f="keterangan" value="${esc(r.keterangan)}" aria-label="Keterangan" autocomplete="off" enterkeyhint="next"></div>
+${statusHTML(r.status)}
+<button type="button" class="more c-mo" aria-label="Lainnya">⋯</button>
+</div>`;
+}
+function draftHTML(last){
+  const d = trxDraft; const manual = d.saldoManual!=null;
+  const sal = manual ? d.saldoManual : last + (d.debit||0) - (d.kredit||0);
+  return `<div class="trow tgrid draft" data-id="new">
+<div class="c-d dcell"><small>${day3(selDate)}</small><input class="in" data-f="tanggal" value="${fmtShort(selDate)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div class="c-n"><input class="in nm" data-f="nama" value="${esc(d.nama)}" placeholder="Nama" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"></div>
+<div class="c-de">${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
+<div class="c-kr">${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="next"')}</div>
+<div class="c-sa saldo-cell">${manual?PEN:''}${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
+<div class="c-k"><input class="in kt" data-f="keterangan" value="${esc(d.keterangan)}" placeholder="Keterangan" aria-label="Keterangan" autocomplete="off" enterkeyhint="done"></div>
+${statusHTML(d.status)}
+<div class="c-mo"></div>
+</div>`;
+}
 function renderTrx(){
   const rows = computeTrx();
   const last = rows.length ? rows[rows.length-1].saldo : 0;
   document.getElementById('total-saldo').textContent = fmtRp(last);
-  const map = endSaldoMap(rows); const dates = Object.keys(map).sort();
-  // caption: perubahan di tanggal terpilih
-  const cap = document.getElementById('hero-cap');
-  if (map[selDate] !== undefined){
-    const prevDates = dates.filter(d=>d<selDate); const before = prevDates.length ? map[prevDates[prevDates.length-1]] : 0;
-    const ch = map[selDate] - before;
-    cap.innerHTML = `${day3(selDate)} ${fmtShort(selDate)} <b style="color:${ch<0?'var(--coral)':'var(--ink)'}">${ch<0?'−':'+'}${fmtRp(Math.abs(ch))} ${ch<0?'↓':'↑'}</b>`;
-  } else cap.textContent = `${day3(selDate)} ${fmtShort(selDate)} · belum ada transaksi`;
-  // minggu + grafik
-  const ws = weekStart(selDate); const today = todayISO();
-  const week = Array.from({length:7},(_,i)=>addDays(ws,i));
-  const vals = week.map(d=> d>today ? null : saldoAtEnd(dates,map,d));
-  const mx = Math.max(1, ...vals.filter(v=>v!=null && v>0));
-  document.getElementById('bars').innerHTML = week.map((d,i)=>{ const v=vals[i]; const h = v==null||v<=0 ? 0 : Math.max(6, Math.round(v/mx*100)); return `<div class="bar ${d===selDate?'sel':''}"><div class="t"><div class="f" style="height:${h}%"></div></div><span>${'SSRKJSM'[i]}</span></div>`; }).join('');
+  // kalender minggu
+  const has = new Set(rows.map(r=>r.tanggal)); const today = todayISO();
+  const ws = weekStart(selDate); const week = Array.from({length:7},(_,i)=>addDays(ws,i));
   const t = toDate(selDate);
   document.getElementById('month-label').textContent = BULAN[t.getMonth()]+' '+t.getFullYear();
   document.getElementById('cal-input').value = selDate;
-  const has = new Set(dates);
   document.getElementById('days').innerHTML = week.map((d,i)=>`<button type="button" class="day ${has.has(d)?'has':''} ${d===selDate?'sel':''} ${d===today?'today':''}" data-d="${d}" aria-label="${longDate(d)}" aria-pressed="${d===selDate}"><small>${'SSRKJSM'[i]}</small><span>${toDate(d).getDate()}</span></button>`).join('');
-  // daftar per tanggal
+  // tabel
   const st = trxScroll.scrollTop;
-  const groups = []; rows.forEach(r=>{ const g = groups[groups.length-1]; if (g && g.d===r.tanggal) g.rows.push(r); else groups.push({ d:r.tanggal, rows:[r] }); });
-  if (!groups.some(g=>g.d===selDate)){ groups.push({ d:selDate, rows:[] }); groups.sort((a,b)=>a.d.localeCompare(b.d)); }
-  trxScroll.innerHTML = groups.map(g=>`<div class="grp-h ${g.d===selDate?'sel':''}" data-g="${g.d}"><span class="t">${longDate(g.d)}</span><small>${g.rows.length ? g.rows.length+' transaksi' : ''}</small></div>`
-    + (g.rows.length ? g.rows.map(trxRowHTML).join('') : `<div class="grp-empty">Belum ada transaksi — isi di baris bawah.</div>`)).join('');
+  const ae = document.activeElement; const keep = ae && trxScroll.contains(ae) && ae.dataset.f ? { id: ae.closest('[data-id]').dataset.id, f: ae.dataset.f } : null;
+  const dates = [...has].sort(); const colorOf = {}; dates.forEach((d,i)=>colorOf[d] = DAY_COLORS[i % DAY_COLORS.length]);
+  let html = '', prev = null;
+  rows.forEach(r=>{ const first = r.tanggal!==prev; prev = r.tanggal; html += trxRowHTML(r, first, colorOf[r.tanggal]); });
+  html += draftHTML(last) + '<div class="spacer" id="trx-spacer"></div>';
+  trxScroll.innerHTML = html;
+  fitSpacer();
   trxScroll.scrollTop = st;
-  renderDraft(last);
+  if (keep) focusTrx(keep.id==='new' || S.transaksi.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f, true);
+  updateHint();
 }
-function statusHTML(s){
-  return `<div class="status"><button type="button" class="st p ${s==='Pending'?'on':''}" data-s="Pending" aria-pressed="${s==='Pending'}" aria-label="Pending"><span class="lg">Pending</span><span class="sm">P</span></button><button type="button" class="st d ${s==='Done'?'on':''}" data-s="Done" aria-pressed="${s==='Done'}" aria-label="Done"><span class="lg">Done</span><span class="sm">D</span></button></div>`;
+function anchorEl(){
+  if (anchorDate){ const g = trxScroll.querySelector(`[data-g="${anchorDate}"]`); if (g) return g; }
+  return trxScroll.querySelector('.draft');
 }
-function trxRowHTML(r){
-  const manual = r.saldoManual!=null;
-  return `<div class="trow cols" data-id="${r.id}">
-<div><input class="in nm" data-f="nama" value="${esc(r.nama)}" placeholder="—" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"><input class="in kt" data-f="keterangan" value="${esc(r.keterangan)}" aria-label="Keterangan" autocomplete="off" enterkeyhint="next"></div>
-<div>${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
-<div>${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
-<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
-${statusHTML(r.status)}
-<button type="button" class="more" aria-label="Lainnya">⋯</button>
-</div>`;
+/* ruang kosong di bawah supaya tanggal anchor bisa berada di paling atas */
+function fitSpacer(){
+  const sp = document.getElementById('trx-spacer'); if (!sp) return;
+  sp.style.height = '0px';
+  const a = anchorEl(); if (!a) return;
+  const rest = trxScroll.scrollHeight - a.offsetTop;
+  sp.style.height = Math.max(0, trxScroll.clientHeight - rest) + 'px';
 }
-function renderDraft(last){
-  const d = trxDraft; const manual = d.saldoManual!=null;
-  const sal = manual ? d.saldoManual : last + (d.debit||0) - (d.kredit||0);
-  const ae = document.activeElement; const keep = ae && trxDraftEl.contains(ae) ? ae.dataset.f : null;
-  trxDraftEl.innerHTML = `<div class="cols" data-id="new">
-<div class="d-name"><span class="datechip"><small>${day3(selDate)}</small><input class="in" data-f="tanggal" value="${fmtShort(selDate)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></span>
-<div style="flex:1;min-width:0" class="rel"><input class="in nm" data-f="nama" value="${esc(d.nama)}" placeholder="Nama" style="font-size:15px;font-weight:600" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"><input class="in kt" data-f="keterangan" value="${esc(d.keterangan)}" placeholder="Keterangan" style="font-size:12.5px;color:var(--mut)" aria-label="Keterangan" autocomplete="off" enterkeyhint="done"></div></div>
-<div>${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
-<div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="next"')}</div>
-<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
-${statusHTML(d.status)}
-<button type="button" class="plus" aria-label="Simpan transaksi">+</button>
-</div>`;
-  if (keep){ const el = trxDraftEl.querySelector(`[data-f="${keep}"]`); if (el) el.focus(); }
+function scrollToSel(){
+  const def = defaultAnchor();
+  const hasSel = S.transaksi.some(r=>r.tanggal===selDate);
+  anchorDate = hasSel && (!def || selDate < def) ? selDate : def;
+  requestAnimationFrame(()=>{ fitSpacer(); const a = anchorEl(); trxScroll.scrollTop = a ? a.offsetTop : 0; updateHint(); });
 }
+function updateHint(){ trxHint.classList.toggle('hidden', trxScroll.scrollTop < 8); }
+trxScroll.addEventListener('scroll', updateHint, { passive:true });
+window.addEventListener('resize', ()=>{ if (currentPage()==='transaksi'){ fitSpacer(); } });
+
 function getTrx(id){ return id==='new' ? trxDraft : S.transaksi.find(r=>r.id===id); }
 function trxIsEmpty(r){ return !r.nama && r.debit==null && r.kredit==null && r.saldoManual==null && !r.keterangan && !r.status; }
 function autoSaldoFor(id){
@@ -598,25 +612,14 @@ function autoSaldoFor(id){
 function saveTrxRow(r){ persist(); Sync.push('saveTransaksi', { row: trxOut(r) }, 'trx:'+r.id); }
 function deleteTrxRow(id){ S.transaksi = S.transaksi.filter(x=>x.id!==id); persist(); Sync.push('deleteTransaksi', { id }, 'trx:'+id); }
 function setSel(iso){ if (!iso) return; selDate = iso; trxDraft.tanggal = iso; }
-function blurActive(){ const a=document.activeElement; if (a && a.tagName==='INPUT' && a.type!=='date') a.blur(); }
-/* Jalankan aksi setelah input yang sedang diedit tersimpan (hindari ketukan hilang karena render ulang) */
-let pdHandled = false;
-function act(getArg, fn){
-  return e=>{
-    if (e.type==='pointerdown'){ if (e.button>0) return; e.preventDefault(); pdHandled = true; setTimeout(()=>pdHandled=false, 500); }
-    else if (pdHandled) return;
-    const arg = getArg(e); if (arg===undefined) return;
-    blurActive(); setTimeout(()=>fn(arg), 0);
-  };
-}
 
 function commitTrx(el){
   const holder = el.closest('[data-id]'); if (!holder) return true;
   const id = holder.dataset.id, f = el.dataset.f, v = el.value;
-  if (f==='tanggal'){ // hanya baris baru
+  if (f==='tanggal'){
     if (!v.trim()) return true;
     const iso = parseDate(v, selDate); if (!iso){ flagErr(el); return false; }
-    setSel(iso); trxDraft.tanggal = iso; return true;
+    setSel(iso); return true;
   }
   const r = getTrx(id); if (!r) return true;
   if (id==='new') r.tanggal = selDate;
@@ -639,58 +642,51 @@ function commitDraft(){
   const d = trxDraft;
   if (!d.nama && d.debit==null && d.kredit==null && d.saldoManual==null && !d.keterangan) return false;
   draftBusy = true;
-  const rec = Object.assign({}, d, { id: uid(), urut: nextUrut(), tanggal: d.tanggal || selDate });
+  const rec = Object.assign({}, d, { id: uid(), urut: nextUrut(), tanggal: selDate });
   S.transaksi.push(rec); saveTrxRow(rec);
   trxDraft = blankTrx();
   draftBusy = false; return true;
 }
-function focusTrx(id, f){
-  const holder = id==='new' ? trxDraftEl.querySelector('[data-id="new"]') : trxScroll.querySelector(`[data-id="${CSS.escape(id)}"]`);
-  if (!holder) return; const el = holder.querySelector(`[data-f="${f}"]`); if (!el) return;
-  el.focus({preventScroll:true}); if (id!=='new') el.scrollIntoView({block:'nearest'});
-}
-function scrollToSel(){
-  requestAnimationFrame(()=>{
-    const h = trxScroll.querySelector(`.grp-h[data-g="${selDate}"]`); if (!h) return;
-    // tampilkan bagian akhir grup terpilih
-    let last = h; let n = h.nextElementSibling; while (n && !n.classList.contains('grp-h')){ last = n; n = n.nextElementSibling; }
-    const top = h.offsetTop, bottom = last.offsetTop + last.offsetHeight;
-    trxScroll.scrollTop = Math.max(top, bottom - trxScroll.clientHeight);
-  });
+function focusTrx(id, f, noScroll){
+  const holder = trxScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if (!holder) return;
+  const el = holder.querySelector(`[data-f="${f}"]`); if (!el) return;
+  el.focus({preventScroll:true});
+  if (!noScroll){ const hr = holder.getBoundingClientRect(), sr = trxScroll.getBoundingClientRect();
+    if (hr.bottom > sr.bottom) trxScroll.scrollTop += hr.bottom - sr.bottom + 8; else if (hr.top < sr.top) trxScroll.scrollTop -= sr.top - hr.top + 8; }
 }
 function nextRowId(id){ const rows=sortedTrx(); const i=rows.findIndex(r=>r.id===id); return (i>=0 && i<rows.length-1) ? rows[i+1].id : 'new'; }
 const TRX_ORDER_ROW = ['nama','debit','kredit','keterangan'];
 const TRX_ORDER_NEW = ['tanggal','nama','debit','kredit','keterangan'];
 
 let skipBlur = null;
-trxCard.addEventListener('focusin', e=>{
+trxScroll.addEventListener('focusin', e=>{
   const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return;
-  if (el.classList.contains('num')){ el.value = el.value.replace(/rp/gi,''); }
+  if (el.classList.contains('num')) el.value = el.value.replace(/rp/gi,'');
   if (el.dataset.f==='tanggal') el.value = fmtDate(selDate);
   el.dataset.orig = el.value;
   try{ el.select(); }catch(_){}
 });
-trxCard.addEventListener('focusout', e=>{
+trxScroll.addEventListener('focusout', e=>{
   const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return;
   closeSuggest();
   if (skipBlur === el){ skipBlur = null; return; }
-  const holder = el.closest('[data-id]'); const id = holder && holder.dataset.id;
+  const id = el.closest('[data-id]').dataset.id;
   let changed = false;
   if (el.value !== el.dataset.orig){ if (commitTrx(el)) changed = true; else el.value = el.dataset.orig; }
+  else if (el.dataset.f==='tanggal') el.value = fmtShort(selDate);
+  else if (el.classList.contains('num') && el.value) el.value = fmtRp(evalExpr(el.value));
   setTimeout(()=>{
     const a = document.activeElement;
-    const still = a && a.closest && a.closest('[data-id]') && a.closest('[data-id]').dataset.id===id && trxCard.contains(a);
+    const still = a && trxScroll.contains(a) && a.closest('[data-id]') && a.closest('[data-id]').dataset.id===id;
     let saved = false;
     if (id==='new' && !still){ const d=trxDraft; if (d.debit!=null || d.kredit!=null || d.saldoManual!=null) saved = commitDraft(); }
-    if (changed || saved || !still){
-      const keep = a && trxCard.contains(a) && a.tagName==='INPUT' && a.dataset.f ? { id: a.closest('[data-id]').dataset.id, f: a.dataset.f } : null;
+    if (changed || saved){
       renderTrx();
       if (el.dataset.f==='tanggal' && changed) scrollToSel();
-      if (keep) focusTrx(keep.id==='new' || S.transaksi.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
     }
   },0);
 });
-trxCard.addEventListener('keydown', e=>{
+trxScroll.addEventListener('keydown', e=>{
   const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return;
   if (e.key==='ArrowDown' || e.key==='ArrowUp'){ if (moveSuggest(e.key==='ArrowDown'?1:-1)){ e.preventDefault(); return; } }
   if (e.key==='Escape'){ closeSuggest(); return; }
@@ -711,41 +707,27 @@ trxCard.addEventListener('keydown', e=>{
     else target={ id, f:TRX_ORDER_ROW[TRX_ORDER_ROW.indexOf(f)+1] };
   }
   closeSuggest(); renderTrx();
-  if (f==='tanggal' || (id==='new' && f==='keterangan')) scrollToSel();
+  if (f==='tanggal') scrollToSel();
   if (target.id!=='new' && !S.transaksi.some(r=>r.id===target.id)) target.id='new';
   focusTrx(target.id, target.f);
 });
-/* saldo preview baris baru saat mengetik debit/kredit */
-trxDraftEl.addEventListener('input', e=>{
+/* saldo preview baris baru */
+trxScroll.addEventListener('input', e=>{
   const f = e.target.dataset.f; if (f!=='debit' && f!=='kredit') return;
-  const sal = trxDraftEl.querySelector('[data-f="saldo"]'); if (!sal || !sal.classList.contains('preview')) return;
-  const val = k=>{ const n = evalExpr(trxDraftEl.querySelector(`[data-f="${k}"]`).value); return Number.isNaN(n)||n==null ? 0 : n; };
+  const row = e.target.closest('[data-id]'); if (!row || row.dataset.id!=='new') return;
+  const sal = row.querySelector('[data-f="saldo"]'); if (!sal || !sal.classList.contains('preview')) return;
+  const val = k=>{ const n = evalExpr(row.querySelector(`[data-f="${k}"]`).value); return Number.isNaN(n)||n==null ? 0 : n; };
   const rows = computeTrx(); const s = (rows.length ? rows[rows.length-1].saldo : 0) + val('debit') - val('kredit');
   sal.value = fmtRp(s); sal.classList.toggle('neg', s<0);
 });
-/* tombol + */
-trxDraftEl.addEventListener('pointerdown', e=>{
-  const b = e.target.closest('.plus'); if (!b) return;
-  e.preventDefault();
-  const a = document.activeElement; if (a && a.tagName==='INPUT' && trxDraftEl.contains(a)){ skipBlur = a; if (a.value!==a.dataset.orig && !commitTrx(a)) return; }
-  if (commitDraft()){ renderTrx(); scrollToSel(); focusTrx('new','nama'); }
-});
-
-/* Status + menu ⋯ */
-trxCard.addEventListener('pointerdown', e=>{
-  const b = e.target.closest('.st'); if (!b) return;
-  e.preventDefault();
-  const id = b.closest('[data-id]').dataset.id;
-  const a = document.activeElement; if (a && a.tagName==='INPUT' && trxCard.contains(a)) a.blur();
-  const r = getTrx(id); if (!r) return;
-  r.status = (r.status===b.dataset.s) ? '' : b.dataset.s;
-  if (id!=='new') saveTrxRow(r);
-  renderTrx();
-});
+/* status */
+on(trxScroll, act(e=>{ const b=e.target.closest('.st'); if (!b) return undefined; return { id:b.closest('[data-id]').dataset.id, s:b.dataset.s }; },
+  ({id,s})=>{ const r = getTrx(id); if (!r) return; r.status = (r.status===s) ? '' : s; if (id!=='new') saveTrxRow(r); renderTrx(); }));
+/* menu ⋯ */
 let openMenu = null;
 function closeMenu(){ if (openMenu){ openMenu.remove(); openMenu=null; } }
 function openMore(id){
-  const b = (id==='new' ? trxDraftEl : trxScroll).querySelector(`[data-id="${CSS.escape(id)}"] .more`); if (!b) return;
+  const b = trxScroll.querySelector(`[data-id="${CSS.escape(id)}"] .more`); if (!b) return;
   const r = getTrx(id); if (!r) return;
   const m = document.createElement('div'); m.className='menu'; m.setAttribute('role','menu'); m.dataset.for = id;
   if (trxScroll.getBoundingClientRect().bottom - b.getBoundingClientRect().bottom < 140) m.classList.add('up');
@@ -755,30 +737,23 @@ function openMore(id){
   m.querySelector('.del').addEventListener('click', ev=>{ ev.stopPropagation(); closeMenu(); if (confirm('Hapus baris ini?')){ deleteTrxRow(id); renderTrx(); } });
   ['pointerdown','click'].forEach(t=>m.addEventListener(t, ev=>ev.stopPropagation()));
 }
-const moreAct = act(e=>{ const b=e.target.closest('.more'); if (!b || e.target.closest('.menu')) return undefined; return b.closest('[data-id]').dataset.id; },
-  id=>{ const was = openMenu && openMenu.dataset.for===id; closeMenu(); if (!was) openMore(id); });
-['pointerdown','click'].forEach(t=>trxScroll.addEventListener(t, moreAct));
+on(trxScroll, act(e=>{ const b=e.target.closest('.more'); if (!b || e.target.closest('.menu')) return undefined; return b.closest('[data-id]').dataset.id; },
+  id=>{ const was = openMenu && openMenu.dataset.for===id; closeMenu(); if (!was) openMore(id); }));
 document.addEventListener('click', e=>{ if (openMenu && !openMenu.contains(e.target) && !e.target.closest('.more')) closeMenu(); });
-
-/* Kalender */
-const pickDay = act(e=>{ const b=e.target.closest('.day'); return b ? b.dataset.d : undefined; }, d=>{ setSel(d); renderTrx(); scrollToSel(); });
-['pointerdown','click'].forEach(t=>document.getElementById('days').addEventListener(t, pickDay));
-const wkPrev = act(()=>-7, n=>{ setSel(addDays(selDate,n)); renderTrx(); scrollToSel(); });
-const wkNext = act(()=>7, n=>{ setSel(addDays(selDate,n)); renderTrx(); scrollToSel(); });
-['pointerdown','click'].forEach(t=>{ document.getElementById('wk-prev').addEventListener(t, wkPrev); document.getElementById('wk-next').addEventListener(t, wkNext); });
+/* kalender */
+on(document.getElementById('days'), act(e=>{ const b=e.target.closest('.day'); return b ? b.dataset.d : undefined; }, d=>{ setSel(d); renderTrx(); scrollToSel(); }));
+on(document.getElementById('wk-prev'), act(()=>-7, n=>{ setSel(addDays(selDate,n)); renderTrx(); scrollToSel(); }));
+on(document.getElementById('wk-next'), act(()=>7, n=>{ setSel(addDays(selDate,n)); renderTrx(); scrollToSel(); }));
 document.getElementById('cal-input').addEventListener('change', e=>{ if (e.target.value){ setSel(e.target.value); renderTrx(); scrollToSel(); } });
-const pickGrp = act(e=>{ const h=e.target.closest('.grp-h'); return h ? h.dataset.g : undefined; }, g=>{ setSel(g); renderTrx(); });
-['pointerdown','click'].forEach(t=>trxScroll.addEventListener(t, pickGrp));
 
-/* Autocomplete Nama */
+/* autocomplete Nama */
 let sugg = null;
-trxCard.addEventListener('input', e=>{
+trxScroll.addEventListener('input', e=>{
   const el = e.target; if (el.dataset.f!=='nama') return;
   const q = el.value.trim().toLowerCase(); closeSuggest(); if (!q) return;
   const items = S.namaList.filter(n=>n.toLowerCase().includes(q)).slice(0,8); if (!items.length) return;
   const ul = document.createElement('ul'); ul.className='suggest'; ul.setAttribute('role','listbox'); ul.setAttribute('aria-label','Saran nama');
-  const inDraft = trxDraftEl.contains(el);
-  if (!inDraft && el.getBoundingClientRect().top - trxScroll.getBoundingClientRect().top < 220) ul.classList.add('down');
+  if (trxScroll.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom < 250) ul.classList.add('up');
   ul.innerHTML = items.map(n=>{ const k=n.toLowerCase().indexOf(q); return `<li role="option" data-v="${esc(n)}"><span>${esc(n.slice(0,k))}<b>${esc(n.slice(k,k+q.length))}</b>${esc(n.slice(k+q.length))}</span></li>`; }).join('');
   const host = el.parentElement; host.classList.add('rel'); host.appendChild(ul);
   sugg = { input: el, ul, items, idx:-1 };
@@ -799,14 +774,14 @@ function pickSuggestOnEnter(el){
 }
 
 /* =========================================================
-   FINANCE — NABUNG
+   FINANCE — NABUNG (5 hari terakhir, sisanya tersembunyi di atas)
    ========================================================= */
 const nabCard = document.querySelector('#page-finance .nab');
 const nabScroll = document.getElementById('nab-scroll');
 const nabDraftEl = document.getElementById('nab-draft');
 function nabRowHTML(r){
   const manual = r.saldoManual!=null;
-  return `<div class="nrow ncols" data-id="${r.id}">
+  return `<div class="nrow ngrid" data-id="${r.id}">
 <div class="ndate"><small>${day3(r.tanggal)}</small><input class="in" data-f="tanggal" value="${fmtShort(r.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
 <div>${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
 <div>${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
@@ -819,16 +794,18 @@ function renderNab(){
   const ws = weekStart(todayISO()); const before = rows.filter(r=>r.tanggal<ws); const b0 = before.length ? before[before.length-1].saldo : 0;
   const ch = last - b0;
   document.getElementById('nab-cap').innerHTML = `Minggu ini <b style="color:${ch<0?'var(--coral)':'var(--ink)'}">${ch<0?'−':'+'}${fmtRp(Math.abs(ch))}</b>`;
-  const st = nabScroll.scrollTop;
+  const st = nabScroll.scrollTop; const atEnd = nabScroll.scrollHeight - nabScroll.clientHeight - st < 4;
+  const ae = document.activeElement; const keep = ae && nabCard.contains(ae) && ae.dataset.f ? { id: ae.closest('[data-id]').dataset.id, f: ae.dataset.f } : null;
   nabScroll.innerHTML = rows.map(nabRowHTML).join('');
-  nabScroll.scrollTop = st;
+  nabScroll.scrollTop = atEnd ? nabScroll.scrollHeight : st;
   const d = nabDraft; const manual = d.saldoManual!=null; const sal = manual ? d.saldoManual : last + (d.debit||0) - (d.kredit||0);
-  nabDraftEl.innerHTML = `<div class="ncols" data-id="new">
+  nabDraftEl.innerHTML = `<div class="ngrid" data-id="new">
 <div class="ndate"><small>${day3(d.tanggal)}</small><input class="in" data-f="tanggal" value="${fmtShort(d.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
 <div>${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
 <div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="done"')}</div>
 <div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
 <button type="button" class="plus" aria-label="Simpan nabung">+</button></div>`;
+  if (keep) focusNab(keep.id==='new' || S.nabung.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
 }
 function getNab(id){ return id==='new' ? nabDraft : S.nabung.find(r=>r.id===id); }
 function autoNabFor(id){
@@ -855,9 +832,10 @@ function commitNabDraft(){
   if (d.debit==null && d.kredit==null && d.saldoManual==null) return false;
   nabBusy = true; const rec = Object.assign({}, d, { id: uid(), urut: nextUrut() });
   S.nabung.push(rec); persist(); Sync.push('saveNabung', { row: nabOut(rec) }, 'nab:'+rec.id);
-  nabDraft = blankNab(addDays(rec.tanggal,1)); nabBusy = false; return true;
+  const t = todayISO(); nabDraft = blankNab(); nabDraft.tanggal = rec.tanggal >= t ? addDays(rec.tanggal,1) : t;
+  nabBusy = false; return true;
 }
-function focusNab(id,f){ const h = id==='new' ? nabDraftEl.querySelector('[data-id="new"]') : nabScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if(!h) return; const el=h.querySelector(`[data-f="${f}"]`); if(el){ el.focus({preventScroll:true}); if(id!=='new') el.scrollIntoView({block:'nearest'}); } }
+function focusNab(id,f){ const h = id==='new' ? nabDraftEl.querySelector('[data-id="new"]') : nabScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if(!h) return; const el=h.querySelector(`[data-f="${f}"]`); if(el){ el.focus({preventScroll:true}); if(id!=='new') h.scrollIntoView({block:'nearest'}); } }
 let nabSkip = null;
 nabCard.addEventListener('focusin', e=>{ const el=e.target; if(el.tagName!=='INPUT'||!el.dataset.f) return; if (el.classList.contains('num')) el.value = el.value.replace(/rp/gi,''); if (el.dataset.f==='tanggal'){ const r=getNab(el.closest('[data-id]').dataset.id); if (r) el.value = fmtDate(r.tanggal); } el.dataset.orig = el.value; try{ el.select(); }catch(_){} });
 nabCard.addEventListener('focusout', e=>{
@@ -865,14 +843,12 @@ nabCard.addEventListener('focusout', e=>{
   if (nabSkip===el){ nabSkip=null; return; }
   const id = el.closest('[data-id]').dataset.id; let changed=false;
   if (el.value!==el.dataset.orig){ if (commitNab(el)) changed=true; else el.value = el.dataset.orig; }
+  else if (el.dataset.f==='tanggal'){ const r=getNab(id); if (r) el.value = fmtShort(r.tanggal); }
+  else if (el.classList.contains('num') && el.value) el.value = fmtRp(evalExpr(el.value));
   setTimeout(()=>{
     const a=document.activeElement; const still = a && nabCard.contains(a) && a.closest('[data-id]') && a.closest('[data-id]').dataset.id===id;
     let saved=false; if (id==='new' && !still) saved = commitNabDraft();
-    if (changed || saved || !still){
-      const keep = a && nabCard.contains(a) && a.tagName==='INPUT' && a.dataset.f ? { id:a.closest('[data-id]').dataset.id, f:a.dataset.f } : null;
-      renderNab(); if (saved) scrollEnd('nab-scroll');
-      if (keep) focusNab(keep.id==='new' || S.nabung.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
-    }
+    if (changed || saved){ renderNab(); if (saved) scrollEnd('nab-scroll'); }
   },0);
 });
 const NAB_ORDER = ['tanggal','debit','kredit'];
@@ -898,14 +874,10 @@ nabDraftEl.addEventListener('input', e=>{
   const rows=computeNab(); const s=(rows.length?rows[rows.length-1].saldo:0)+val('debit')-val('kredit');
   sal.value = fmtRp(s); sal.classList.toggle('neg', s<0);
 });
-nabDraftEl.addEventListener('pointerdown', e=>{
-  const b=e.target.closest('.plus'); if(!b) return; e.preventDefault();
-  const a=document.activeElement; if (a && a.tagName==='INPUT' && nabDraftEl.contains(a)){ nabSkip=a; if (a.value!==a.dataset.orig && !commitNab(a)) return; }
-  if (commitNabDraft()){ renderNab(); scrollEnd('nab-scroll'); focusNab('new','debit'); }
-});
+on(nabDraftEl, act(e=>e.target.closest('.plus') ? 1 : undefined, ()=>{ if (commitNabDraft()){ renderNab(); scrollEnd('nab-scroll'); focusNab('new','debit'); } }));
 
 /* =========================================================
-   FINANCE — DUA TANGGAL
+   FINANCE — DUA TANGGAL (kolom)
    ========================================================= */
 function blankFin(){ return { sumber:{}, extraBefore:[{nama:'',nominal:null},{nama:'',nominal:null}], tabungan:null, extraAfter:[{nama:'',nominal:null},{nama:'',nominal:null}] }; }
 function getFin(date){ return S.finance[date] || blankFin(); }
@@ -915,19 +887,16 @@ function finCalc(f){
   return { total, saldo };
 }
 function finIsEmpty(f){ return SUMBER.every(k=>f.sumber[k]==null) && f.tabungan==null && f.extraBefore.every(x=>!x.nama&&x.nominal==null) && f.extraAfter.every(x=>!x.nama&&x.nominal==null); }
+function finFmt(k,v){ const t=fmtRp(v); return (k==='tab' && v>0) ? '− '+t : t; }
 function renderPanels(){ renderPanel('left'); renderPanel('right'); }
 function renderPanel(side){
   const date = S.view[side]; const f = getFin(date); const c = finCalc(f);
-  const vin = (k,v,extra)=>`<input class="in num" data-k="${k}" inputmode="decimal" autocomplete="off" value="${fmtRp(v)}" aria-label="Nominal" enterkeyhint="next" ${extra||''}>`;
-  const tile = (k,label)=>`<div class="tile"><div class="lb">${label}</div>${vin('src:'+k, f.sumber[k])}</div>`;
-  const xtile = (pre,i,x,ph)=>`<div class="tile x ${x.nama||x.nominal!=null?'filled':''}"><input class="in lbin" data-k="${pre}n:${i}" value="${esc(x.nama)}" placeholder="${ph}" aria-label="Nama" autocomplete="off" autocapitalize="words" enterkeyhint="next">${vin(pre+'v:'+i, x.nominal)}</div>`;
-  const el = document.getElementById('panel-'+side);
-  el.innerHTML = `<div class="panel-h"><label class="datepill ${side==='left'?'coral':''}">${CAL}<small>${day3(date)}</small>${fmtDate(date)}<input type="date" data-side="${side}" value="${date}" aria-label="Pilih tanggal"></label><span class="chev">⌄</span></div>
-<div class="tiles" data-side="${side}">${SUMBER.map(k=>tile(k,k)).join('')}${f.extraBefore.map((x,i)=>xtile('xb',i,x,'+ Lainnya')).join('')}</div>
-<div class="sumrow"><span>Total</span><span>${fmtRp(c.total)}</span></div>
-<div class="tabrow" data-side="${side}"><span>Uang Tabungan</span>${vin('tab', f.tabungan, 'placeholder="−"')}</div>
-<div class="cuts" data-side="${side}">${f.extraAfter.map((x,i)=>xtile('xa',i,x,'+ Potongan')).join('')}</div>
-<div class="saldo-box"><div class="label">Saldo</div><div class="v">${fmtRp(c.saldo)}</div></div>`;
+  const vin = (k,v,cls,extra)=>`<input class="in num ${cls||''}" data-k="${k}" inputmode="decimal" autocomplete="off" value="${finFmt(k,v)}" aria-label="Nominal" enterkeyhint="next" ${extra||''}>`;
+  const xrow = (pre,i,x,ph)=>`<div class="lrow"><input class="in xn" data-k="${pre}n:${i}" value="${esc(x.nama)}" placeholder="${ph}" aria-label="Nama" autocomplete="off" autocapitalize="words" enterkeyhint="next">${vin(pre+'v:'+i, x.nominal)}</div>`;
+  document.getElementById('panel-'+side).innerHTML = `<label class="datepill ${side==='left'?'coral':''}">${CAL}<small>${day3(date)}</small>${fmtDate(date)}<input type="date" data-side="${side}" value="${date}" aria-label="Pilih tanggal"></label>
+<div class="lcard">${SUMBER.map(k=>`<div class="lrow"><span class="nm">${k}</span>${vin('src:'+k, f.sumber[k])}</div>`).join('')}${f.extraBefore.map((x,i)=>xrow('xb',i,x,'+ Lainnya')).join('')}</div>
+<div class="lcard"><div class="lrow total"><span>Total</span><span>${fmtRp(c.total)}</span></div><div class="lrow tab"><span class="nm">Uang Tabungan</span>${vin('tab', f.tabungan, '', 'data-minus="1"')}</div>${f.extraAfter.map((x,i)=>xrow('xa',i,x,'+ Potongan')).join('')}</div>
+<div class="saldo-pill"><span class="label">Saldo</span><span class="v">${fmtRp(c.saldo)}</span></div>`;
 }
 function commitFin(side, el){
   const date = S.view[side]; const k = el.dataset.k; const v = el.value;
@@ -944,14 +913,14 @@ function commitFin(side, el){
 }
 const finPage = document.getElementById('page-finance');
 let finSkip = null;
-function sideOf(el){ const p = el.closest('.panel'); return p ? p.id.replace('panel-','') : null; }
+function sideOf(el){ const p = el.closest('.fcol'); return p ? p.id.replace('panel-','') : null; }
 finPage.addEventListener('change', e=>{ const el=e.target; if (el.type!=='date' || !el.dataset.side || !el.value) return; S.view[el.dataset.side]=el.value; persist(); renderPanels(); });
-finPage.addEventListener('focusin', e=>{ const el=e.target; if(!el.dataset || !el.dataset.k) return; if (el.classList.contains('num')) el.value = el.value.replace(/rp/gi,''); el.dataset.orig=el.value; try{ el.select(); }catch(_){} });
+finPage.addEventListener('focusin', e=>{ const el=e.target; if(!el.dataset || !el.dataset.k) return; if (el.classList.contains('num')) el.value = el.value.replace(/rp|−\s?/gi,''); el.dataset.orig=el.value; try{ el.select(); }catch(_){} });
 finPage.addEventListener('focusout', e=>{
   const el=e.target; if(!el.dataset || !el.dataset.k) return;
   if (finSkip===el){ finSkip=null; return; }
   const side = sideOf(el);
-  if (el.value===el.dataset.orig){ setTimeout(()=>{ const a=document.activeElement; if (!(a && a.dataset && a.dataset.k)) renderPanels(); },0); return; }
+  if (el.value===el.dataset.orig){ if (el.classList.contains('num') && el.value) el.value = finFmt(el.dataset.k, evalExpr(el.value)); return; }
   if (!commitFin(side, el)){ el.value=el.dataset.orig; return; }
   setTimeout(()=>{ const a=document.activeElement; const keep = a && a.dataset && a.dataset.k ? { side: sideOf(a), k: a.dataset.k } : null; renderPanels(); if (keep) focusFin(keep.side, keep.k); },0);
 });
@@ -964,13 +933,13 @@ finPage.addEventListener('keydown', e=>{
   if (el.value!==el.dataset.orig && !commitFin(side, el)){ finSkip=null; el.value=el.dataset.orig; return; }
   renderPanels(); if (next) focusFin(side, next); else if (document.activeElement) document.activeElement.blur();
 });
-function focusFin(side,k){ const el=document.querySelector(`#panel-${side} input[data-k="${CSS.escape(k)}"]`); if(el){ el.focus(); try{ el.select(); }catch(_){} } }
+function focusFin(side,k){ const el=document.querySelector(`#panel-${side} input[data-k="${CSS.escape(k)}"]`); if(el){ el.focus({preventScroll:true}); } }
 
 /* Riwayat */
 const riw = document.getElementById('riwayat');
 document.getElementById('btn-riwayat').addEventListener('click', ()=>{
   const dates = Object.keys(S.finance).sort().reverse();
-  document.getElementById('riwayat-list').innerHTML = dates.length ? dates.map(d=>{ const c=finCalc(S.finance[d]); return `<li><div><small>${dayName(d)}</small><b>${fmtDate(d)}</b><small>Saldo ${fmtRp(c.saldo)}</small></div><div class="acts"><button type="button" data-d="${d}" data-s="left" aria-label="Buka ${fmtDate(d)} di kartu kiri">Kiri</button><button type="button" data-d="${d}" data-s="right" aria-label="Buka ${fmtDate(d)} di kartu kanan">Kanan</button></div></li>`; }).join('') : '<li class="empty">Belum ada catatan.</li>';
+  document.getElementById('riwayat-list').innerHTML = dates.length ? dates.map(d=>{ const c=finCalc(S.finance[d]); return `<li><div><small>${dayName(d)}</small><b>${fmtDate(d)}</b><small>Saldo ${fmtRp(c.saldo)}</small></div><div class="acts"><button type="button" data-d="${d}" data-s="left" aria-label="Buka ${fmtDate(d)} di kolom kiri">Kiri</button><button type="button" data-d="${d}" data-s="right" aria-label="Buka ${fmtDate(d)} di kolom kanan">Kanan</button></div></li>`; }).join('') : '<li class="empty">Belum ada catatan.</li>';
   riw.classList.remove('hidden'); document.getElementById('riwayat-close').focus();
 });
 riw.addEventListener('click', e=>{
