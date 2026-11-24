@@ -18,7 +18,7 @@
   --green:#3E8E5E;
   --bg:#EFEEEB; --card:#FAFAF8; --white:#FFFFFF; --ink:#141414; --mut:#8C8A86; --faint:#C2BFB9;
   --line:#E4E2DE; --band:#F3F2EF; --coral:#E8664F;
-  --tcols: 64px minmax(0,1.15fr) 104px 98px 112px minmax(0,1fr) 158px 18px; --tgap:8px;
+  --tcols: 64px minmax(0,1.15fr) 108px 108px 112px minmax(0,1fr) 158px 18px; --tgap:8px;
   --rowfs:14px;
 }
 *{box-sizing:border-box}
@@ -73,7 +73,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .tgrid{display:grid;grid-template-columns:var(--tcols);grid-template-areas:"d n de kr sa k st mo";column-gap:var(--tgap);align-items:center}
 .c-d{grid-area:d}.c-n{grid-area:n}.c-de{grid-area:de}.c-kr{grid-area:kr}.c-sa{grid-area:sa}.c-k{grid-area:k;padding-left:6px}.c-st{grid-area:st}.c-mo{grid-area:mo}
 .thead{padding:12px 14px 9px;border-bottom:1px solid var(--line);flex:none}
-.thead > div{font-size:9.5px}
+.thead > div,.thd > div,.nab-head > div{font-size:10px;font-weight:700;color:var(--ink)}
 .r{text-align:right}
 .hint{flex:none;text-align:center;font-size:11.5px;color:var(--mut);padding:5px 0;border-bottom:1px solid var(--line);background:var(--card)}
 .scroll{overflow:auto;-webkit-overflow-scrolling:touch;position:relative;overscroll-behavior:contain}
@@ -87,7 +87,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .dcell small{display:block;font-size:11px;color:var(--mut)}
 .dcell b{font-size:14px}
 .trow .nm{font-weight:600}
-.trow .kt{color:var(--mut)}
+.trow .kt{color:#3A3936;font-weight:600}
 .saldo-cell{position:relative}
 .pen{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none}
 .status{display:flex;gap:3px;justify-content:flex-start}
@@ -473,7 +473,7 @@ const HARI3 = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
 const BULAN = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const BLN3 = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 const DAY_COLORS = ['#F4ECDF','#ECE9E3','#FBE6DF','#E9EAE0','#F2E3DA'];
-const SHOW_DAYS_TRX = 4;
+const SHOW_DAYS_TRX = 1;   // tampilkan 1 tanggal terakhir yang sudah diisi
 const PEN = '<svg class="pen" role="img" aria-label="Saldo diisi manual" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8C8A86" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
 const CAL = '<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';
 
@@ -900,9 +900,28 @@ trxScroll.addEventListener('input', e=>{
   const rows = computeTrx(); const s = (rows.length ? rows[rows.length-1].saldo : 0) + val('debit') - val('kredit');
   sal.value = fmtRp(s); sal.classList.toggle('neg', s<0);
 });
-/* status */
-on(trxScroll, act(e=>{ const b=e.target.closest('.st'); if (!b) return undefined; return { id:b.closest('[data-id]').dataset.id, s:b.dataset.s }; },
-  ({id,s})=>{ const r = getTrx(id); if (!r) return; r.status = (r.status===s) ? '' : s; if (id!=='new') saveTrxRow(r); renderTrx(); }));
+/* Haptic: Android pakai getar; iPhone/iPad (iOS 18+) pakai sakelar tersembunyi yang memicu getar klik bawaan */
+const hapticEl = (()=>{ const l = document.createElement('label'); l.setAttribute('aria-hidden','true');
+  l.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none';
+  const i = document.createElement('input'); i.type = 'checkbox'; i.setAttribute('switch',''); i.tabIndex = -1; l.appendChild(i); document.body.appendChild(l); return l; })();
+function haptic(){ try{ if (navigator.vibrate && navigator.vibrate(12)) return; hapticEl.click(); }catch(_){} }
+
+/* status: hanya berubah kalau benar-benar diketuk (jari diangkat di tombol yang sama, tidak sedang scroll) */
+let stTap = null;
+trxScroll.addEventListener('pointerdown', e=>{ const b = e.target.closest('.st'); stTap = b ? { b, x:e.clientX, y:e.clientY, t:Date.now() } : null; });
+trxScroll.addEventListener('pointermove', e=>{ if (stTap && Math.hypot(e.clientX-stTap.x, e.clientY-stTap.y) > 8) stTap = null; }, { passive:true });
+trxScroll.addEventListener('pointercancel', ()=>{ stTap = null; });
+trxScroll.addEventListener('scroll', ()=>{ stTap = null; }, { passive:true });
+trxScroll.addEventListener('pointerup', e=>{
+  const tap = stTap; stTap = null; if (!tap) return;
+  const b = e.target.closest('.st');
+  if (b!==tap.b || Date.now()-tap.t > 700 || Math.hypot(e.clientX-tap.x, e.clientY-tap.y) > 8) return;
+  e.preventDefault();
+  const id = b.closest('[data-id]').dataset.id, st = b.dataset.s;
+  haptic(); blurActive();
+  setTimeout(()=>{ const r = getTrx(id); if (!r) return; r.status = (r.status===st) ? '' : st; if (id!=='new') saveTrxRow(r); renderTrx(); }, 0);
+});
+trxScroll.addEventListener('click', e=>{ if (e.target.closest('.st')) e.preventDefault(); });
 /* menu ⋯ */
 let openMenu = null;
 function closeMenu(){ if (openMenu){ openMenu.remove(); openMenu=null; } }
@@ -1070,9 +1089,23 @@ function finIsEmpty(f){ return SUMBER.every(k=>f.sumber[k]==null) && f.tabungan=
 function finFmt(k,v){ const t=fmtRp(v); return (k==='tab' && v>0) ? '− '+t : t; }
 /* saldo catatan (halaman Transaksi) sampai akhir tanggal tsb */
 function saldoCatatan(date){ let v = 0; for (const r of computeTrx()){ if (r.tanggal > date) break; v = r.saldo; } return v; }
+/* Kolom Finance: otomatis tiap hari (kanan = hari ini, kiri = tanggal terakhir yang sudah diisi).
+   Pilihan manual hanya berlaku sampai hari itu. */
+function autoView(side){
+  const today = todayISO();
+  if (side==='right') return today;
+  const filled = Object.keys(S.finance).filter(d=>d < today).sort();
+  return filled.length ? filled[filled.length-1] : addDays(today, -1);
+}
+function viewDate(side){ return (S.view.manualDay===todayISO() && S.view[side]) ? S.view[side] : autoView(side); }
+function setView(side, date){
+  const today = todayISO();
+  if (S.view.manualDay!==today){ S.view.left = viewDate('left'); S.view.right = viewDate('right'); S.view.manualDay = today; }
+  S.view[side] = date; persist();
+}
 function renderPanels(){ renderPanel('left'); renderPanel('right'); }
 function renderPanel(side){
-  const date = S.view[side]; const f = getFin(date); const c = finCalc(f);
+  const date = viewDate(side); const f = getFin(date); const c = finCalc(f);
   const cat = saldoCatatan(date), dif = c.saldo - cat;
   const vin = (k,v,cls,extra)=>`<input class="in num ${cls||''}" data-k="${k}" inputmode="decimal" autocomplete="off" value="${finFmt(k,v)}" aria-label="Nominal" enterkeyhint="next" ${extra||''}>`;
   const xrow = (pre,i,x,ph)=>`<div class="lrow"><input class="in xn" data-k="${pre}n:${i}" value="${esc(x.nama)}" placeholder="${ph}" aria-label="Nama" autocomplete="off" autocapitalize="words" enterkeyhint="next">${vin(pre+'v:'+i, x.nominal)}</div>`;
@@ -1083,7 +1116,7 @@ function renderPanel(side){
 <div class="saldo-pill"><span class="label">Saldo</span><span class="v">${fmtRp(c.saldo)}</span></div>`;
 }
 function commitFin(side, el){
-  const date = S.view[side]; const k = el.dataset.k; const v = el.value;
+  const date = viewDate(side); const k = el.dataset.k; const v = el.value;
   const f = S.finance[date] ? S.finance[date] : blankFin();
   const [kind,key] = k.split(':');
   if (kind==='xbn' || kind==='xan') (kind==='xbn'?f.extraBefore:f.extraAfter)[+key].nama = v.trim();
@@ -1102,7 +1135,7 @@ function commitFin(side, el){
 const finPage = document.getElementById('page-finance');
 let finSkip = null;
 function sideOf(el){ const p = el.closest('.fcol'); return p ? p.id.replace('panel-','') : null; }
-finPage.addEventListener('change', e=>{ const el=e.target; if (el.type!=='date' || !el.dataset.side || !el.value) return; S.view[el.dataset.side]=el.value; persist(); renderPanels(); });
+finPage.addEventListener('change', e=>{ const el=e.target; if (el.type!=='date' || !el.dataset.side || !el.value) return; setView(el.dataset.side, el.value); renderPanels(); });
 finPage.addEventListener('focusin', e=>{ const el=e.target; if(!el.dataset || !el.dataset.k) return; if (el.classList.contains('num')) el.value = el.value.replace(/rp|−\s?/gi,''); el.dataset.orig=el.value; try{ el.select(); }catch(_){} });
 finPage.addEventListener('focusout', e=>{
   const el=e.target; if(!el.dataset || !el.dataset.k) return;
@@ -1133,7 +1166,7 @@ document.getElementById('btn-riwayat').addEventListener('click', ()=>{
 riw.addEventListener('click', e=>{
   if (e.target===riw || e.target.closest('#riwayat-close')){ riw.classList.add('hidden'); return; }
   const b=e.target.closest('button[data-d]'); if(!b) return;
-  S.view[b.dataset.s]=b.dataset.d; persist(); renderPanels(); riw.classList.add('hidden');
+  setView(b.dataset.s, b.dataset.d); renderPanels(); riw.classList.add('hidden');
 });
 document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !riw.classList.contains('hidden')) riw.classList.add('hidden'); });
 
@@ -1168,7 +1201,7 @@ document.getElementById('btn-pending').addEventListener('click', ()=>{ blurActiv
 document.getElementById('modal-body').addEventListener('click', e=>{
   if (modalKind!=='pending') return;
   const d = e.target.closest('[data-done]');
-  if (d){ const r = S.transaksi.find(x=>x.id===d.dataset.done); if (r){ r.status='Done'; saveTrxRow(r); renderTrx(); } return; }
+  if (d){ const r = S.transaksi.find(x=>x.id===d.dataset.done); if (r){ haptic(); r.status='Done'; saveTrxRow(r); renderTrx(); } return; }
   const g = e.target.closest('[data-go]');
   if (g){ closeModal(); setSel(g.dataset.go); renderTrx(); scrollToSel(); }
 });
