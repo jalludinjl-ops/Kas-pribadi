@@ -112,7 +112,27 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 
 /* ---------- FINANCE ---------- */
 #page-finance{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;gap:12px;align-items:stretch}
-.nab{flex:1.45;min-width:0;overflow:hidden;align-self:flex-start}
+.leftcol{flex:1.45;min-width:0;min-height:0;display:flex;flex-direction:column;gap:12px}
+.nab{flex:none;min-width:0;overflow:hidden}
+.kel{flex:1 1 auto;min-height:150px;display:flex;flex-direction:column;overflow:hidden}
+.kel-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:14px 16px 10px}
+.kel-top .big{font-size:24px;font-weight:700;letter-spacing:-.04em;margin-top:4px;line-height:1;color:var(--coral);white-space:nowrap}
+.kel-top .cap{font-size:12px;color:var(--mut);white-space:nowrap}
+.kg{display:grid;grid-template-columns:74px minmax(0,1fr) 118px;column-gap:8px;align-items:center}
+.kel-head{flex:none;padding:7px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kel-head > div{font-size:10px;font-weight:700;color:var(--ink)}
+#kel-scroll{flex:1 1 auto;min-height:0}
+.krow{padding:3px 14px;font-size:13.5px}
+.krow .in{font-size:13.5px}
+.krow + .krow{border-top:1px dashed rgba(20,20,20,.08)}
+.krow.first{border-top:2px solid var(--white)!important}
+.krow.first:first-child{border-top:none!important}
+.krow .jn{font-weight:600}
+.krow .in.num{color:var(--coral)}
+.krow.draft{background:var(--white);border-top:2px solid var(--ink)!important}
+.krow.draft .dcell .in{font-weight:700;font-size:13.5px;padding:2px;width:56px}
+.kel .empty{padding:14px;font-size:13px}
+.kel .rel .suggest{width:240px}
 .fcol{overflow:auto;-webkit-overflow-scrolling:touch;min-height:0;overscroll-behavior:contain;border-radius:18px}
 .fcol > *{flex:none}
 .nab-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:16px 16px 10px}
@@ -267,7 +287,12 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .st{min-height:19px;padding:0 4px;font-size:9.5px;font-weight:700;line-height:19px}
   #page-finance{flex-direction:column;align-items:stretch}
   .fcol{overflow:visible;border-radius:0}
+  .leftcol{flex:none}
   .nab{flex:none;align-self:stretch}
+  .fin-pair{flex-wrap:wrap;align-content:flex-start}
+  .fin-pair .fcol{flex:1 1 0}
+  .fin-pair .kel{flex:0 0 100%;order:3;min-height:0}
+  .fin-pair #kel-scroll{overflow:visible}
   .fin-pair{display:flex;gap:12px;align-items:flex-start;flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:18px}
 }
 @media (max-width:1000px){
@@ -309,6 +334,10 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .pen{display:none}
   .fin-pair{gap:8px}
   .nab .big{font-size:22px}
+  .kg{grid-template-columns:54px minmax(0,1fr) 96px;column-gap:4px}
+  .krow{padding:2px 10px;font-size:12px}.krow .in{font-size:12px}
+  .kel-head{padding:6px 10px}.kel-head > div{font-size:8.5px;letter-spacing:.04em}.kel-top{padding:12px 12px 8px}.kel-top .big{font-size:20px}
+  .krow.draft .dcell .in{font-size:12px;width:44px}
   .nab .in{font-size:12px}
   .ngrid{grid-template-columns:66px 1fr 1fr 1fr}
   .nab-draft .ngrid{grid-template-columns:60px 1fr 1fr 1fr 28px}
@@ -404,6 +433,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   </main>
 
   <main id="page-finance" class="hidden">
+    <div class="leftcol" id="leftcol">
     <section class="card nab" aria-label="Nabung">
       <div class="nab-top">
         <div><div class="label">Nabung</div><div class="big" id="nab-total">Rp0</div></div>
@@ -413,7 +443,16 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
       <div class="scroll" id="nab-scroll"></div>
       <div class="nab-draft" id="nab-draft"></div>
     </section>
-    <div class="fin-pair">
+    <section class="card kel" id="kel-card" aria-label="Pengeluaran keluarga">
+      <div class="kel-top">
+        <div><div class="label">Pengeluaran keluarga</div><div class="big" id="kel-total">Rp0</div></div>
+        <div class="cap" id="kel-cap"></div>
+      </div>
+      <div class="kg kel-head"><div class="label">Tanggal</div><div class="label">Jenis pengeluaran</div><div class="label r">Nominal</div></div>
+      <div class="scroll" id="kel-scroll"></div>
+    </section>
+    </div>
+    <div class="fin-pair" id="fin-pair">
       <section class="fcol" id="panel-left" aria-label="Rekap tanggal kiri"></section>
       <section class="fcol" id="panel-right" aria-label="Rekap tanggal kanan"></section>
     </div>
@@ -490,6 +529,7 @@ const Store = {
     d.tabungan = Array.isArray(d.tabungan) ? d.tabungan : [];
     d.hutang = Array.isArray(d.hutang) ? d.hutang : [];
     d.bayar = Array.isArray(d.bayar) ? d.bayar : [];
+    d.keluarga = Array.isArray(d.keluarga) ? d.keluarga : [];
     d.namaList = Array.isArray(d.namaList) && d.namaList.length ? d.namaList : NAMA_AWAL.slice();
     d.view = d.view || {};
     if (!d.view.left)  d.view.left  = addDays(todayISO(), -1);
@@ -548,9 +588,10 @@ const Sync = {
     if (Array.isArray(d.tabungan)) S.tabungan = d.tabungan;
     if (Array.isArray(d.hutang)) S.hutang = d.hutang;
     if (Array.isArray(d.bayar)) S.bayar = d.bayar;
+    if (Array.isArray(d.keluarga)) S.keluarga = d.keluarga;
     if (d.namaList && d.namaList.length) S.namaList = d.namaList;
     persist(); refreshView();
-    if (!this.pulledOnce){ this.pulledOnce = true; scrollToSel(); scrollEnd('nab-scroll'); scrollEnd('tab-scroll'); }
+    if (!this.pulledOnce){ this.pulledOnce = true; scrollToSel(); scrollEnd('nab-scroll'); scrollEnd('tab-scroll'); scrollEnd('kel-scroll'); }
   }
 };
 function updateSyncBadge(){
@@ -681,9 +722,9 @@ function showPage(){
   ['transaksi','finance','catatan'].forEach(x=>document.getElementById('tab-'+x).removeAttribute('aria-current'));
   document.getElementById('tab-'+p).setAttribute('aria-current','page');
   renderCurrent();
-  if (p==='transaksi') scrollToSel(); else if (p==='finance') scrollEnd('nab-scroll'); else scrollEnd('tab-scroll');
+  if (p==='transaksi') scrollToSel(); else if (p==='finance'){ scrollEnd('nab-scroll'); scrollEnd('kel-scroll'); } else scrollEnd('tab-scroll');
 }
-function renderCurrent(){ const p = currentPage(); if (p==='transaksi') renderTrx(); else if (p==='finance'){ renderNab(); renderPanels(); } else { renderTab(); renderHut(); } }
+function renderCurrent(){ const p = currentPage(); if (p==='transaksi') renderTrx(); else if (p==='finance'){ renderNab(); renderPanels(); renderKel(); } else { renderTab(); renderHut(); } }
 window.addEventListener('hashchange', showPage);
 function scrollEnd(id){ const el=document.getElementById(id); if (el) requestAnimationFrame(()=>{ el.scrollTop = el.scrollHeight; }); }
 
@@ -1074,6 +1115,117 @@ nabDraftEl.addEventListener('input', e=>{
   sal.value = fmtRp(s); sal.classList.toggle('neg', s<0);
 });
 on(nabDraftEl, act(e=>e.target.closest('.plus') ? 1 : undefined, ()=>{ if (commitNabDraft()){ renderNab(); scrollEnd('nab-scroll'); focusNab('new','debit'); } }));
+
+/* =========================================================
+   FINANCE — PENGELUARAN KELUARGA (format seperti Transaksi)
+   ========================================================= */
+const kelCard = document.getElementById('kel-card');
+const kelScroll = document.getElementById('kel-scroll');
+let kelDate = todayISO();
+let kelDraft = { id:'new', jenis:'', nominal:null };
+function sortedKel(){ return S.keluarga.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
+function kelOut(r){ return { id:r.id, tanggal:r.tanggal, jenis:r.jenis, nominal:r.nominal, urut:r.urut }; }
+function placeKel(){
+  const wide = window.matchMedia('(min-width:1001px)').matches;
+  const host = wide ? document.getElementById('leftcol') : document.getElementById('fin-pair');
+  if (kelCard.parentElement !== host) host.appendChild(kelCard);
+}
+window.matchMedia('(min-width:1001px)').addEventListener('change', ()=>{ placeKel(); scrollEnd('kel-scroll'); });
+function renderKel(){
+  placeKel();
+  const rows = sortedKel(); const mk = todayISO().slice(0,7);
+  document.getElementById('kel-total').textContent = fmtRp(rows.filter(r=>r.tanggal.slice(0,7)===mk).reduce((a,r)=>a+(r.nominal||0),0));
+  const t = toDate(todayISO()); document.getElementById('kel-cap').textContent = BULAN[t.getMonth()] + ' ' + t.getFullYear();
+  const st = kelScroll.scrollTop; const atEnd = kelScroll.scrollHeight - kelScroll.clientHeight - st < 4;
+  const ae = document.activeElement; const keep = ae && kelCard.contains(ae) && ae.dataset.f ? { id: ae.closest('[data-id]').dataset.id, f: ae.dataset.f } : null;
+  const dates = [...new Set(rows.map(r=>r.tanggal))].sort(); const colorOf = {}; dates.forEach((d,i)=>colorOf[d] = DAY_COLORS[i % DAY_COLORS.length]);
+  let html = '', prev = null;
+  rows.forEach(r=>{ const first = r.tanggal!==prev; prev = r.tanggal;
+    html += `<div class="krow kg ${first?'first':''}" data-id="${r.id}" style="background:${colorOf[r.tanggal]}">
+<div class="dcell">${first?`<small>${dayName(r.tanggal)}</small><b>${fmtShort(r.tanggal)}</b>`:''}</div>
+<div><input class="in jn" data-f="jenis" value="${esc(r.jenis)}" placeholder="—" aria-label="Jenis pengeluaran" autocomplete="off" autocapitalize="sentences" enterkeyhint="next"></div>
+<div>${numIn('nominal', r.nominal, '', 'aria-label="Nominal" enterkeyhint="done"')}</div></div>`; });
+  html += `<div class="krow kg draft" data-id="new">
+<div class="dcell"><small>${dayName(kelDate)}</small><input class="in" data-f="tanggal" value="${fmtShort(kelDate)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div><input class="in jn" data-f="jenis" value="${esc(kelDraft.jenis)}" placeholder="Jenis pengeluaran" aria-label="Jenis pengeluaran" autocomplete="off" autocapitalize="sentences" enterkeyhint="next"></div>
+<div>${numIn('nominal', kelDraft.nominal, '', 'placeholder="Nominal" aria-label="Nominal" enterkeyhint="done"')}</div></div>`;
+  kelScroll.innerHTML = html;
+  kelScroll.scrollTop = atEnd ? kelScroll.scrollHeight : st;
+  if (keep) focusKel(keep.id==='new' || S.keluarga.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
+}
+function focusKel(id, f){ const h = kelScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if (!h) return; const el = h.querySelector(`[data-f="${f}"]`); if (el){ el.focus({preventScroll:true}); h.scrollIntoView({block:'nearest'}); } }
+function getKel(id){ return id==='new' ? kelDraft : S.keluarga.find(r=>r.id===id); }
+function commitKel(el){
+  const id = el.closest('[data-id]').dataset.id, f = el.dataset.f, v = el.value;
+  if (f==='tanggal'){ if (!v.trim()) return true; const iso = parseDate(v, kelDate); if (!iso){ flagErr(el); return false; } kelDate = iso; return true; }
+  const r = getKel(id); if (!r) return true;
+  if (f==='jenis') r.jenis = v.trim();
+  else { const n = evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r.nominal = n; }
+  if (id!=='new'){
+    if (!r.jenis && r.nominal==null && confirm('Baris ini kosong. Hapus baris?')){ S.keluarga = S.keluarga.filter(x=>x.id!==id); Sync.push('deleteKeluarga', { id }, 'kel:'+id); }
+    else Sync.push('saveKeluarga', { row: kelOut(r) }, 'kel:'+id);
+    persist();
+  }
+  return true;
+}
+let kelBusy = false;
+function commitKelDraft(){
+  if (kelBusy || kelDraft.nominal==null) return false;
+  kelBusy = true; const rec = { id: uid(), tanggal: kelDate, jenis: kelDraft.jenis, nominal: kelDraft.nominal, urut: nextUrut() };
+  S.keluarga.push(rec); persist(); Sync.push('saveKeluarga', { row: kelOut(rec) }, 'kel:'+rec.id);
+  kelDraft = { id:'new', jenis:'', nominal:null }; kelBusy = false; return true;
+}
+let kelSkip = null;
+kelCard.addEventListener('focusin', e=>{ const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return; if (el.classList.contains('num')) el.value = el.value.replace(/rp/gi,''); if (el.dataset.f==='tanggal') el.value = fmtDate(kelDate); el.dataset.orig = el.value; try{ el.select(); }catch(_){} });
+kelCard.addEventListener('focusout', e=>{
+  const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return;
+  closeKelSug();
+  if (kelSkip===el){ kelSkip = null; return; }
+  const id = el.closest('[data-id]').dataset.id; let changed = false;
+  if (el.value!==el.dataset.orig){ if (commitKel(el)) changed = true; else el.value = el.dataset.orig; }
+  else if (el.dataset.f==='tanggal') el.value = fmtShort(kelDate);
+  else if (el.classList.contains('num') && el.value) el.value = fmtRp(evalExpr(el.value));
+  setTimeout(()=>{
+    const a = document.activeElement; const still = a && kelCard.contains(a) && a.closest('[data-id]') && a.closest('[data-id]').dataset.id===id;
+    let saved = false; if (id==='new' && !still) saved = commitKelDraft();
+    if (changed || saved){ renderKel(); if (saved) scrollEnd('kel-scroll'); }
+  },0);
+});
+const KEL_NEW = ['tanggal','jenis','nominal'];
+kelCard.addEventListener('keydown', e=>{
+  const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return;
+  if (e.key==='ArrowDown' || e.key==='ArrowUp'){ if (kelSug && moveKelSug(e.key==='ArrowDown'?1:-1)){ e.preventDefault(); return; } }
+  if (e.key!=='Enter') return;
+  e.preventDefault();
+  if (el.dataset.f==='jenis' && kelSug && kelSug.idx>=0) el.value = kelSug.items[kelSug.idx];
+  closeKelSug();
+  const id = el.closest('[data-id]').dataset.id, f = el.dataset.f; kelSkip = el;
+  if (el.value!==el.dataset.orig && !commitKel(el)){ kelSkip = null; el.value = el.dataset.orig; return; }
+  let target;
+  if (id==='new'){ if (f==='nominal'){ commitKelDraft(); target = { id:'new', f:'jenis' }; } else target = { id:'new', f: KEL_NEW[KEL_NEW.indexOf(f)+1] }; }
+  else if (f==='jenis') target = { id, f:'nominal' };
+  else { const rows = sortedKel(); const i = rows.findIndex(r=>r.id===id); target = { id: i>=0 && i<rows.length-1 ? rows[i+1].id : 'new', f:'jenis' }; }
+  renderKel();
+  if (target.id!=='new' && !S.keluarga.some(r=>r.id===target.id)) target.id = 'new';
+  if (target.id==='new') scrollEnd('kel-scroll');
+  focusKel(target.id, target.f);
+});
+/* saran jenis pengeluaran */
+let kelSug = null;
+function closeKelSug(){ if (kelSug){ kelSug.ul.remove(); kelSug = null; } }
+function moveKelSug(d){ kelSug.idx = Math.max(0, Math.min(kelSug.items.length-1, kelSug.idx+d)); [...kelSug.ul.children].forEach((li,i)=>li.classList.toggle('on', i===kelSug.idx)); return true; }
+kelCard.addEventListener('input', e=>{
+  const el = e.target; if (el.dataset.f!=='jenis') return;
+  closeKelSug(); const q = el.value.trim().toLowerCase(); if (!q) return;
+  const all = [...new Set(S.keluarga.map(r=>r.jenis).filter(Boolean))];
+  const items = all.filter(n=>n.toLowerCase().includes(q) && n.toLowerCase()!==q).slice(0,6); if (!items.length) return;
+  const ul = document.createElement('ul'); ul.className = 'suggest'; ul.setAttribute('role','listbox'); ul.setAttribute('aria-label','Saran jenis pengeluaran');
+  if (kelScroll.getBoundingClientRect().bottom - el.getBoundingClientRect().bottom < 220) ul.classList.add('up');
+  ul.innerHTML = items.map(n=>{ const k = n.toLowerCase().indexOf(q); return `<li role="option" data-v="${esc(n)}"><span>${esc(n.slice(0,k))}<b>${esc(n.slice(k,k+q.length))}</b>${esc(n.slice(k+q.length))}</span></li>`; }).join('');
+  const host = el.parentElement; host.classList.add('rel'); host.appendChild(ul);
+  kelSug = { ul, items, idx:-1 };
+  ul.addEventListener('pointerdown', ev=>{ const li = ev.target.closest('li'); if (!li) return; ev.preventDefault(); el.value = li.dataset.v; closeKelSug(); const nom = el.closest('[data-id]').querySelector('[data-f="nominal"]'); if (nom) nom.focus(); });
+});
 
 /* =========================================================
    FINANCE — DUA TANGGAL (kolom)
