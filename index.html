@@ -18,7 +18,7 @@
   --green:#3E8E5E;
   --bg:#EFEEEB; --card:#FAFAF8; --white:#FFFFFF; --ink:#141414; --mut:#8C8A86; --faint:#C2BFB9;
   --line:#E4E2DE; --band:#F3F2EF; --coral:#E8664F;
-  --tcols: 64px minmax(0,1.15fr) 108px 108px 112px minmax(0,1fr) 158px 18px; --tgap:8px;
+  --tcols: 60px minmax(0,1fr) 104px 104px 114px minmax(0,1.25fr) 124px 16px; --tgap:8px;
   --rowfs:14px;
 }
 *{box-sizing:border-box}
@@ -26,7 +26,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',I
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-.app{max-width:940px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
+.app{max-width:1000px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
 .app.fin-mode{max-width:1020px}
 .label{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .card{background:var(--card);border-radius:22px}
@@ -91,6 +91,10 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .saldo-cell{position:relative}
 .pen{position:absolute;left:0;top:50%;transform:translateY(-50%);pointer-events:none}
 .status{display:flex;gap:3px;justify-content:flex-start}
+.dpick{position:relative;display:block;cursor:pointer;line-height:1.15}
+.dpick small{display:block;font-size:11px;color:var(--mut)}
+.dpick b{display:inline-block;font-size:14px;border-bottom:1.5px dotted var(--faint);padding:1px 0}
+.dpick input{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:none;-webkit-appearance:none;appearance:none}
 .st{border:none;background:transparent;color:var(--faint);font-size:12px;font-weight:600;border-radius:999px;padding:0 9px;min-height:28px;box-shadow:inset 0 0 0 1px #DAD7D1}
 .st.p.on{background:var(--coral);color:#fff;box-shadow:none}
 .st.d.on{background:var(--green);color:#fff;box-shadow:none}
@@ -114,7 +118,10 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 #page-finance{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;gap:12px;align-items:stretch}
 .leftcol{flex:1.45;min-width:0;min-height:0;display:flex;flex-direction:column;gap:12px}
 .nab{flex:none;min-width:0;overflow:hidden}
-.kel{flex:1 1 auto;min-height:150px;display:flex;flex-direction:column;overflow:hidden}
+.leftcol .nab{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+.leftcol .nab #nab-scroll{flex:1 1 auto;min-height:0;max-height:none}
+.leftcol .nab .nab-top,.leftcol .nab .nab-head,.leftcol .nab .nab-draft{flex:none}
+.kel{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .kel-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:14px 16px 10px}
 .kel-top .big{font-size:24px;font-weight:700;letter-spacing:-.04em;margin-top:4px;line-height:1;color:var(--coral);white-space:nowrap}
 .kel-top .cap{font-size:12px;color:var(--mut);white-space:nowrap}
@@ -279,9 +286,9 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 
 /* ---------- iPad berdiri & layar menengah ---------- */
 @media (max-width:1000px){
-  :root{ --tcols: 52px minmax(0,1.3fr) 100px 92px 118px minmax(0,.9fr) 58px 16px; --tgap:5px; }
+  :root{ --tcols: 50px minmax(0,1.3fr) 96px 92px 114px minmax(0,1fr) 56px 14px; --tgap:5px; }
   .trow .in.num{font-size:13.5px;padding-left:2px;padding-right:2px}
-  .app{max-width:720px}
+  .app{max-width:760px}
   .app.fin-mode{max-width:680px}
   .status{flex-direction:column;gap:2px;align-items:stretch}
   .st{min-height:19px;padding:0 4px;font-size:9.5px;font-weight:700;line-height:19px}
@@ -289,6 +296,8 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .fcol{overflow:visible;border-radius:0}
   .leftcol{flex:none}
   .nab{flex:none;align-self:stretch}
+  .leftcol .nab{display:block;flex:none}
+  .leftcol .nab #nab-scroll{max-height:calc(5 * 40px + 2px)}
   .fin-pair{flex-wrap:wrap;align-content:flex-start}
   .fin-pair .fcol{flex:1 1 0}
   .fin-pair .kel{flex:0 0 100%;order:3;min-height:0}
@@ -322,6 +331,8 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .thead{padding:8px 6px 6px}
   .thead > div{font-size:8px;letter-spacing:.06em}
   .thead .c-k{display:none}
+  .thead .c-n{white-space:normal;line-height:1.2}
+  .dpick small{font-size:9px}.dpick b{font-size:11px}
   .trow{padding:3px 6px}
   .in{padding:3px 2px}
   .trow .kt{font-size:10px;padding-top:0}
@@ -424,7 +435,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
     </div>
     <section class="card list" aria-label="Daftar transaksi">
       <div class="tgrid thead">
-        <div class="label c-d">Tanggal</div><div class="label c-n">Nama</div><div class="label r c-de">Debit</div><div class="label r c-kr">Kredit</div><div class="label r c-sa">Saldo</div><div class="label c-k">Keterangan</div><div class="label c-st">Status</div><div class="c-mo"></div>
+        <div class="label c-d">Tanggal</div><div class="label c-n">Nama Transaksi</div><div class="label r c-de">Debit</div><div class="label r c-kr">Kredit</div><div class="label r c-sa">Saldo</div><div class="label c-k">Keterangan</div><div class="label c-st">Status</div><div class="c-mo"></div>
       </div>
       <div class="hint hidden" id="trx-hint">↓ tarik ke bawah untuk melihat tanggal sebelumnya</div>
       <div class="scroll" id="trx-scroll"></div>
@@ -760,7 +771,7 @@ function draftHTML(last){
   const d = trxDraft; const manual = d.saldoManual!=null;
   const sal = manual ? d.saldoManual : last + (d.debit||0) - (d.kredit||0);
   return `<div class="trow tgrid draft" data-id="new">
-<div class="c-d dcell"><small>${day3(selDate)}</small><input class="in" data-f="tanggal" value="${fmtShort(selDate)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div class="c-d dcell"><label class="dpick"><small>${day3(selDate)}</small><b>${fmtShort(selDate)}</b><input type="date" data-pick="1" value="${selDate}" aria-label="Pilih tanggal transaksi"></label></div>
 <div class="c-n"><input class="in nm" data-f="nama" value="${esc(d.nama)}" placeholder="Nama" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"></div>
 <div class="c-de">${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
 <div class="c-kr">${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="next"')}</div>
@@ -877,7 +888,7 @@ function focusTrx(id, f, noScroll){
 }
 function nextRowId(id){ const rows=sortedTrx(); const i=rows.findIndex(r=>r.id===id); return (i>=0 && i<rows.length-1) ? rows[i+1].id : 'new'; }
 const TRX_ORDER_ROW = ['nama','debit','kredit','keterangan'];
-const TRX_ORDER_NEW = ['tanggal','nama','debit','kredit','keterangan'];
+const TRX_ORDER_NEW = ['nama','debit','kredit','keterangan'];
 
 let skipBlur = null;
 trxScroll.addEventListener('focusin', e=>{
@@ -1040,7 +1051,7 @@ function renderNab(){
   nabScroll.scrollTop = atEnd ? nabScroll.scrollHeight : st;
   const d = nabDraft; const manual = d.saldoManual!=null; const sal = manual ? d.saldoManual : last + (d.debit||0) - (d.kredit||0);
   nabDraftEl.innerHTML = `<div class="ngrid" data-id="new">
-<div class="ndate"><small>${day3(d.tanggal)}</small><input class="in" data-f="tanggal" value="${fmtShort(d.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div class="ndate"><label class="dpick"><small>${day3(d.tanggal)}</small><b>${fmtShort(d.tanggal)}</b><input type="date" data-pick="1" value="${d.tanggal}" aria-label="Pilih tanggal nabung"></label></div>
 <div>${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
 <div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="done"')}</div>
 <div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
@@ -1146,7 +1157,7 @@ function renderKel(){
 <div><input class="in jn" data-f="jenis" value="${esc(r.jenis)}" placeholder="—" aria-label="Jenis pengeluaran" autocomplete="off" autocapitalize="sentences" enterkeyhint="next"></div>
 <div>${numIn('nominal', r.nominal, '', 'aria-label="Nominal" enterkeyhint="done"')}</div></div>`; });
   html += `<div class="krow kg draft" data-id="new">
-<div class="dcell"><small>${dayName(kelDate)}</small><input class="in" data-f="tanggal" value="${fmtShort(kelDate)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div class="dcell"><label class="dpick"><small>${dayName(kelDate)}</small><b>${fmtShort(kelDate)}</b><input type="date" data-pick="1" value="${kelDate}" aria-label="Pilih tanggal pengeluaran"></label></div>
 <div><input class="in jn" data-f="jenis" value="${esc(kelDraft.jenis)}" placeholder="Jenis pengeluaran" aria-label="Jenis pengeluaran" autocomplete="off" autocapitalize="sentences" enterkeyhint="next"></div>
 <div>${numIn('nominal', kelDraft.nominal, '', 'placeholder="Nominal" aria-label="Nominal" enterkeyhint="done"')}</div></div>`;
   kelScroll.innerHTML = html;
@@ -1191,7 +1202,7 @@ kelCard.addEventListener('focusout', e=>{
     if (changed || saved){ renderKel(); if (saved) scrollEnd('kel-scroll'); }
   },0);
 });
-const KEL_NEW = ['tanggal','jenis','nominal'];
+const KEL_NEW = ['jenis','nominal'];
 kelCard.addEventListener('keydown', e=>{
   const el = e.target; if (el.tagName!=='INPUT' || !el.dataset.f) return;
   if (e.key==='ArrowDown' || e.key==='ArrowUp'){ if (kelSug && moveKelSug(e.key==='ArrowDown'?1:-1)){ e.preventDefault(); return; } }
@@ -1397,7 +1408,7 @@ function renderTab(){
   tabScroll.scrollTop = atEnd ? tabScroll.scrollHeight : st;
   const d = tabDraft; const prev = last + (d.setor||0) - (d.ambil||0);
   tabDraftEl.innerHTML = `<div class="tabg" data-id="new">
-<div class="c-d dcell"><small>${dayName(d.tanggal)}</small><input class="in dt" data-f="tanggal" value="${fmtShort(d.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div class="c-d dcell"><label class="dpick"><small>${dayName(d.tanggal)}</small><b>${fmtShort(d.tanggal)}</b><input type="date" data-pick="1" value="${d.tanggal}" aria-label="Pilih tanggal tabungan"></label></div>
 <div class="c-se">${numIn('setor', d.setor, '', 'placeholder="Setor" aria-label="Setor" enterkeyhint="next"')}</div>
 <div class="c-am">${numIn('ambil', d.ambil, 'kre', 'placeholder="Ambil" aria-label="Ambil" enterkeyhint="next"')}</div>
 <div class="c-sa"><div class="sal-v" id="tab-prev">${fmtRp(prev)}</div></div>
@@ -1742,6 +1753,31 @@ modal.addEventListener('click', async e=>{
   try { await navigator.clipboard.writeText(ta.value); } catch(_){ ta.focus(); ta.select(); try{ document.execCommand('copy'); }catch(__){} }
   b.textContent = 'Tersalin ✓'; setTimeout(()=>{ if (b.isConnected) b.textContent = 'Salin teks'; }, 1800);
 });
+
+/* Pemilih tanggal di baris input (kalender, tanpa ketik manual) */
+document.addEventListener('change', e=>{
+  const el = e.target; if (!el.dataset || !el.dataset.pick || !el.value) return;
+  const v = el.value;
+  if (trxScroll.contains(el)){ setSel(v); renderTrx(); scrollToSel(); }
+  else if (nabDraftEl.contains(el)){ nabDraft.tanggal = v; renderNab(); }
+  else if (tabDraftEl.contains(el)){ tabDraft.tanggal = v; renderTab(); }
+  else if (kelCard.contains(el)){ kelDate = v; renderKel(); }
+});
+
+/* Huruf pertama otomatis kapital di semua kotak teks */
+document.addEventListener('input', e=>{
+  const el = e.target;
+  if (el.tagName!=='INPUT' || el.type!=='text' && el.type!=='' && el.type!=='search') return;
+  if (el.classList.contains('num') || el.dataset.f==='tanggal' || el.getAttribute('inputmode')) return;
+  const v = el.value; if (!v) return;
+  const i = v.search(/\S/); if (i<0) return;
+  const c = v.charAt(i); const C = c.toLocaleUpperCase('id-ID');
+  if (c!==C){ const ss = el.selectionStart, se = el.selectionEnd; el.value = v.slice(0,i) + C + v.slice(i+1); try{ el.setSelectionRange(ss, se); }catch(_){} }
+}, true);
+document.addEventListener('focusin', e=>{
+  const el = e.target; if (el.tagName!=='INPUT' || el.type!=='text' || el.classList.contains('num') || el.getAttribute('inputmode')) return;
+  if (!el.hasAttribute('autocapitalize')) el.setAttribute('autocapitalize', 'sentences');
+}, true);
 
 /* ---------- Offline ---------- */
 function updateNet(){ updateSyncBadge(); }
