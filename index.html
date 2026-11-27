@@ -116,19 +116,18 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 
 /* ---------- FINANCE ---------- */
 #page-finance{flex:1 1 auto;min-height:0;overflow:hidden;display:flex;gap:12px;align-items:stretch}
-.leftcol{flex:1.45;min-width:0;min-height:0;display:flex;flex-direction:column;gap:12px}
+.leftcol{flex:1.6;min-width:0;min-height:0;display:flex;flex-direction:column;gap:12px;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:22px}
+.leftcol > *{flex:none}
 .nab{flex:none;min-width:0;overflow:hidden}
-.leftcol .nab{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
-.leftcol .nab #nab-scroll{flex:1 1 auto;min-height:0;max-height:none}
-.leftcol .nab .nab-top,.leftcol .nab .nab-head,.leftcol .nab .nab-draft{flex:none}
-.kel{flex:1 1 0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#mod-scroll{max-height:calc(5 * 40px + 2px);border-top:1px solid var(--line)}
+.kel{flex:none;display:flex;flex-direction:column;overflow:hidden}
+#kel-scroll{max-height:calc(6 * 40px)}
 .kel-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:14px 16px 10px}
 .kel-top .big{font-size:24px;font-weight:700;letter-spacing:-.04em;margin-top:4px;line-height:1;color:var(--coral);white-space:nowrap}
 .kel-top .cap{font-size:12px;color:var(--mut);white-space:nowrap}
 .kg{display:grid;grid-template-columns:74px minmax(0,1fr) 118px;column-gap:8px;align-items:center}
 .kel-head{flex:none;padding:7px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .kel-head > div{font-size:10px;font-weight:700;color:var(--ink)}
-#kel-scroll{flex:1 1 auto;min-height:0}
 .krow{padding:3px 14px;font-size:13.5px}
 .krow .in{font-size:13.5px}
 .krow + .krow{border-top:1px dashed rgba(20,20,20,.08)}
@@ -146,7 +145,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .nab .big{font-size:26px;font-weight:700;letter-spacing:-.04em;margin-top:4px;line-height:1}
 .nab .cap{font-size:12px;color:var(--mut);white-space:nowrap}
 .nab .cap b{color:var(--ink);font-weight:600}
-.ngrid{display:grid;grid-template-columns:72px 1fr 1fr 1.1fr;column-gap:6px;align-items:center}
+.ngrid{display:grid;grid-template-columns:62px 1fr 1fr 1.1fr;column-gap:6px;align-items:center}
 .nab-head{padding:0 14px 6px}
 .nab-head > div{font-size:9.5px}
 #nab-scroll{max-height:calc(5 * 40px + 2px);border-top:1px solid var(--line)}
@@ -157,16 +156,16 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .ndate .in{font-weight:700;padding:1px 2px;width:56px}
 .nab .in{font-size:13.5px}
 .nab-draft{margin:8px;background:var(--white);border-radius:999px;padding:3px 4px 3px 8px}
-.nab-draft .ngrid{grid-template-columns:64px 1fr 1fr 1.1fr 30px}
+.nab-draft .ngrid{grid-template-columns:56px 1fr 1fr 1.1fr 30px}
 .nab .in.num{padding-left:2px;padding-right:2px}
 .plus{width:30px;height:30px;border-radius:50%;border:none;background:var(--ink);color:#fff;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;justify-self:end}
 .fin-pair{display:contents}
-.fcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
-.datepill{position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;border-radius:999px;padding:7px 13px;font-size:12.5px;font-weight:700;min-height:36px}
+.fcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.datepill{position:relative;align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:#fff;border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:700;min-height:32px}
 .datepill.coral{background:var(--coral)}
 .datepill small{font-weight:500;opacity:.75;font-size:12px}
 .lcard{background:var(--card);border-radius:18px;overflow:hidden}
-.lrow{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:33px;padding:0 8px 0 12px;border-top:1px solid var(--line)}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:29px;padding:0 8px 0 12px;border-top:1px solid var(--line)}
 .lrow:first-child{border-top:none}
 .lrow .nm{font-size:12.5px;color:var(--mut);white-space:nowrap}
 .lrow .in.num{width:62%;font-size:13px;padding:4px 4px}
@@ -174,12 +173,12 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .lrow .in.xn::placeholder{font-size:12px}
 .lrow.total{background:var(--band);font-weight:700;font-size:13.5px;min-height:35px;padding-right:12px}
 .lrow.tab .nm,.lrow.tab .in{color:var(--coral)}
-.bal{background:var(--white);border-radius:18px;padding:10px 14px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.bal{background:var(--white);border-radius:18px;padding:7px 14px;box-shadow:inset 0 0 0 1.5px var(--line)}
 .bal .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .bal .v{font-size:18px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
-.bal .dif{text-align:right;margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-size:14px;font-weight:700;white-space:nowrap}
+.bal .dif{text-align:right;margin-top:3px;padding-top:3px;border-top:1px dashed var(--line);font-size:14px;font-weight:700;white-space:nowrap}
 .dif.neg{color:var(--coral)} .dif.pos{color:#3E8E5E}
-.saldo-pill{background:var(--ink);color:#fff;border-radius:18px;padding:11px 14px;display:flex;justify-content:space-between;align-items:center}
+.saldo-pill{background:var(--ink);color:#fff;border-radius:18px;padding:8px 14px;display:flex;justify-content:space-between;align-items:center}
 .saldo-pill .label{color:#BDBAB4;font-size:10px}
 .saldo-pill .v{font-size:18px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
 
@@ -292,17 +291,13 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .app.fin-mode{max-width:680px}
   .status{flex-direction:column;gap:2px;align-items:stretch}
   .st{min-height:19px;padding:0 4px;font-size:9.5px;font-weight:700;line-height:19px}
-  #page-finance{flex-direction:column;align-items:stretch}
+  #page-finance{flex-direction:column;align-items:stretch;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:18px}
+  #page-finance > *{flex:none}
   .fcol{overflow:visible;border-radius:0}
-  .leftcol{flex:none}
+  .leftcol{flex:none;overflow:visible;border-radius:0}
   .nab{flex:none;align-self:stretch}
-  .leftcol .nab{display:block;flex:none}
-  .leftcol .nab #nab-scroll{max-height:calc(5 * 40px + 2px)}
-  .fin-pair{flex-wrap:wrap;align-content:flex-start}
+  .fin-pair{display:flex;gap:12px;align-items:flex-start}
   .fin-pair .fcol{flex:1 1 0}
-  .fin-pair .kel{flex:0 0 100%;order:3;min-height:0}
-  .fin-pair #kel-scroll{overflow:visible}
-  .fin-pair{display:flex;gap:12px;align-items:flex-start;flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border-radius:18px}
 }
 @media (max-width:1000px){
   .hg{grid-template-columns:minmax(0,1.4fr) 100px 80px 112px 132px 66px}
@@ -454,6 +449,15 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
       <div class="scroll" id="nab-scroll"></div>
       <div class="nab-draft" id="nab-draft"></div>
     </section>
+    <section class="card nab" id="mod-card" aria-label="Modal">
+      <div class="nab-top">
+        <div><div class="label">Modal</div><div class="big" id="mod-total">Rp0</div></div>
+        <div class="cap" id="mod-cap"></div>
+      </div>
+      <div class="ngrid nab-head"><div class="label">Tanggal</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div></div>
+      <div class="scroll" id="mod-scroll"></div>
+      <div class="nab-draft" id="mod-draft"></div>
+    </section>
     <section class="card kel" id="kel-card" aria-label="Pengeluaran keluarga">
       <div class="kel-top">
         <div><div class="label">Pengeluaran keluarga</div><div class="big" id="kel-total">Rp0</div></div>
@@ -541,6 +545,7 @@ const Store = {
     d.hutang = Array.isArray(d.hutang) ? d.hutang : [];
     d.bayar = Array.isArray(d.bayar) ? d.bayar : [];
     d.keluarga = Array.isArray(d.keluarga) ? d.keluarga : [];
+    d.modal = Array.isArray(d.modal) ? d.modal : [];
     d.namaList = Array.isArray(d.namaList) && d.namaList.length ? d.namaList : NAMA_AWAL.slice();
     d.view = d.view || {};
     if (!d.view.left)  d.view.left  = addDays(todayISO(), -1);
@@ -600,9 +605,10 @@ const Sync = {
     if (Array.isArray(d.hutang)) S.hutang = d.hutang;
     if (Array.isArray(d.bayar)) S.bayar = d.bayar;
     if (Array.isArray(d.keluarga)) S.keluarga = d.keluarga;
+    if (Array.isArray(d.modal)) S.modal = d.modal;
     if (d.namaList && d.namaList.length) S.namaList = d.namaList;
     persist(); refreshView();
-    if (!this.pulledOnce){ this.pulledOnce = true; scrollToSel(); scrollEnd('nab-scroll'); scrollEnd('tab-scroll'); scrollEnd('kel-scroll'); }
+    if (!this.pulledOnce){ this.pulledOnce = true; scrollToSel(); scrollEnd('nab-scroll'); scrollEnd('tab-scroll'); scrollEnd('kel-scroll'); scrollEnd('mod-scroll'); }
   }
 };
 function updateSyncBadge(){
@@ -694,6 +700,11 @@ let selDate = todayISO();
 let trxDraft = blankTrx();
 let nabDraft = blankNab();
 function blankTrx(){ return { id:'new', tanggal: selDate, nama:'', debit:null, kredit:null, saldoManual:null, keterangan:'', status:'' }; }
+let modDraft = blankMod();
+function blankMod(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null }; }
+function sortedMod(){ return S.modal.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
+function computeMod(){ let prev = 0; return sortedMod().map(r=>{ const saldo = r.saldoManual!=null ? r.saldoManual : prev + (r.debit||0) - (r.kredit||0); prev = saldo; return Object.assign({}, r, { saldo }); }); }
+function modOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, urut:r.urut }; }
 function blankNab(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null }; }
 function sortedTrx(){ return S.transaksi.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function sortedNab(){ return S.nabung.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
@@ -733,9 +744,9 @@ function showPage(){
   ['transaksi','finance','catatan'].forEach(x=>document.getElementById('tab-'+x).removeAttribute('aria-current'));
   document.getElementById('tab-'+p).setAttribute('aria-current','page');
   renderCurrent();
-  if (p==='transaksi') scrollToSel(); else if (p==='finance'){ scrollEnd('nab-scroll'); scrollEnd('kel-scroll'); } else scrollEnd('tab-scroll');
+  if (p==='transaksi') scrollToSel(); else if (p==='finance'){ scrollEnd('nab-scroll'); scrollEnd('mod-scroll'); scrollEnd('kel-scroll'); } else scrollEnd('tab-scroll');
 }
-function renderCurrent(){ const p = currentPage(); if (p==='transaksi') renderTrx(); else if (p==='finance'){ renderNab(); renderPanels(); renderKel(); } else { renderTab(); renderHut(); } }
+function renderCurrent(){ const p = currentPage(); if (p==='transaksi') renderTrx(); else if (p==='finance'){ renderNab(); renderMod(); renderPanels(); renderKel(); } else { renderTab(); renderHut(); } }
 window.addEventListener('hashchange', showPage);
 function scrollEnd(id){ const el=document.getElementById(id); if (el) requestAnimationFrame(()=>{ el.scrollTop = el.scrollHeight; }); }
 
@@ -1128,6 +1139,109 @@ nabDraftEl.addEventListener('input', e=>{
 on(nabDraftEl, act(e=>e.target.closest('.plus') ? 1 : undefined, ()=>{ if (commitNabDraft()){ renderNab(); scrollEnd('nab-scroll'); focusNab('new','debit'); } }));
 
 /* =========================================================
+   FINANCE — MODAL (sama seperti Nabung)
+   ========================================================= */
+const modCard = document.getElementById('mod-card');
+const modScroll = document.getElementById('mod-scroll');
+const modDraftEl = document.getElementById('mod-draft');
+function modRowHTML(r){
+  const manual = r.saldoManual!=null;
+  return `<div class="nrow ngrid" data-id="${r.id}">
+<div class="ndate"><small>${day3(r.tanggal)}</small><input class="in" data-f="tanggal" value="${fmtShort(r.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
+<div>${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
+<div>${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
+<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
+</div>`;
+}
+function renderMod(){
+  const rows = computeMod(); const last = rows.length ? rows[rows.length-1].saldo : 0;
+  document.getElementById('mod-total').textContent = fmtRp(last);
+  const ws = weekStart(todayISO()); const before = rows.filter(r=>r.tanggal<ws); const b0 = before.length ? before[before.length-1].saldo : 0;
+  const ch = last - b0;
+  document.getElementById('mod-cap').innerHTML = `Minggu ini <b style="color:${ch<0?'var(--coral)':'var(--ink)'}">${ch<0?'−':'+'}${fmtRp(Math.abs(ch))}</b>`;
+  const st = modScroll.scrollTop; const atEnd = modScroll.scrollHeight - modScroll.clientHeight - st < 4;
+  const ae = document.activeElement; const keep = ae && modCard.contains(ae) && ae.dataset.f ? { id: ae.closest('[data-id]').dataset.id, f: ae.dataset.f } : null;
+  modScroll.innerHTML = rows.map(modRowHTML).join('');
+  modScroll.scrollTop = atEnd ? modScroll.scrollHeight : st;
+  const d = modDraft; const manual = d.saldoManual!=null; const sal = manual ? d.saldoManual : last + (d.debit||0) - (d.kredit||0);
+  modDraftEl.innerHTML = `<div class="ngrid" data-id="new">
+<div class="ndate"><label class="dpick"><small>${day3(d.tanggal)}</small><b>${fmtShort(d.tanggal)}</b><input type="date" data-pick="1" value="${d.tanggal}" aria-label="Pilih tanggal modal"></label></div>
+<div>${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
+<div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="done"')}</div>
+<div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
+<button type="button" class="plus" aria-label="Simpan modal">+</button></div>`;
+  if (keep) focusMod(keep.id==='new' || S.modal.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
+}
+function getMod(id){ return id==='new' ? modDraft : S.modal.find(r=>r.id===id); }
+function autoModFor(id){
+  const rows = computeMod();
+  if (id==='new'){ const p = rows.length ? rows[rows.length-1].saldo : 0; return p + (modDraft.debit||0) - (modDraft.kredit||0); }
+  const i = rows.findIndex(r=>r.id===id); const p = i>0 ? rows[i-1].saldo : 0; return p + (rows[i].debit||0) - (rows[i].kredit||0);
+}
+function commitMod(el){
+  const id = el.closest('[data-id]').dataset.id, f = el.dataset.f, r = getMod(id); if (!r) return true;
+  const v = el.value;
+  if (f==='tanggal'){ if (!v.trim()) return true; const iso=parseDate(v, r.tanggal); if(!iso){ flagErr(el); return false; } r.tanggal = iso; }
+  else if (f==='debit' || f==='kredit'){ const n=evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r[f]=n; }
+  else if (f==='saldo'){ const n=evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r.saldoManual = (n===null) ? null : (r.saldoManual==null && n===autoModFor(id) ? null : n); }
+  if (id!=='new'){
+    if (r.debit==null && r.kredit==null && r.saldoManual==null && confirm('Baris modal ini kosong. Hapus baris?')){ S.modal = S.modal.filter(x=>x.id!==id); Sync.push('deleteModal', { id }, 'mod:'+id); }
+    else Sync.push('saveModal', { row: modOut(r) }, 'mod:'+id);
+    persist();
+  }
+  return true;
+}
+let modBusy = false;
+function commitModDraft(){
+  if (modBusy) return false; const d = modDraft;
+  if (d.debit==null && d.kredit==null && d.saldoManual==null) return false;
+  modBusy = true; const rec = Object.assign({}, d, { id: uid(), urut: nextUrut() });
+  S.modal.push(rec); persist(); Sync.push('saveModal', { row: modOut(rec) }, 'mod:'+rec.id);
+  const t = todayISO(); modDraft = blankMod(); modDraft.tanggal = rec.tanggal >= t ? addDays(rec.tanggal,1) : t;
+  modBusy = false; return true;
+}
+function focusMod(id,f){ const h = id==='new' ? modDraftEl.querySelector('[data-id="new"]') : modScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if(!h) return; const el=h.querySelector(`[data-f="${f}"]`); if(el){ el.focus({preventScroll:true}); if(id!=='new') h.scrollIntoView({block:'nearest'}); } }
+let modSkip = null;
+modCard.addEventListener('focusin', e=>{ const el=e.target; if(el.tagName!=='INPUT'||!el.dataset.f) return; if (el.classList.contains('num')) el.value = el.value.replace(/rp/gi,''); if (el.dataset.f==='tanggal'){ const r=getMod(el.closest('[data-id]').dataset.id); if (r) el.value = fmtDate(r.tanggal); } el.dataset.orig = el.value; try{ el.select(); }catch(_){} });
+modCard.addEventListener('focusout', e=>{
+  const el=e.target; if(el.tagName!=='INPUT'||!el.dataset.f) return;
+  if (modSkip===el){ modSkip=null; return; }
+  const id = el.closest('[data-id]').dataset.id; let changed=false;
+  if (el.value!==el.dataset.orig){ if (commitMod(el)) changed=true; else el.value = el.dataset.orig; }
+  else if (el.dataset.f==='tanggal'){ const r=getMod(id); if (r) el.value = fmtShort(r.tanggal); }
+  else if (el.classList.contains('num') && el.value) el.value = fmtRp(evalExpr(el.value));
+  setTimeout(()=>{
+    const a=document.activeElement; const still = a && modCard.contains(a) && a.closest('[data-id]') && a.closest('[data-id]').dataset.id===id;
+    let saved=false; if (id==='new' && !still) saved = commitModDraft();
+    if (changed || saved){ renderMod(); if (saved) scrollEnd('mod-scroll'); }
+  },0);
+});
+const MOD_ORDER = ['tanggal','debit','kredit'];
+modCard.addEventListener('keydown', e=>{
+  const el=e.target; if(el.tagName!=='INPUT'||!el.dataset.f||e.key!=='Enter') return;
+  e.preventDefault();
+  const id = el.closest('[data-id]').dataset.id, f = el.dataset.f; modSkip = el;
+  if (el.value!==el.dataset.orig && !commitMod(el)){ modSkip=null; el.value=el.dataset.orig; return; }
+  let target;
+  if (f==='kredit' || f==='saldo'){
+    if (id==='new'){ commitModDraft(); target={id:'new',f:'debit'}; }
+    else { const rows=sortedMod(); const i=rows.findIndex(r=>r.id===id); target={ id: i<rows.length-1 ? rows[i+1].id : 'new', f:'debit' }; }
+  } else target = { id, f: MOD_ORDER[MOD_ORDER.indexOf(f)+1] };
+  renderMod();
+  if (target.id!=='new' && !S.modal.some(r=>r.id===target.id)) target.id='new';
+  if (target.id==='new') scrollEnd('mod-scroll');
+  focusMod(target.id, target.f);
+});
+modDraftEl.addEventListener('input', e=>{
+  const f=e.target.dataset.f; if (f!=='debit' && f!=='kredit') return;
+  const sal = modDraftEl.querySelector('[data-f="saldo"]'); if (!sal || !sal.classList.contains('preview')) return;
+  const val = k=>{ const n=evalExpr(modDraftEl.querySelector(`[data-f="${k}"]`).value); return Number.isNaN(n)||n==null?0:n; };
+  const rows=computeMod(); const s=(rows.length?rows[rows.length-1].saldo:0)+val('debit')-val('kredit');
+  sal.value = fmtRp(s); sal.classList.toggle('neg', s<0);
+});
+on(modDraftEl, act(e=>e.target.closest('.plus') ? 1 : undefined, ()=>{ if (commitModDraft()){ renderMod(); scrollEnd('mod-scroll'); focusMod('new','debit'); } }));
+
+/* =========================================================
    FINANCE — PENGELUARAN KELUARGA (format seperti Transaksi)
    ========================================================= */
 const kelCard = document.getElementById('kel-card');
@@ -1136,7 +1250,8 @@ let kelDate = todayISO();
 let kelDraft = { id:'new', jenis:'', nominal:null };
 function sortedKel(){ return S.keluarga.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function kelOut(r){ return { id:r.id, tanggal:r.tanggal, jenis:r.jenis, nominal:r.nominal, urut:r.urut }; }
-function placeKel(){
+function placeKel(){ return; }
+function placeKelOld(){
   const wide = window.matchMedia('(min-width:1001px)').matches;
   const host = wide ? document.getElementById('leftcol') : document.getElementById('fin-pair');
   if (kelCard.parentElement !== host) host.appendChild(kelCard);
@@ -1254,18 +1369,14 @@ function finFmt(k,v){ const t=fmtRp(v); return (k==='tab' && v>0) ? '− '+t : t
 function saldoCatatan(date){ let v = 0; for (const r of computeTrx()){ if (r.tanggal > date) break; v = r.saldo; } return v; }
 /* Kolom Finance: otomatis tiap hari (kanan = hari ini, kiri = tanggal terakhir yang sudah diisi).
    Pilihan manual hanya berlaku sampai hari itu. */
-function autoView(side){
-  const today = todayISO();
-  if (side==='right') return today;
-  const filled = Object.keys(S.finance).filter(d=>d < today).sort();
-  return filled.length ? filled[filled.length-1] : addDays(today, -1);
+/* Dua kolom selalu berurutan: kolom yang dipilih = tanggal itu, kolom sebelahnya = hari sebelumnya.
+   Setiap hari baru, kolom yang terakhir dipilih kembali ke hari ini. */
+function viewDate(side){
+  const today = todayISO(); const main = S.view.main==='left' ? 'left' : 'right';
+  const d = (S.view.manualDay===today && S.view.mainDate) ? S.view.mainDate : today;
+  return side===main ? d : addDays(d, -1);
 }
-function viewDate(side){ return (S.view.manualDay===todayISO() && S.view[side]) ? S.view[side] : autoView(side); }
-function setView(side, date){
-  const today = todayISO();
-  if (S.view.manualDay!==today){ S.view.left = viewDate('left'); S.view.right = viewDate('right'); S.view.manualDay = today; }
-  S.view[side] = date; persist();
-}
+function setView(side, date){ S.view.main = side; S.view.mainDate = date; S.view.manualDay = todayISO(); persist(); }
 function renderPanels(){ renderPanel('left'); renderPanel('right'); }
 function renderPanel(side){
   const date = viewDate(side); const f = getFin(date); const c = finCalc(f);
@@ -1760,6 +1871,7 @@ document.addEventListener('change', e=>{
   const v = el.value;
   if (trxScroll.contains(el)){ setSel(v); renderTrx(); scrollToSel(); }
   else if (nabDraftEl.contains(el)){ nabDraft.tanggal = v; renderNab(); }
+  else if (modDraftEl.contains(el)){ modDraft.tanggal = v; renderMod(); }
   else if (tabDraftEl.contains(el)){ tabDraft.tanggal = v; renderTab(); }
   else if (kelCard.contains(el)){ kelDate = v; renderKel(); }
 });
