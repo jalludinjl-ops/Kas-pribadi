@@ -165,10 +165,17 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .datepill.coral{background:var(--coral)}
 .datepill small{font-weight:500;opacity:.75;font-size:12px}
 .lcard{background:var(--card);border-radius:18px;overflow:hidden}
-.lrow{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:29px;padding:0 8px 0 12px;border-top:1px solid var(--line)}
+.lrow{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:var(--frh,29px);padding:0 8px 0 12px;border-top:1px solid var(--line)}
 .lrow:first-child{border-top:none}
 .lrow .nm{font-size:12.5px;color:var(--mut);white-space:nowrap}
 .lrow .in.num{width:62%;font-size:13px;padding:4px 4px}
+.dif.none{color:var(--faint)}
+/* mode ringkas otomatis saat layar pendek (mis. dibuka di Safari) */
+.fcol.tight{gap:4px}
+.fcol.tight .datepill{min-height:28px;padding:3px 12px;font-size:12px}
+.fcol.tight .bal{padding:4px 12px}.fcol.tight .bal .v{font-size:16px}.fcol.tight .bal .dif{font-size:12.5px;margin-top:1px;padding-top:1px}
+.fcol.tight .lrow .in{padding-top:1px;padding-bottom:1px}
+.fcol.tight .saldo-pill{padding:5px 14px}.fcol.tight .saldo-pill .v{font-size:16px}
 .lrow .in.xn{width:50%;font-size:12.5px;color:var(--mut);padding:4px 0}
 .lrow .in.xn::placeholder{font-size:12px}
 .lrow.total{background:var(--band);font-weight:700;font-size:13.5px;min-height:35px;padding-right:12px}
@@ -1377,14 +1384,26 @@ function viewDate(side){
   return side===main ? d : addDays(d, -1);
 }
 function setView(side, date){ S.view.main = side; S.view.mainDate = date; S.view.manualDay = todayISO(); persist(); }
-function renderPanels(){ renderPanel('left'); renderPanel('right'); }
+function renderPanels(){ renderPanel('left'); renderPanel('right'); requestAnimationFrame(fitPanels); }
+/* Dua kolom tanggal selalu muat satu layar di iPad landscape: baris dirapatkan otomatis kalau tinggi layar kurang */
+function fitPanels(){
+  const cols = ['left','right'].map(s=>document.getElementById('panel-'+s));
+  const wide = window.matchMedia('(min-width:1001px)').matches;
+  cols.forEach(c=>{ c.classList.remove('tight'); c.style.removeProperty('--frh'); });
+  if (!wide || currentPage()!=='finance') return;
+  const over = ()=>cols.some(c=>c.scrollHeight > c.clientHeight + 1);
+  if (!over()) return;
+  cols.forEach(c=>c.classList.add('tight'));
+  for (let h = 29; h >= 18 && over(); h--) cols.forEach(c=>c.style.setProperty('--frh', h+'px'));
+}
+window.addEventListener('resize', ()=>{ if (currentPage()==='finance') fitPanels(); });
 function renderPanel(side){
   const date = viewDate(side); const f = getFin(date); const c = finCalc(f);
   const cat = saldoCatatan(date), dif = c.saldo - cat;
   const vin = (k,v,cls,extra)=>`<input class="in num ${cls||''}" data-k="${k}" inputmode="decimal" autocomplete="off" value="${finFmt(k,v)}" aria-label="Nominal" enterkeyhint="next" ${extra||''}>`;
   const xrow = (pre,i,x,ph)=>`<div class="lrow"><input class="in xn" data-k="${pre}n:${i}" value="${esc(x.nama)}" placeholder="${ph}" aria-label="Nama" autocomplete="off" autocapitalize="words" enterkeyhint="next">${vin(pre+'v:'+i, x.nominal)}</div>`;
   document.getElementById('panel-'+side).innerHTML = `<label class="datepill ${side==='left'?'coral':''}">${CAL}<small>${day3(date)}</small>${fmtDate(date)}<input type="date" data-side="${side}" value="${date}" aria-label="Pilih tanggal"></label>
-<div class="bal"><div class="top"><span class="label">Saldo</span><span class="v">${fmtRp(cat)}</span></div>${S.finance[date] ? `<div class="dif ${dif<0?'neg':dif>0?'pos':''}">${dif>0?'+':dif<0?'−':''}${fmtRp(Math.abs(dif))}</div>` : ''}</div>
+<div class="bal"><div class="top"><span class="label">Saldo</span><span class="v">${fmtRp(cat)}</span></div>${S.finance[date] ? `<div class="dif ${dif<0?'neg':dif>0?'pos':''}">${dif>0?'+':dif<0?'−':''}${fmtRp(Math.abs(dif))}</div>` : '<div class="dif none">—</div>'}</div>
 <div class="lcard">${SUMBER.map(k=>`<div class="lrow"><span class="nm">${k}</span>${vin('src:'+k, f.sumber[k])}</div>`).join('')}${f.extraBefore.map((x,i)=>xrow('xb',i,x,'+ Lainnya')).join('')}</div>
 <div class="lcard"><div class="lrow total"><span>Total</span><span>${fmtRp(c.total)}</span></div><div class="lrow tab"><span class="nm">Uang Tabungan</span>${vin('tab', f.tabungan, '', 'data-minus="1"')}</div>${f.extraAfter.map((x,i)=>xrow('xa',i,x,'+ Potongan')).join('')}</div>
 <div class="saldo-pill"><span class="label">Saldo</span><span class="v">${fmtRp(c.saldo)}</span></div>`;
