@@ -18,7 +18,7 @@
   --green:#3E8E5E;
   --bg:#EFEEEB; --card:#FAFAF8; --white:#FFFFFF; --ink:#141414; --mut:#8C8A86; --faint:#C2BFB9;
   --line:#E4E2DE; --band:#F3F2EF; --coral:#E8664F;
-  --tcols: 60px minmax(0,1fr) 104px 104px 114px minmax(0,1.25fr) 124px 16px; --tgap:8px;
+  --tcols: 58px minmax(0,1fr) 102px 102px 112px minmax(0,1fr) 212px 16px; --tgap:8px;
   --rowfs:14px;
 }
 *{box-sizing:border-box}
@@ -26,7 +26,7 @@ html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',I
 button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
-.app{max-width:1000px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
+.app{max-width:1060px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
 .app.fin-mode{max-width:1020px}
 .label{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .card{background:var(--card);border-radius:22px}
@@ -98,6 +98,16 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .st{border:none;background:transparent;color:var(--faint);font-size:12px;font-weight:600;border-radius:999px;padding:0 9px;min-height:28px;box-shadow:inset 0 0 0 1px #DAD7D1}
 .st.p.on{background:var(--coral);color:#fff;box-shadow:none}
 .st.d.on{background:var(--green);color:#fff;box-shadow:none}
+.st.l.on{background:#6B5CA5;color:#fff;box-shadow:none}
+.st{white-space:nowrap}
+.status.locked .st{opacity:.35;cursor:default}
+.pltag{display:inline-block;font-size:10px;font-weight:700;border-radius:999px;padding:1px 8px;margin:0 0 3px 6px;white-space:nowrap;line-height:1.5}
+.pltag.u{color:#6B5CA5;background:#ECE8F6}.pltag.r{color:#C2402B;background:#FBE6DF}.pltag.g{color:var(--green);background:#E3F0E7}
+.trow.pl .c-de .in,.trow.pl .c-kr .in{color:var(--faint)!important;text-decoration:line-through}
+.trow.pl .c-sa .in,.trow.lunas .in{color:var(--faint)!important}
+.trow.lunas .c-de .in,.trow.lunas .c-kr .in{text-decoration:line-through}
+.trow.batal .in{color:#C2402B!important}
+.trow.batal .c-de .in,.trow.batal .c-kr .in{text-decoration:line-through}
 .more{width:18px;height:28px;border:none;background:transparent;color:var(--faint);font-size:16px;line-height:1;padding:0;position:relative}
 .menu{position:absolute;right:0;top:calc(100% + 4px);z-index:30;min-width:180px;background:var(--white);border-radius:14px;box-shadow:0 12px 30px rgba(20,20,20,.14);padding:6px;display:flex;flex-direction:column;text-align:left}
 .menu.up{top:auto;bottom:calc(100% + 4px)}
@@ -292,7 +302,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 
 /* ---------- iPad berdiri & layar menengah ---------- */
 @media (max-width:1000px){
-  :root{ --tcols: 50px minmax(0,1.3fr) 96px 92px 114px minmax(0,1fr) 56px 14px; --tgap:5px; }
+  :root{ --tcols: 50px minmax(0,1.3fr) 94px 90px 112px minmax(0,1fr) 62px 14px; --tgap:5px; }
   .trow .in.num{font-size:13.5px;padding-left:2px;padding-right:2px}
   .app{max-width:760px}
   .app.fin-mode{max-width:680px}
@@ -314,7 +324,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 }
 /* ---------- HP ---------- */
 @media (max-width:700px){
-  :root{ --tcols: 38px minmax(0,1fr) 66px 60px 76px 40px 10px; --tgap:2px; --rowfs:10.5px; }
+  :root{ --tcols: 38px minmax(0,1fr) 64px 58px 74px 46px 10px; --tgap:2px; --rowfs:10.5px; }
   .trow .in.num{font-size:10.5px;padding-left:1px;padding-right:1px}
   .hint{font-size:10.5px;padding:3px 0}
   .tgrid{grid-template-areas:"d n de kr sa st mo" "d k de kr sa st mo"}
@@ -335,6 +345,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .thead .c-k{display:none}
   .thead .c-n{white-space:normal;line-height:1.2}
   .dpick small{font-size:9px}.dpick b{font-size:11px}
+  .pltag{font-size:8px;padding:0 5px;margin:0 0 2px 2px}
   .trow{padding:3px 6px}
   .in{padding:3px 2px}
   .trow .kt{font-size:10px;padding-top:0}
@@ -715,9 +726,12 @@ function modOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r
 function blankNab(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null }; }
 function sortedTrx(){ return S.transaksi.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function sortedNab(){ return S.nabung.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
+/* Status Pay Later: hanya catatan, tidak menambah/mengurangi saldo */
+const noCount = s => s==='Pay Later' || s==='Batal' || String(s||'').startsWith('Dicatat:');
+const isLocked = s => s==='Batal' || String(s||'').startsWith('Dicatat:');
 function computeTrx(){
   let prev = 0;
-  return sortedTrx().map(r=>{ const saldo = r.saldoManual!=null ? r.saldoManual : prev + (r.debit||0) - (r.kredit||0); prev = saldo; return Object.assign({}, r, { saldo }); });
+  return sortedTrx().map(r=>{ const saldo = noCount(r.status) ? prev : r.saldoManual!=null ? r.saldoManual : prev + (r.debit||0) - (r.kredit||0); prev = saldo; return Object.assign({}, r, { saldo }); });
 }
 function computeNab(){
   let prev = 0;
@@ -770,13 +784,21 @@ function dataDates(){ return [...new Set(S.transaksi.map(r=>r.tanggal))].sort();
 function defaultAnchor(){ const d = dataDates(); return d.length ? d[Math.max(0, d.length - SHOW_DAYS_TRX)] : null; }
 
 function statusHTML(s){
-  return `<div class="status c-st"><button type="button" class="st p ${s==='Pending'?'on':''}" data-s="Pending" aria-pressed="${s==='Pending'}" aria-label="Pending">Pending</button><button type="button" class="st d ${s==='Done'?'on':''}" data-s="Done" aria-pressed="${s==='Done'}" aria-label="Done">Done</button></div>`;
+  const lk = isLocked(s) ? 'disabled' : '';
+  return `<div class="status c-st ${lk?'locked':''}"><button type="button" class="st p ${s==='Pending'?'on':''}" data-s="Pending" aria-pressed="${s==='Pending'}" ${lk}>Pending</button><button type="button" class="st d ${s==='Done'?'on':''}" data-s="Done" aria-pressed="${s==='Done'}" ${lk}>Done</button><button type="button" class="st l ${s==='Pay Later'?'on':''}" data-s="Pay Later" aria-pressed="${s==='Pay Later'}" ${lk}>Pay Later</button></div>`;
+}
+function plTag(s){
+  if (s==='Pay Later') return '<div class="pltag u">Pay Later · tidak dihitung</div>';
+  if (s==='Batal') return '<div class="pltag r">Tidak jadi · tidak dihitung</div>';
+  if (String(s||'').startsWith('Dicatat:')) return `<div class="pltag g">Sudah dicatat ${fmtShort(s.slice(8))}</div>`;
+  return '';
 }
 function trxRowHTML(r, first, color){
   const manual = r.saldoManual!=null;
-  return `<div class="trow tgrid ${first?'first':''}" data-id="${r.id}" ${first?`data-g="${r.tanggal}"`:''} style="background:${color}">
+  const rc = r.status==='Pay Later' ? 'pl' : r.status==='Batal' ? 'batal' : String(r.status||'').startsWith('Dicatat:') ? 'lunas' : '';
+  return `<div class="trow tgrid ${first?'first':''} ${rc}" data-id="${r.id}" ${first?`data-g="${r.tanggal}"`:''} style="background:${color}">
 <div class="c-d dcell">${first?`<small>${day3(r.tanggal)}</small><b>${fmtShort(r.tanggal)}</b>`:''}</div>
-<div class="c-n"><input class="in nm" data-f="nama" value="${esc(r.nama)}" placeholder="—" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next"></div>
+<div class="c-n"><input class="in nm" data-f="nama" value="${esc(r.nama)}" placeholder="—" aria-label="Nama" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" enterkeyhint="next">${plTag(r.status)}</div>
 <div class="c-de">${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
 <div class="c-kr">${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
 <div class="c-sa saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
@@ -989,7 +1011,11 @@ trxScroll.addEventListener('pointerup', e=>{
   e.preventDefault();
   const id = b.closest('[data-id]').dataset.id, st = b.dataset.s;
   haptic(); blurActive();
-  setTimeout(()=>{ const r = getTrx(id); if (!r) return; r.status = (r.status===st) ? '' : st; if (id!=='new') saveTrxRow(r); renderTrx(); }, 0);
+  setTimeout(()=>{
+    const r = getTrx(id); if (!r || isLocked(r.status)) return;
+    if (id!=='new' && r.status==='Pay Later'){ openPayLater(id, st); return; }
+    r.status = (r.status===st) ? '' : st; if (id!=='new') saveTrxRow(r); renderTrx();
+  }, 0);
 });
 trxScroll.addEventListener('click', e=>{ if (e.target.closest('.st')) e.preventDefault(); });
 /* menu ⋯ */
@@ -1000,9 +1026,10 @@ function openMore(id){
   const r = getTrx(id); if (!r) return;
   const m = document.createElement('div'); m.className='menu'; m.setAttribute('role','menu'); m.dataset.for = id;
   if (trxScroll.getBoundingClientRect().bottom - b.getBoundingClientRect().bottom < 140) m.classList.add('up');
-  m.innerHTML = `<label class="mi" role="menuitem">Ubah tanggal (${fmtShort(r.tanggal)})<input type="date" value="${r.tanggal}" aria-label="Tanggal baru"></label><button type="button" class="mi del" role="menuitem">Hapus baris</button>`;
+  m.innerHTML = `<label class="mi" role="menuitem">Ubah tanggal (${fmtShort(r.tanggal)})<input type="date" value="${r.tanggal}" aria-label="Tanggal baru"></label>${isLocked(r.status)?'<button type="button" class="mi unl" role="menuitem">Kembalikan ke Pay Later</button>':''}<button type="button" class="mi del" role="menuitem">Hapus baris</button>`;
   b.appendChild(m); openMenu = m;
   m.querySelector('input').addEventListener('change', ev=>{ const v=ev.target.value; if (v){ r.tanggal=v; saveTrxRow(r); setSel(v); closeMenu(); renderTrx(); scrollToSel(); } });
+  const unl = m.querySelector('.unl'); if (unl) unl.addEventListener('click', ev=>{ ev.stopPropagation(); closeMenu(); r.status = 'Pay Later'; saveTrxRow(r); renderTrx(); });
   m.querySelector('.del').addEventListener('click', ev=>{ ev.stopPropagation(); closeMenu(); if (confirm('Hapus baris ini?')){ deleteTrxRow(id); renderTrx(); } });
   ['pointerdown','click'].forEach(t=>m.addEventListener(t, ev=>ev.stopPropagation()));
 }
@@ -1467,17 +1494,46 @@ document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !riw.classList
    MODAL (formulir & daftar)
    ========================================================= */
 const modal = document.getElementById('modal');
-let modalKind = null, modalArg = null;
+let modalKind = null, modalArg = null, modalAt = 0;
 function openModal(kind, title, html, arg){
-  modalKind = kind; modalArg = arg;
+  modalKind = kind; modalArg = arg; modalAt = Date.now();
   document.getElementById('modal-title').textContent = title;
   document.getElementById('modal-body').innerHTML = html;
   modal.classList.remove('hidden');
 }
 function closeModal(){ modal.classList.add('hidden'); modalKind = null; modalArg = null; }
-modal.addEventListener('click', e=>{ if (e.target===modal || e.target.closest('#modal-close')) closeModal(); });
+modal.addEventListener('click', e=>{ if (e.target===modal && Date.now()-modalAt < 500) return; /* ketukan yang membuka pop-up jangan langsung menutupnya */ if (e.target===modal || e.target.closest('#modal-close')) closeModal(); });
 document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !modal.classList.contains('hidden')) closeModal(); });
 function amtOf(id){ const el = document.getElementById(id); if (!el) return null; const n = evalExpr(el.value); return Number.isNaN(n) ? NaN : n; }
+
+/* =========================================================
+   TRANSAKSI — pop-up Pay Later
+   ========================================================= */
+function openPayLater(id, want){
+  const r = S.transaksi.find(x=>x.id===id); if (!r) return;
+  const amt = r.debit!=null ? fmtRp(r.debit) : r.kredit!=null ? '−' + fmtRp(r.kredit) : '';
+  const t = todayISO();
+  openModal('paylater', 'Transaksi Pay Later', `<p style="margin:0 0 12px;color:var(--mut);font-size:13.5px;line-height:1.45">Mau dicatat sebagai transaksi hari ini (${dayName(t)}, ${fmtShort(t)})? Kalau ya, transaksi ini masuk hitungan saldo hari ini.</p>
+<div class="calc"><div><span>${esc(r.nama||'—')}${r.keterangan?' · '+esc(r.keterangan):''}</span><b>${amt}</b></div><div><span>Tanggal Pay Later</span><b>${fmtDate(r.tanggal)}</b></div></div>
+<button type="button" class="btn dark" id="pl-yes" style="width:100%">Ya, catat di hari ini</button>
+<button type="button" class="btn danger" id="pl-no" style="width:100%;margin-top:8px">Tidak usah dicatat</button>
+<button type="button" class="btn" id="pl-cancel" style="width:100%;margin-top:8px;background:transparent;color:var(--mut)">Batal</button>`, { id, want });
+}
+document.getElementById('modal-body').addEventListener('click', e=>{
+  if (modalKind!=='paylater') return;
+  const { id, want } = modalArg; const r = S.transaksi.find(x=>x.id===id); if (!r){ closeModal(); return; }
+  if (e.target.closest('#pl-cancel')){ closeModal(); return; }
+  if (e.target.closest('#pl-yes')){
+    const t = todayISO();
+    const rec = { id: uid(), tanggal: t, nama: r.nama, debit: r.debit, kredit: r.kredit, saldoManual: null, keterangan: r.keterangan,
+                  status: (want==='Pending' || want==='Done') ? want : '', urut: nextUrut() };
+    S.transaksi.push(rec); saveTrxRow(rec);
+    r.status = 'Dicatat:' + t; saveTrxRow(r);
+    haptic(); closeModal(); setSel(t); renderTrx(); scrollToSel();
+  } else if (e.target.closest('#pl-no')){
+    r.status = 'Batal'; saveTrxRow(r); haptic(); closeModal(); renderTrx();
+  }
+});
 
 /* =========================================================
    TRANSAKSI — daftar Pending
@@ -1841,7 +1897,7 @@ function analisaText(){
   const tab = computeTab(); const saldoTab = tab.length ? tab[tab.length-1].saldo : 0;
   const nab = computeNab(); const saldoNab = nab.length ? nab[nab.length-1].saldo : 0;
   const from = addDays(today, -30);
-  const last30 = S.transaksi.filter(r=>r.tanggal > from && r.tanggal <= today);
+  const last30 = S.transaksi.filter(r=>r.tanggal > from && r.tanggal <= today && !noCount(r.status));
   const masuk = last30.reduce((a,r)=>a+(r.debit||0),0), keluar = last30.reduce((a,r)=>a+(r.kredit||0),0);
   const list = activeHut().filter(x=>!x.s.lunas);
   const cic = list.filter(x=>x.h.jenis!=='bebas'), beb = list.filter(x=>x.h.jenis==='bebas');
