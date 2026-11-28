@@ -28,7 +28,7 @@ button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 .hidden{display:none!important}
 .app{max-width:1060px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden;padding:calc(22px + env(safe-area-inset-top)) 28px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
-.app.fin-mode{max-width:1020px}
+.app.fin-mode{max-width:1120px}
 .label{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .card{background:var(--card);border-radius:22px}
 
@@ -131,7 +131,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .subtabs button{border:none;background:transparent;color:var(--mut);font-size:13px;font-weight:600;padding:0 16px;min-height:36px;border-radius:999px;white-space:nowrap}
 .subtabs button.on{background:var(--coral);color:#fff}
 .fsub{flex:1 1 auto;min-height:0;display:flex;gap:14px;justify-content:center;align-items:stretch}
-#fsub-simpanan .nab{flex:1 1 0;max-width:470px;display:flex;flex-direction:column}
+#fsub-simpanan .nab{flex:1 1 0;max-width:600px;display:flex;flex-direction:column}
 #fsub-simpanan .nab > *{flex:none}
 #fsub-simpanan .nab .scroll{flex:1 1 auto;min-height:0;max-height:none!important}
 #fsub-rekap .fin-pair{display:flex;gap:14px;flex:0 1 860px;min-height:0}
@@ -198,7 +198,7 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .nab .big{font-size:26px;font-weight:700;letter-spacing:-.04em;margin-top:4px;line-height:1}
 .nab .cap{font-size:12px;color:var(--mut);white-space:nowrap}
 .nab .cap b{color:var(--ink);font-weight:600}
-.ngrid{display:grid;grid-template-columns:62px 1fr 1fr 1.1fr;column-gap:6px;align-items:center}
+.ngrid{display:grid;grid-template-columns:54px .95fr .95fr 1.15fr 1.35fr;column-gap:6px;align-items:center}
 .nab-head{padding:0 14px 6px}
 .nab-head > div{font-size:9.5px}
 #nab-scroll{max-height:calc(5 * 40px + 2px);border-top:1px solid var(--line)}
@@ -209,7 +209,10 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .ndate .in{font-weight:700;padding:1px 2px;width:56px}
 .nab .in{font-size:13.5px}
 .nab-draft{margin:8px;background:var(--white);border-radius:999px;padding:3px 4px 3px 8px}
-.nab-draft .ngrid{grid-template-columns:56px 1fr 1fr 1.1fr 30px}
+.nab-draft .ngrid{grid-template-columns:48px .95fr .95fr 1.15fr 1.35fr 30px}
+#fsub-simpanan .nab .in{font-size:13px}
+.c-nk{padding-left:6px;min-width:0}.c-nk .in{font-weight:600}
+.nrow .c-nk .in{color:var(--ink)}
 .nab .in.num{padding-left:2px;padding-right:2px}
 .plus{width:30px;height:30px;border-radius:50%;border:none;background:var(--inkbg);color:var(--onink);font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;padding:0;justify-self:end}
 .fcol{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
@@ -411,8 +414,14 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
   .kel-head{padding:6px 10px}.kel-head > div{font-size:8.5px;letter-spacing:.04em}.kel-top{padding:12px 12px 8px}.kel-top .big{font-size:20px}
   .krow.draft .dcell .in{font-size:12px;width:44px}
   .nab .in{font-size:12px}
-  .ngrid{grid-template-columns:66px 1fr 1fr 1fr}
-  .nab-draft .ngrid{grid-template-columns:60px 1fr 1fr 1fr 28px}
+  .ngrid{grid-template-columns:56px 1fr 1fr 1fr;row-gap:0}
+  .nab-draft .ngrid{grid-template-columns:52px 1fr 1fr 1fr 28px}
+  .ngrid .c-nk{grid-column:2 / 5;padding-left:2px}.ngrid .c-nk .in{font-size:11px;padding-top:0}
+  .nab-head .c-nk{display:none}
+  .nab-draft .plus{grid-row:1;grid-column:5}
+  .nab-draft{border-radius:18px}
+  .nrow{height:auto;min-height:40px;padding-top:2px;padding-bottom:2px}
+  #fsub-simpanan .nab .scroll{max-height:calc(5 * 58px)!important}
   .nrow{padding:0 10px}.nab-head{padding:0 10px 6px}
   .lrow{padding:0 4px 0 8px;min-height:30px}
   .lrow .nm{font-size:11px}
@@ -533,12 +542,12 @@ body.dark .st.l.on{background:#7F6FC4}
       <button type="button" data-sub="simpanan">Simpanan</button><button type="button" data-sub="rekap">Rekap Saldo</button><button type="button" data-sub="keluarga">Belanja Keluarga</button><button type="button" data-sub="shopee">Shopee</button>
     </nav>
     <div class="fsub" id="fsub-simpanan">
-    <section class="card nab" aria-label="Nabung">
+    <section class="card nab" id="nab-card" aria-label="Nabung">
       <div class="nab-top">
         <div><div class="label">Nabung</div><div class="big" id="nab-total">Rp0</div></div>
         <div class="cap" id="nab-cap"></div>
       </div>
-      <div class="ngrid nab-head"><div class="label">Tanggal</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div></div>
+      <div class="ngrid nab-head"><div class="label">Tanggal</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div><div class="label c-nk">Keterangan</div></div>
       <div class="scroll" id="nab-scroll"></div>
       <div class="nab-draft" id="nab-draft"></div>
     </section>
@@ -547,7 +556,7 @@ body.dark .st.l.on{background:#7F6FC4}
         <div><div class="label">Modal</div><div class="big" id="mod-total">Rp0</div></div>
         <div class="cap" id="mod-cap"></div>
       </div>
-      <div class="ngrid nab-head"><div class="label">Tanggal</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div></div>
+      <div class="ngrid nab-head"><div class="label">Tanggal</div><div class="label r">Debit</div><div class="label r">Kredit</div><div class="label r">Saldo</div><div class="label c-nk">Keterangan</div></div>
       <div class="scroll" id="mod-scroll"></div>
       <div class="nab-draft" id="mod-draft"></div>
     </section>
@@ -742,7 +751,7 @@ document.addEventListener('focusout', ()=>{ if (pendingRefresh) setTimeout(()=>{
 document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible') Sync.pull(); });
 window.addEventListener('online', ()=>Sync.pull());
 function trxOut(r){ return { id:r.id, tanggal:r.tanggal, nama:r.nama, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, keterangan:r.keterangan, status:r.status, urut:r.urut }; }
-function nabOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, urut:r.urut }; }
+function nabOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, keterangan:r.keterangan||'', urut:r.urut }; }
 
 /* ---------- Util ---------- */
 function pad(n){ return String(n).padStart(2,'0'); }
@@ -816,11 +825,11 @@ let trxDraft = blankTrx();
 let nabDraft = blankNab();
 function blankTrx(){ return { id:'new', tanggal: selDate, nama:'', debit:null, kredit:null, saldoManual:null, keterangan:'', status:'' }; }
 let modDraft = blankMod();
-function blankMod(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null }; }
+function blankMod(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null, keterangan:'' }; }
 function sortedMod(){ return S.modal.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function computeMod(){ let prev = 0; return sortedMod().map(r=>{ const saldo = r.saldoManual!=null ? r.saldoManual : prev + (r.debit||0) - (r.kredit||0); prev = saldo; return Object.assign({}, r, { saldo }); }); }
-function modOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, urut:r.urut }; }
-function blankNab(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null }; }
+function modOut(r){ return { id:r.id, tanggal:r.tanggal, debit:r.debit, kredit:r.kredit, saldoManual:r.saldoManual, keterangan:r.keterangan||'', urut:r.urut }; }
+function blankNab(){ return { id:'new', tanggal: todayISO(), debit:null, kredit:null, saldoManual:null, keterangan:'' }; }
 function sortedTrx(){ return S.transaksi.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 function sortedNab(){ return S.nabung.slice().sort((a,b)=> a.tanggal.localeCompare(b.tanggal) || a.urut-b.urut); }
 /* Status Pay Later: hanya catatan, tidak menambah/mengurangi saldo */
@@ -849,6 +858,34 @@ function act(getArg, fn){
 }
 function on(el, fn){ ['pointerdown','click'].forEach(t=>el.addEventListener(t, fn)); }
 
+/* ---------- Judul kolom presisi: tepat sejajar dengan isi di bawahnya ---------- */
+const HEADS = [['#page-transaksi .thead','#trx-scroll .trow'],['#nab-card .nab-head','#nab-scroll .nrow, #nab-draft .ngrid'],['#mod-card .nab-head','#mod-scroll .nrow, #mod-draft .ngrid'],['.kel-head','#kel-scroll .krow'],['.shp-head','#shp-scroll .srow'],['#hut-card .hg.thd','#hut-scroll .hrow'],['#tab-card .tabg.thd','#tab-scroll .trw, #tab-draft .tabg']];
+function edgeOf(el){
+  const cs = getComputedStyle(el), r = el.getBoundingClientRect();
+  if (el.tagName==='INPUT'){
+    if (cs.textAlign==='right' || cs.textAlign==='end') return { l: null, r: r.right - parseFloat(cs.paddingRight) };
+    return { l: r.left + parseFloat(cs.paddingLeft), r: null };
+  }
+  const rg = document.createRange(); rg.selectNodeContents(el); const b = rg.getBoundingClientRect(); return { l: b.left, r: b.right };
+}
+function alignHeads(){
+  HEADS.forEach(([hs, rs])=>{
+    const head = document.querySelector(hs); if (!head || !head.offsetParent) return;
+    const row = [...document.querySelectorAll(rs)].find(x=>x.offsetParent); if (!row) return;
+    const cells = [...row.children].filter(c=>c.tagName!=='BUTTON' || c.classList.contains('jn3'));
+    [...head.children].forEach((lab, i)=>{
+      lab.style.transform = '';
+      const cell = cells[i]; if (!cell || !lab.textContent.trim() || getComputedStyle(cell).display==='none') return;
+      const inp = cell.querySelector('input:not([type=date])') || cell.querySelector('.dpick b, b, .nm, .prog, .sal-v') || cell;
+      const right = getComputedStyle(lab).textAlign==='right' || lab.classList.contains('r');
+      const t = edgeOf(inp), me = edgeOf(lab);
+      const dx = right ? (t.r!=null ? t.r : t.l) - me.r : (t.l!=null ? t.l : t.r) - me.l;
+      if (Math.abs(dx) > .5 && Math.abs(dx) < 40) lab.style.transform = `translateX(${dx.toFixed(1)}px)`;
+    });
+  });
+}
+window.addEventListener('resize', ()=>requestAnimationFrame(alignHeads));
+
 /* ---------- Huruf kapital di awal ---------- */
 function capFirst(v){ const s = String(v==null?'':v); const i = s.search(/\S/); return i<0 ? s : s.slice(0,i) + s.charAt(i).toLocaleUpperCase('id-ID') + s.slice(i+1); }
 function capAll(){
@@ -859,6 +896,7 @@ function capAll(){
   (S.hutang||[]).forEach(h=>{ h.nama = capFirst(h.nama); h.pemberi = capFirst(h.pemberi); });
   (S.bayar||[]).forEach(b=>{ b.keterangan = capFirst(b.keterangan); });
   (S.shopee||[]).forEach(r=>{ r.nama = capFirst(r.nama); });
+  [...(S.nabung||[]), ...(S.modal||[])].forEach(r=>{ r.keterangan = capFirst(r.keterangan); });
   Object.values(S.finance||{}).forEach(f=>[...(f.extraBefore||[]), ...(f.extraAfter||[])].forEach(x=>{ if (x) x.nama = capFirst(x.nama); }));
 }
 
@@ -909,7 +947,7 @@ function showPage(){
   renderCurrent();
   if (p==='transaksi') scrollToSel(); else if (p==='finance'){ scrollEnd('nab-scroll'); scrollEnd('mod-scroll'); scrollEnd('kel-scroll'); scrollEnd('shp-scroll'); } else scrollEnd('tab-scroll');
 }
-function renderCurrent(){ capAll(); const p = currentPage(); if (p==='transaksi') renderTrx(); else if (p==='finance'){ renderNab(); renderMod(); renderPanels(); renderKel(); renderShp(); } else { renderTab(); renderHut(); } }
+function renderCurrent(){ capAll(); requestAnimationFrame(alignHeads); const p = currentPage(); if (p==='transaksi') renderTrx(); else if (p==='finance'){ renderNab(); renderMod(); renderPanels(); renderKel(); renderShp(); } else { renderTab(); renderHut(); } }
 window.addEventListener('hashchange', showPage);
 function scrollEnd(id){ const el=document.getElementById(id); if (el) requestAnimationFrame(()=>{ el.scrollTop = el.scrollHeight; }); }
 
@@ -1223,7 +1261,8 @@ function nabRowHTML(r){
 <div class="ndate"><small>${day3(r.tanggal)}</small><input class="in" data-f="tanggal" value="${fmtShort(r.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
 <div>${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
 <div>${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
-<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
+<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
+<div class="c-nk"><input class="in kt" data-f="keterangan" data-sug="ledket" value="${esc(r.keterangan||'')}" aria-label="Keterangan" autocomplete="off" enterkeyhint="done"></div>
 </div>`;
 }
 function renderNab(){
@@ -1240,8 +1279,9 @@ function renderNab(){
   nabDraftEl.innerHTML = `<div class="ngrid" data-id="new">
 <div class="ndate"><label class="dpick"><small>${day3(d.tanggal)}</small><b>${fmtShort(d.tanggal)}</b><input type="date" data-pick="1" value="${d.tanggal}" aria-label="Pilih tanggal nabung"></label></div>
 <div>${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
-<div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="done"')}</div>
-<div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
+<div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="next"')}</div>
+<div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
+<div class="c-nk"><input class="in kt" data-f="keterangan" data-sug="ledket" value="${esc(d.keterangan||'')}" placeholder="Keterangan" aria-label="Keterangan" autocomplete="off" enterkeyhint="done"></div>
 <button type="button" class="plus" aria-label="Simpan nabung">+</button></div>`;
   if (keep) focusNab(keep.id==='new' || S.nabung.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
 }
@@ -1257,8 +1297,9 @@ function commitNab(el){
   if (f==='tanggal'){ if (!v.trim()) return true; const iso=parseDate(v, r.tanggal); if(!iso){ flagErr(el); return false; } r.tanggal = iso; }
   else if (f==='debit' || f==='kredit'){ const n=evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r[f]=n; }
   else if (f==='saldo'){ const n=evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r.saldoManual = (n===null) ? null : (r.saldoManual==null && n===autoNabFor(id) ? null : n); }
+  else if (f==='keterangan') r.keterangan = capFirst(v.trim());
   if (id!=='new'){
-    if (r.debit==null && r.kredit==null && r.saldoManual==null && confirm('Baris nabung ini kosong. Hapus baris?')){ S.nabung = S.nabung.filter(x=>x.id!==id); Sync.push('deleteNabung', { id }, 'nab:'+id); }
+    if (r.debit==null && r.kredit==null && r.saldoManual==null && !r.keterangan && confirm('Baris nabung ini kosong. Hapus baris?')){ S.nabung = S.nabung.filter(x=>x.id!==id); Sync.push('deleteNabung', { id }, 'nab:'+id); }
     else Sync.push('saveNabung', { row: nabOut(r) }, 'nab:'+id);
     persist();
   }
@@ -1270,7 +1311,7 @@ function commitNabDraft(){
   if (d.debit==null && d.kredit==null && d.saldoManual==null) return false;
   nabBusy = true; const rec = Object.assign({}, d, { id: uid(), urut: nextUrut() });
   S.nabung.push(rec); persist(); Sync.push('saveNabung', { row: nabOut(rec) }, 'nab:'+rec.id);
-  const t = todayISO(); nabDraft = blankNab(); nabDraft.tanggal = rec.tanggal >= t ? addDays(rec.tanggal,1) : t;
+  nabDraft = blankNab();
   nabBusy = false; return true;
 }
 function focusNab(id,f){ const h = id==='new' ? nabDraftEl.querySelector('[data-id="new"]') : nabScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if(!h) return; const el=h.querySelector(`[data-f="${f}"]`); if(el){ el.focus({preventScroll:true}); if(id!=='new') h.scrollIntoView({block:'nearest'}); } }
@@ -1296,7 +1337,8 @@ nabCard.addEventListener('keydown', e=>{
   const id = el.closest('[data-id]').dataset.id, f = el.dataset.f; nabSkip = el;
   if (el.value!==el.dataset.orig && !commitNab(el)){ nabSkip=null; el.value=el.dataset.orig; return; }
   let target;
-  if (f==='kredit' || f==='saldo'){
+  if (f==='kredit' || f==='saldo') target = { id, f:'keterangan' };
+  else if (f==='keterangan'){
     if (id==='new'){ commitNabDraft(); target={id:'new',f:'debit'}; }
     else { const rows=sortedNab(); const i=rows.findIndex(r=>r.id===id); target={ id: i<rows.length-1 ? rows[i+1].id : 'new', f:'debit' }; }
   } else target = { id, f: NAB_ORDER[NAB_ORDER.indexOf(f)+1] };
@@ -1326,7 +1368,8 @@ function modRowHTML(r){
 <div class="ndate"><small>${day3(r.tanggal)}</small><input class="in" data-f="tanggal" value="${fmtShort(r.tanggal)}" aria-label="Tanggal" autocomplete="off" enterkeyhint="next"></div>
 <div>${numIn('debit', r.debit, '', 'aria-label="Debit" enterkeyhint="next"')}</div>
 <div>${numIn('kredit', r.kredit, 'kre', 'aria-label="Kredit" enterkeyhint="next"')}</div>
-<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
+<div class="saldo-cell">${manual?PEN:''}${numIn('saldo', r.saldo, 'sal '+(r.saldo<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
+<div class="c-nk"><input class="in kt" data-f="keterangan" data-sug="ledket" value="${esc(r.keterangan||'')}" aria-label="Keterangan" autocomplete="off" enterkeyhint="done"></div>
 </div>`;
 }
 function renderMod(){
@@ -1343,8 +1386,9 @@ function renderMod(){
   modDraftEl.innerHTML = `<div class="ngrid" data-id="new">
 <div class="ndate"><label class="dpick"><small>${day3(d.tanggal)}</small><b>${fmtShort(d.tanggal)}</b><input type="date" data-pick="1" value="${d.tanggal}" aria-label="Pilih tanggal modal"></label></div>
 <div>${numIn('debit', d.debit, '', 'placeholder="Debit" aria-label="Debit" enterkeyhint="next"')}</div>
-<div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="done"')}</div>
-<div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="done"')}</div>
+<div>${numIn('kredit', d.kredit, 'kre', 'placeholder="Kredit" aria-label="Kredit" enterkeyhint="next"')}</div>
+<div class="saldo-cell">${numIn('saldo', sal, 'sal '+(manual?'':'preview ')+(sal<0?'neg':''), 'aria-label="Saldo" enterkeyhint="next"')}</div>
+<div class="c-nk"><input class="in kt" data-f="keterangan" data-sug="ledket" value="${esc(d.keterangan||'')}" placeholder="Keterangan" aria-label="Keterangan" autocomplete="off" enterkeyhint="done"></div>
 <button type="button" class="plus" aria-label="Simpan modal">+</button></div>`;
   if (keep) focusMod(keep.id==='new' || S.modal.some(r=>r.id===keep.id) ? keep.id : 'new', keep.f);
 }
@@ -1360,8 +1404,9 @@ function commitMod(el){
   if (f==='tanggal'){ if (!v.trim()) return true; const iso=parseDate(v, r.tanggal); if(!iso){ flagErr(el); return false; } r.tanggal = iso; }
   else if (f==='debit' || f==='kredit'){ const n=evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r[f]=n; }
   else if (f==='saldo'){ const n=evalExpr(v); if (Number.isNaN(n)){ flagErr(el); return false; } r.saldoManual = (n===null) ? null : (r.saldoManual==null && n===autoModFor(id) ? null : n); }
+  else if (f==='keterangan') r.keterangan = capFirst(v.trim());
   if (id!=='new'){
-    if (r.debit==null && r.kredit==null && r.saldoManual==null && confirm('Baris modal ini kosong. Hapus baris?')){ S.modal = S.modal.filter(x=>x.id!==id); Sync.push('deleteModal', { id }, 'mod:'+id); }
+    if (r.debit==null && r.kredit==null && r.saldoManual==null && !r.keterangan && confirm('Baris modal ini kosong. Hapus baris?')){ S.modal = S.modal.filter(x=>x.id!==id); Sync.push('deleteModal', { id }, 'mod:'+id); }
     else Sync.push('saveModal', { row: modOut(r) }, 'mod:'+id);
     persist();
   }
@@ -1373,7 +1418,7 @@ function commitModDraft(){
   if (d.debit==null && d.kredit==null && d.saldoManual==null) return false;
   modBusy = true; const rec = Object.assign({}, d, { id: uid(), urut: nextUrut() });
   S.modal.push(rec); persist(); Sync.push('saveModal', { row: modOut(rec) }, 'mod:'+rec.id);
-  const t = todayISO(); modDraft = blankMod(); modDraft.tanggal = rec.tanggal >= t ? addDays(rec.tanggal,1) : t;
+  modDraft = blankMod();
   modBusy = false; return true;
 }
 function focusMod(id,f){ const h = id==='new' ? modDraftEl.querySelector('[data-id="new"]') : modScroll.querySelector(`[data-id="${CSS.escape(id)}"]`); if(!h) return; const el=h.querySelector(`[data-f="${f}"]`); if(el){ el.focus({preventScroll:true}); if(id!=='new') h.scrollIntoView({block:'nearest'}); } }
@@ -1399,7 +1444,8 @@ modCard.addEventListener('keydown', e=>{
   const id = el.closest('[data-id]').dataset.id, f = el.dataset.f; modSkip = el;
   if (el.value!==el.dataset.orig && !commitMod(el)){ modSkip=null; el.value=el.dataset.orig; return; }
   let target;
-  if (f==='kredit' || f==='saldo'){
+  if (f==='kredit' || f==='saldo') target = { id, f:'keterangan' };
+  else if (f==='keterangan'){
     if (id==='new'){ commitModDraft(); target={id:'new',f:'debit'}; }
     else { const rows=sortedMod(); const i=rows.findIndex(r=>r.id===id); target={ id: i<rows.length-1 ? rows[i+1].id : 'new', f:'debit' }; }
   } else target = { id, f: MOD_ORDER[MOD_ORDER.indexOf(f)+1] };
@@ -2221,6 +2267,7 @@ document.addEventListener('focusin', e=>{
    ========================================================= */
 const SUG_SRC = {
   ket:     ()=>[...S.transaksi.map(r=>r.keterangan), ...(S.tabungan||[]).map(r=>r.keterangan)],
+  ledket:  ()=>[...(S.nabung||[]), ...(S.modal||[])].map(r=>r.keterangan),
   shpnama: ()=>(S.shopee||[]).map(r=>r.nama),
   hutnama: ()=>(S.hutang||[]).map(h=>h.nama),
   pemberi: ()=>(S.hutang||[]).map(h=>h.pemberi),
